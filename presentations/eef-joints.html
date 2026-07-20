@@ -335,6 +335,199 @@ a:hover { opacity: 0.8; }
 .slide--dark .ref-list li {
   border-bottom-color: rgba(255,255,255,0.15);
 }
+
+/* ===== Two-column paper layout ===== */
+.paper-layout {
+  display: grid;
+  grid-template-columns: 55% 45%;
+  gap: 32px;
+  align-items: center;
+}
+
+@media (max-width: 768px) {
+  .paper-layout { grid-template-columns: 1fr; }
+}
+
+/* ===== CSS Diagram Styles ===== */
+.diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  font-family: var(--font-aux);
+  font-size: 13px;
+}
+
+.dia-box {
+  border: 3px solid var(--deep-black);
+  padding: 12px 18px;
+  text-align: center;
+  background: var(--white);
+  min-width: 140px;
+  font-family: var(--font-aux);
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.dia-box--red {
+  border-color: var(--red-accent);
+  color: var(--red-accent);
+}
+
+.dia-box--dark {
+  border-color: var(--deep-black);
+  background: var(--deep-black);
+  color: var(--white);
+}
+
+.dia-box--fill-red {
+  border-color: var(--red-accent);
+  background: var(--red-accent);
+  color: var(--white);
+}
+
+.dia-arrow {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: var(--red-accent);
+  font-size: 20px;
+  line-height: 1;
+  padding: 4px 0;
+}
+
+.dia-arrow::after {
+  content: '▼';
+  font-size: 12px;
+}
+
+.dia-arrow--line {
+  width: 3px;
+  height: 24px;
+  background: var(--red-accent);
+  margin: 0 auto;
+}
+
+.dia-row {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.dia-merge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.dia-merge-line {
+  width: 100%;
+  height: 3px;
+  background: var(--red-accent);
+  position: relative;
+}
+
+.dia-label {
+  font-family: var(--font-aux);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: rgba(28,20,16,0.6);
+  margin: 4px 0;
+}
+
+/* Bar chart CSS */
+.bar-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 24px;
+  justify-content: center;
+  padding: 16px 0;
+  height: 200px;
+}
+
+.bar-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+
+.bar-fill {
+  width: 48px;
+  border: 3px solid var(--deep-black);
+  transition: height 0.3s;
+}
+
+.bar-fill--red {
+  background: var(--red-accent);
+  border-color: var(--red-accent);
+}
+
+.bar-label {
+  font-family: var(--font-aux);
+  font-size: 11px;
+  text-align: center;
+  max-width: 80px;
+  font-weight: 600;
+}
+
+/* Viewpoint cards merged */
+.viewpoint-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.viewpoint-card {
+  border: 3px solid var(--deep-black);
+  padding: 28px 24px;
+  background: var(--white);
+  display: flex;
+  flex-direction: column;
+}
+
+.viewpoint-card__num {
+  font-family: var(--font-display);
+  font-size: 48px;
+  color: var(--red-accent);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.viewpoint-card__title {
+  font-family: var(--font-aux);
+  font-weight: 700;
+  font-size: clamp(16px, 1.8vw, 22px);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+
+.viewpoint-card__desc {
+  font-family: var(--font-aux);
+  font-size: 13px;
+  line-height: 1.7;
+  flex: 1;
+}
+
+.viewpoint-card__desc li {
+  padding: 4px 0 4px 16px;
+  position: relative;
+  list-style: none;
+}
+
+.viewpoint-card__desc li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--red-accent);
+  font-weight: 700;
+}
+
+@media (max-width: 768px) {
+  .viewpoint-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -385,66 +578,87 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ==================== 观点1 ==================== -->
-<section class="slide slide--warm" id="point1">
+<!-- ==================== 三个观点合并页 ==================== -->
+<section class="slide slide--warm" id="points">
+  <span class="section-num">✦</span>
   <div>
-    <span class="tag">观点 1</span>
-    <div class="spacer-md"></div>
-    <h3 class="title-large">Joint 照葫芦画瓢</h3>
-    <div class="spacer-md"></div>
-    <div class="card" style="max-width: 800px;">
-      <ul class="point-list">
-        <li>Joint 离开了本体换一个机器人，本质照葫芦画瓢</li>
-        <li>不是最优的终局之解，只是现在工程上表现力比较好</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 观点2 ==================== -->
-<section class="slide slide--white" id="point2">
-  <div>
-    <span class="tag">观点 2</span>
-    <div class="spacer-md"></div>
-    <h3 class="title-large">EEF 能学任务本意但忽略 IK 局限</h3>
-    <div class="spacer-md"></div>
-    <div class="card" style="max-width: 800px;">
-      <ul class="point-list">
-        <li>学习 EEF 能学到任务本意</li>
-        <li>但忽略本体 IK 局限性</li>
-        <li>胳膊如何过去很重要，不能只在乎末端执行器如何到达和执行</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 观点3 ==================== -->
-<section class="slide slide--warm" id="point3">
-  <div>
-    <span class="tag">观点 3</span>
-    <div class="spacer-md"></div>
-    <h3 class="title-large">EE + 关节状态的融合方案</h3>
-    <div class="spacer-md"></div>
-    <div class="card" style="max-width: 800px;">
-      <ul class="point-list">
-        <li>使用 EE 提供共享任务几何</li>
-        <li>同时保留关节状态或本体配置来保证可执行性</li>
-      </ul>
+    <span class="tag tag--red">Three Viewpoints</span>
+    <div class="spacer-lg"></div>
+    <div class="viewpoint-grid">
+      <div class="viewpoint-card">
+        <div class="viewpoint-card__num">1</div>
+        <div class="viewpoint-card__title">Joint 照葫芦画瓢</div>
+        <ul class="viewpoint-card__desc">
+          <li>Joint 离开了本体换一个机器人，本质照葫芦画瓢</li>
+          <li>不是最优的终局之解，只是现在工程上表现力比较好</li>
+        </ul>
+      </div>
+      <div class="viewpoint-card">
+        <div class="viewpoint-card__num">2</div>
+        <div class="viewpoint-card__title">EEF 能学任务本意但忽略 IK 局限</div>
+        <ul class="viewpoint-card__desc">
+          <li>学习 EEF 能学到任务本意</li>
+          <li>但忽略本体 IK 局限性</li>
+          <li>胳膊如何过去很重要，不能只在乎末端执行器如何到达和执行</li>
+        </ul>
+      </div>
+      <div class="viewpoint-card">
+        <div class="viewpoint-card__num">3</div>
+        <div class="viewpoint-card__title">EE + 关节状态的融合方案</div>
+        <ul class="viewpoint-card__desc">
+          <li>使用 EE 提供共享任务几何</li>
+          <li>同时保留关节状态或本体配置来保证可执行性</li>
+        </ul>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ==================== 论文支撑1 标题 ==================== -->
 <section class="slide slide--dark" id="paper1">
-  <div>
-    <span class="tag tag--white">论文支撑 1</span>
-    <div class="spacer-md"></div>
-    <h2 class="title-large">Action Space 论文</h2>
-    <div class="spacer-md"></div>
-    <p class="body-text" style="color: rgba(255,255,255,0.8);">来源：<a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
-    <div class="spacer-sm"></div>
-    <span class="tag tag--white">ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper</span>
-    <span class="tag tag--white">openreview.net</span>
+  <div class="paper-layout">
+    <div>
+      <span class="tag tag--white">论文支撑 1</span>
+      <div class="spacer-md"></div>
+      <h2 class="title-large">Action Space 论文</h2>
+      <div class="spacer-md"></div>
+      <p class="body-text" style="color: rgba(255,255,255,0.8);">来源：<a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
+      <div class="spacer-sm"></div>
+      <span class="tag tag--white">ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper</span>
+      <span class="tag tag--white">openreview.net</span>
+    </div>
+    <!-- 右侧：概念对比图 -->
+    <div class="diagram">
+      <div class="dia-label" style="color: rgba(255,255,255,0.5);">Method Comparison</div>
+      <div class="spacer-sm"></div>
+      <div class="dia-box" style="background: var(--deep-black); color: var(--white); border-color: rgba(255,255,255,0.3); width: 100%;">
+        <div style="font-size:11px; opacity:0.6; margin-bottom:4px;">传统方法</div>
+        图像 → 全局机器人构型<br><span style="font-size:11px; opacity:0.6;">复杂 · 高方差</span>
+      </div>
+      <div class="dia-arrow" style="color: var(--white);">
+        <span style="font-size:11px; opacity:0.5;">VS</span>
+      </div>
+      <div class="dia-box" style="border-color: var(--red-accent); background: var(--red-accent); color: var(--white); width: 100%;">
+        <div style="font-size:11px; opacity:0.8; margin-bottom:4px;">Delta 方法 ✓</div>
+        图像 + 当前状态 → 局部运动变化<br><span style="font-size:11px; opacity:0.8;">简单 · 低方差</span>
+      </div>
+      <div class="spacer-md"></div>
+      <!-- 柱状图 -->
+      <div style="display:flex; align-items:flex-end; gap:20px; justify-content:center;">
+        <div style="text-align:center;">
+          <div style="width:40px; height:80px; border:3px solid rgba(255,255,255,0.4); margin:0 auto;"></div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.6); margin-top:6px;">step-wise<br>delta</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:40px; height:120px; border:3px solid var(--red-accent); background:var(--red-accent); margin:0 auto;"></div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.9); margin-top:6px; font-weight:700;">chunk-wise<br>delta +10%</div>
+        </div>
+        <div style="text-align:center;">
+          <div style="width:40px; height:60px; border:3px solid rgba(255,255,255,0.3); margin:0 auto;"></div>
+          <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:6px;">absolute</div>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -621,22 +835,44 @@ a:hover { opacity: 0.8; }
 
 <!-- ==================== 论文支撑2 GEAR-VLA ==================== -->
 <section class="slide slide--warm" id="paper2">
-  <div>
-    <span class="tag tag--red">论文支撑 2</span>
-    <div class="spacer-md"></div>
-    <h2 class="title-large">GEAR-VLA</h2>
-    <div class="spacer-md"></div>
-    <p class="body-text">来源：<a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a></p>
-    <div class="spacer-sm"></div>
-    <span class="tag tag--red">2026 年 6 月 7 日提交</span>
-    <div class="spacer-lg"></div>
-    <div class="card" style="max-width: 800px;">
-      <p class="aux-text" style="color: var(--red-accent); margin-bottom: 12px;">核心设计</p>
-      <ul class="point-list">
-        <li>GEAR-VLA 将 q + EEF 作为输入，EEF 作为输出</li>
-        <li>输出保持本体无关</li>
-        <li>但输入允许模型知道当前本体处于什么构型</li>
-      </ul>
+  <div class="paper-layout">
+    <div>
+      <span class="tag tag--red">论文支撑 2</span>
+      <div class="spacer-md"></div>
+      <h2 class="title-large">GEAR-VLA</h2>
+      <div class="spacer-md"></div>
+      <p class="body-text">来源：<a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a></p>
+      <div class="spacer-sm"></div>
+      <span class="tag tag--red">2026 年 6 月 7 日提交</span>
+      <div class="spacer-lg"></div>
+      <div class="card" style="max-width: 100%;">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 12px;">核心设计</p>
+        <ul class="point-list">
+          <li>GEAR-VLA 将 q + EEF 作为输入，EEF 作为输出</li>
+          <li>输出保持本体无关</li>
+          <li>但输入允许模型知道当前本体处于什么构型</li>
+        </ul>
+      </div>
+    </div>
+    <!-- 右侧：GEAR-VLA 架构图 -->
+    <div class="diagram">
+      <div class="dia-label">Input Layer</div>
+      <div class="spacer-sm"></div>
+      <div class="dia-row">
+        <div class="dia-box">q_t<br><span style="font-size:11px; opacity:0.6;">(joints)</span></div>
+        <div class="dia-box">EEF_t<br><span style="font-size:11px; opacity:0.6;">(6DoF)</span></div>
+      </div>
+      <div style="display:flex; justify-content:center; margin:8px 0;">
+        <div style="width:60%; height:3px; background:var(--red-accent);"></div>
+      </div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box dia-box--dark" style="min-width:200px;">
+        GEAR-VLA<br><span style="font-size:11px; opacity:0.7;">(Model)</span>
+      </div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box dia-box--fill-red" style="min-width:200px;">
+        EEF Output<br><span style="font-size:12px;">(本体无关)</span>
+      </div>
     </div>
   </div>
 </section>
@@ -653,24 +889,82 @@ a:hover { opacity: 0.8; }
 <!-- ==================== 主题二 核心思路 ==================== -->
 <section class="slide slide--white" id="topic2-core">
   <span class="section-num">02</span>
-  <div>
-    <span class="tag tag--red">核心思路</span>
-    <div class="spacer-md"></div>
-    <div class="card" style="max-width: 900px; border-width: 4px;">
-      <h3 class="title-medium" style="margin-bottom: 16px;">VLA 输入 EEF，输出 EEF，JOINT 列表作为参考快速 IK 解出 joint</h3>
+  <div class="paper-layout">
+    <div>
+      <span class="tag tag--red">核心思路</span>
+      <div class="spacer-md"></div>
+      <div class="card" style="max-width: 100%; border-width: 4px;">
+        <h3 class="title-medium" style="margin-bottom: 16px;">VLA 输入 EEF，输出 EEF，JOINT 列表作为参考快速 IK 解出 joint</h3>
+      </div>
+    </div>
+    <!-- 右侧：新范式流程图 -->
+    <div class="diagram">
+      <div class="dia-label">New Training Paradigm</div>
+      <div class="spacer-sm"></div>
+      <div class="dia-row">
+        <div class="dia-box">Vision<br>Input</div>
+        <div style="color:var(--red-accent); font-weight:700; font-size:18px;">→</div>
+        <div class="dia-box dia-box--dark">VLA<br>Model</div>
+        <div style="color:var(--red-accent); font-weight:700; font-size:18px;">→</div>
+        <div class="dia-box dia-box--red">EEF Output<br><span style="font-size:11px;">(task)</span></div>
+      </div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box" style="border-color:var(--red-accent);">
+        IKSel + IK<br><span style="font-size:11px;">快速求解</span>
+      </div>
+      <div style="display:flex; gap:40px; align-items:flex-start; margin-top:8px;">
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div class="dia-arrow"></div>
+          <div class="dia-box dia-box--fill-red">
+            Joint Command<br><span style="font-size:11px;">(执行)</span>
+          </div>
+        </div>
+        <div style="display:flex; flex-direction:column; align-items:center;">
+          <div style="color:var(--red-accent); font-size:11px; padding:4px 0;">参考 ↑</div>
+          <div class="dia-box">
+            Joint<br>参考列表
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
 
 <!-- ==================== 论文支撑3 IKSel ==================== -->
 <section class="slide slide--warm" id="paper3">
-  <div>
-    <span class="tag tag--red">论文支撑 3</span>
-    <div class="spacer-md"></div>
-    <h2 class="title-large">IKSel</h2>
-    <div class="spacer-md"></div>
-    <p class="title-small" style="margin-bottom: 12px;">IKSel：为快速数值逆运动学迭代选择合适的种子关节值</p>
-    <p class="body-text">来源：<a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
+  <div class="paper-layout">
+    <div>
+      <span class="tag tag--red">论文支撑 3</span>
+      <div class="spacer-md"></div>
+      <h2 class="title-large">IKSel</h2>
+      <div class="spacer-md"></div>
+      <p class="title-small" style="margin-bottom: 12px;">IKSel：为快速数值逆运动学迭代选择合适的种子关节值</p>
+      <p class="body-text">来源：<a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
+    </div>
+    <!-- 右侧：种子选择示意图 -->
+    <div class="diagram">
+      <div class="dia-label">Seed Selection Process</div>
+      <div class="spacer-sm"></div>
+      <div class="dia-row">
+        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₁</div>
+        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₂</div>
+        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₃</div>
+        <div style="font-family:var(--font-aux); font-size:13px; opacity:0.5;">...</div>
+      </div>
+      <div style="text-align:center; font-family:var(--font-aux); font-size:11px; color:rgba(28,20,16,0.5); margin:6px 0;">多个候选种子</div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box dia-box--dark" style="min-width:200px;">
+        IKSel 评估<br><span style="font-size:11px; opacity:0.7;">选择最优种子</span>
+      </div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box dia-box--red" style="min-width:160px;">
+        q*<br><span style="font-size:11px;">最优种子</span>
+      </div>
+      <div class="dia-arrow"></div>
+      <div class="dia-box dia-box--fill-red" style="min-width:200px;">
+        数值 IK 迭代<br><span style="font-size:11px;">快速收敛到目标关节角</span>
+      </div>
+    </div>
   </div>
 </section>
 
