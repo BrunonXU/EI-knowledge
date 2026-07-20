@@ -18,36 +18,30 @@
   --font-aux: 'Space Grotesk', sans-serif;
 }
 
-html { scroll-behavior: smooth; }
-
-body {
+html, body {
+  overflow: hidden;
+  height: 100vh;
+  width: 100vw;
   font-family: var(--font-body);
   background: var(--warm-white);
   color: var(--deep-black);
-  line-height: 1.6;
-  overflow-x: hidden;
 }
 
-/* Progress Bar */
-#progress-bar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 4px;
-  background: var(--red-accent);
-  z-index: 9999;
-  transition: width 0.2s ease;
+/* ===== Slide Container ===== */
+#slide-container {
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
-/* Section Base */
 .slide {
-  min-height: 100vh;
-  padding: 48px 56px;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  padding: 40px 56px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   position: relative;
-  border-bottom: 3px solid var(--deep-black);
 }
 
 .slide--white { background: var(--white); }
@@ -55,136 +49,207 @@ body {
 .slide--dark { background: var(--deep-black); color: var(--white); }
 .slide--red { background: var(--red-accent); color: var(--white); }
 
-/* Typography */
+/* ===== Page Indicator ===== */
+#page-indicator {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--font-aux);
+  font-size: 13px;
+  font-weight: 500;
+  color: rgba(28,20,16,0.7);
+  background: rgba(255,255,255,0.92);
+  backdrop-filter: blur(8px);
+  padding: 8px 20px;
+  border-radius: 24px;
+  border: 1.5px solid rgba(28,20,16,0.12);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+}
+
+#page-indicator .dots {
+  display: flex;
+  gap: 6px;
+}
+
+#page-indicator .dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(28,20,16,0.2);
+  transition: all 0.3s ease;
+}
+
+#page-indicator .dot.active {
+  background: var(--red-accent);
+  transform: scale(1.4);
+}
+
+#page-indicator .page-num {
+  font-weight: 600;
+  color: var(--deep-black);
+}
+
+/* ===== Typography ===== */
 .title-huge {
   font-family: var(--font-display);
-  font-size: clamp(60px, 8vw, 120px);
+  font-size: clamp(52px, 7vw, 100px);
   line-height: 1.1;
   letter-spacing: -0.02em;
 }
 
 .title-large {
   font-family: var(--font-display);
-  font-size: clamp(36px, 5vw, 72px);
+  font-size: clamp(32px, 4.5vw, 64px);
   line-height: 1.15;
 }
 
 .title-medium {
   font-family: var(--font-aux);
-  font-size: clamp(24px, 3vw, 48px);
+  font-size: clamp(20px, 2.5vw, 36px);
   font-weight: 700;
   line-height: 1.2;
 }
 
 .title-small {
   font-family: var(--font-aux);
-  font-size: clamp(18px, 2vw, 28px);
+  font-size: clamp(15px, 1.5vw, 22px);
   font-weight: 600;
   line-height: 1.3;
 }
 
 .body-text {
-  font-family: var(--font-body);
-  font-size: clamp(13px, 1.2vw, 16px);
-  line-height: 1.8;
+  font-family: var(--font-aux);
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 .aux-text {
   font-family: var(--font-aux);
-  font-size: clamp(12px, 1vw, 14px);
+  font-size: 11px;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-/* Tag/Label */
+/* ===== Tags ===== */
 .tag {
   font-family: var(--font-aux);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  padding: 6px 14px;
+  padding: 4px 12px;
   border: 2px solid currentColor;
   display: inline-block;
-  margin: 4px 4px 4px 0;
+  margin: 3px 3px 3px 0;
 }
+.tag--red { border-color: var(--red-accent); color: var(--red-accent); }
+.tag--white { border-color: var(--white); color: var(--white); }
 
-.tag--red {
-  border-color: var(--red-accent);
-  color: var(--red-accent);
-}
-
-.tag--white {
-  border-color: var(--white);
-  color: var(--white);
-}
-
-/* Cards */
+/* ===== Cards ===== */
 .card {
-  border: 3px solid var(--deep-black);
-  padding: 32px;
+  border: 2px solid var(--deep-black);
+  padding: 16px 20px;
   background: var(--white);
 }
-
 .card--dark {
-  border-color: var(--white);
-  background: var(--deep-black);
+  border-color: rgba(255,255,255,0.2);
+  background: rgba(255,255,255,0.05);
   color: var(--white);
 }
-
 .card--red {
-  border: 3px solid var(--red-accent);
-  background: rgba(216, 0, 15, 0.05);
+  border: 2px solid var(--red-accent);
+  background: rgba(216, 0, 15, 0.04);
 }
 
-/* Grid Layout */
-.grid-2 {
+/* ===== Paper Layout (55/45) ===== */
+.paper-layout {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 24px 32px;
+  grid-template-columns: 55% 45%;
+  gap: 24px;
+  align-items: start;
+  height: calc(100vh - 80px);
 }
 
-.grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px 32px;
+.paper-layout .paper-left {
+  overflow-y: auto;
+  max-height: 100%;
+  padding-right: 16px;
 }
 
-/* Data Card */
+.paper-layout .paper-right {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+}
+
+.paper-layout .paper-right img {
+  max-width: 100%;
+  height: auto;
+  max-height: 38vh;
+  object-fit: contain;
+  border: 2px solid rgba(28,20,16,0.1);
+  border-radius: 4px;
+}
+
+.paper-layout .paper-right .caption {
+  font-family: var(--font-aux);
+  font-size: 11px;
+  color: rgba(28,20,16,0.5);
+  text-align: center;
+  margin-top: -4px;
+}
+
+.slide--dark .paper-layout .paper-right img {
+  border-color: rgba(255,255,255,0.15);
+}
+.slide--dark .paper-layout .paper-right .caption {
+  color: rgba(255,255,255,0.5);
+}
+
+/* ===== Grids ===== */
+.grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+
+/* ===== Data Cards ===== */
 .data-card {
-  border: 3px solid var(--deep-black);
-  padding: 24px;
+  border: 2px solid var(--deep-black);
+  padding: 14px;
   text-align: center;
 }
-
 .data-card__number {
   font-family: var(--font-display);
-  font-size: clamp(36px, 4vw, 64px);
+  font-size: clamp(28px, 3vw, 48px);
   color: var(--red-accent);
   line-height: 1;
 }
-
 .data-card__label {
   font-family: var(--font-aux);
-  font-size: 13px;
-  margin-top: 8px;
+  font-size: 12px;
+  margin-top: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.03em;
 }
 
-/* Lists */
+/* ===== Lists ===== */
 .point-list {
   list-style: none;
   padding: 0;
 }
-
 .point-list li {
-  padding: 8px 0 8px 24px;
+  padding: 4px 0 4px 20px;
   position: relative;
   font-family: var(--font-aux);
-  font-size: clamp(13px, 1.2vw, 16px);
+  font-size: 13px;
+  line-height: 1.5;
 }
-
 .point-list li::before {
   content: '→';
   position: absolute;
@@ -193,330 +258,62 @@ body {
   font-weight: 700;
 }
 
-/* Warning Panel */
+/* ===== Warning Panel ===== */
 .warning-panel {
-  border: 3px solid var(--red-accent);
-  border-left: 8px solid var(--red-accent);
-  padding: 24px 32px;
-  background: rgba(216, 0, 15, 0.04);
-  margin: 24px 0;
+  border: 2px solid var(--red-accent);
+  border-left: 6px solid var(--red-accent);
+  padding: 14px 18px;
+  background: rgba(216, 0, 15, 0.03);
+  margin: 10px 0;
 }
-
 .warning-panel__title {
   font-family: var(--font-aux);
   font-weight: 700;
   color: var(--red-accent);
-  font-size: 14px;
+  font-size: 12px;
   text-transform: uppercase;
-  letter-spacing: 0.08em;
-  margin-bottom: 12px;
-}
-
-/* Spacers */
-.spacer-sm { height: 16px; }
-.spacer-md { height: 32px; }
-.spacer-lg { height: 48px; }
-
-/* Links */
-a { color: var(--red-accent); text-decoration: underline; }
-a:hover { opacity: 0.8; }
-.slide--dark a, .slide--red a { color: var(--white); }
-
-/* Quote Block */
-.quote-block {
-  font-family: var(--font-body);
-  font-size: clamp(18px, 2.5vw, 32px);
-  font-style: italic;
-  border-left: 4px solid var(--red-accent);
-  padding-left: 24px;
-  margin: 24px 0;
-}
-
-/* Section Number */
-.section-num {
-  font-family: var(--font-display);
-  font-size: clamp(80px, 10vw, 160px);
-  color: var(--red-accent);
-  opacity: 0.15;
-  position: absolute;
-  top: 32px;
-  right: 56px;
-  line-height: 1;
-}
-
-/* Responsive */
-@media (max-width: 768px) {
-  .slide { padding: 32px 24px; }
-  .grid-2, .grid-3 { grid-template-columns: 1fr; }
-  .section-num { font-size: 80px; top: 16px; right: 24px; }
-}
-
-/* Author info */
-.meta-info {
-  font-family: var(--font-aux);
-  font-size: 14px;
-  opacity: 0.7;
-  margin-top: 24px;
-}
-
-/* Conclusion card */
-.conclusion-card {
-  border: 3px solid var(--deep-black);
-  padding: 32px;
-  background: var(--deep-black);
-  color: var(--white);
-  margin: 16px 0;
-}
-
-.conclusion-card .highlight {
-  color: var(--red-accent);
-  font-weight: 700;
-}
-
-/* Number circle */
-.num-circle {
-  width: 48px;
-  height: 48px;
-  border: 3px solid var(--red-accent);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-aux);
-  font-weight: 700;
-  font-size: 18px;
-  color: var(--red-accent);
-  flex-shrink: 0;
-}
-
-.reason-item {
-  display: flex;
-  gap: 20px;
-  align-items: flex-start;
-  margin-bottom: 24px;
-}
-
-.reason-content h4 {
-  font-family: var(--font-aux);
-  font-weight: 700;
-  font-size: 16px;
+  letter-spacing: 0.06em;
   margin-bottom: 8px;
 }
 
-.reason-content p, .reason-content ul {
-  font-family: var(--font-aux);
-  font-size: 14px;
-  line-height: 1.7;
-}
-
-.reason-content ul {
-  list-style: none;
-  padding-left: 0;
-}
-
-.reason-content ul li::before {
-  content: '• ';
-  color: var(--red-accent);
-}
-
-/* Reference list */
-.ref-list {
-  list-style: none;
-  padding: 0;
-}
-
-.ref-list li {
-  padding: 12px 0;
-  border-bottom: 1px solid rgba(28,20,16,0.1);
-  font-family: var(--font-aux);
-  font-size: 14px;
-}
-
-.slide--dark .ref-list li {
-  border-bottom-color: rgba(255,255,255,0.15);
-}
-
-/* ===== Two-column paper layout ===== */
-.paper-layout {
-  display: grid;
-  grid-template-columns: 55% 45%;
-  gap: 32px;
-  align-items: center;
-}
-
-@media (max-width: 768px) {
-  .paper-layout { grid-template-columns: 1fr; }
-}
-
-/* ===== CSS Diagram Styles ===== */
-.diagram {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0;
-  font-family: var(--font-aux);
-  font-size: 13px;
-}
-
-.dia-box {
-  border: 3px solid var(--deep-black);
-  padding: 12px 18px;
-  text-align: center;
-  background: var(--white);
-  min-width: 140px;
-  font-family: var(--font-aux);
-  font-weight: 600;
-  font-size: 13px;
-}
-
-.dia-box--red {
-  border-color: var(--red-accent);
-  color: var(--red-accent);
-}
-
-.dia-box--dark {
-  border-color: var(--deep-black);
-  background: var(--deep-black);
-  color: var(--white);
-}
-
-.dia-box--fill-red {
-  border-color: var(--red-accent);
-  background: var(--red-accent);
-  color: var(--white);
-}
-
-.dia-arrow {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  color: var(--red-accent);
-  font-size: 20px;
-  line-height: 1;
-  padding: 4px 0;
-}
-
-.dia-arrow::after {
-  content: '▼';
-  font-size: 12px;
-}
-
-.dia-arrow--line {
-  width: 3px;
-  height: 24px;
-  background: var(--red-accent);
-  margin: 0 auto;
-}
-
-.dia-row {
-  display: flex;
-  gap: 16px;
-  align-items: center;
-  justify-content: center;
-}
-
-.dia-merge {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.dia-merge-line {
-  width: 100%;
-  height: 3px;
-  background: var(--red-accent);
-  position: relative;
-}
-
-.dia-label {
-  font-family: var(--font-aux);
-  font-size: 11px;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: rgba(28,20,16,0.6);
-  margin: 4px 0;
-}
-
-/* Bar chart CSS */
-.bar-chart {
-  display: flex;
-  align-items: flex-end;
-  gap: 24px;
-  justify-content: center;
-  padding: 16px 0;
-  height: 200px;
-}
-
-.bar-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-}
-
-.bar-fill {
-  width: 48px;
-  border: 3px solid var(--deep-black);
-  transition: height 0.3s;
-}
-
-.bar-fill--red {
-  background: var(--red-accent);
-  border-color: var(--red-accent);
-}
-
-.bar-label {
-  font-family: var(--font-aux);
-  font-size: 11px;
-  text-align: center;
-  max-width: 80px;
-  font-weight: 600;
-}
-
-/* Viewpoint cards merged */
+/* ===== Viewpoint Grid ===== */
 .viewpoint-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  gap: 16px;
 }
-
 .viewpoint-card {
-  border: 3px solid var(--deep-black);
-  padding: 28px 24px;
+  border: 2px solid var(--deep-black);
+  padding: 18px 16px;
   background: var(--white);
   display: flex;
   flex-direction: column;
 }
-
 .viewpoint-card__num {
   font-family: var(--font-display);
-  font-size: 48px;
+  font-size: 36px;
   color: var(--red-accent);
   line-height: 1;
-  margin-bottom: 12px;
+  margin-bottom: 8px;
 }
-
 .viewpoint-card__title {
   font-family: var(--font-aux);
   font-weight: 700;
-  font-size: clamp(16px, 1.8vw, 22px);
-  margin-bottom: 16px;
+  font-size: 15px;
+  margin-bottom: 10px;
   line-height: 1.3;
 }
-
 .viewpoint-card__desc {
   font-family: var(--font-aux);
-  font-size: 13px;
-  line-height: 1.7;
+  font-size: 12px;
+  line-height: 1.6;
   flex: 1;
 }
-
 .viewpoint-card__desc li {
-  padding: 4px 0 4px 16px;
+  padding: 3px 0 3px 14px;
   position: relative;
   list-style: none;
 }
-
 .viewpoint-card__desc li::before {
   content: '→';
   position: absolute;
@@ -525,16 +322,117 @@ a:hover { opacity: 0.8; }
   font-weight: 700;
 }
 
+/* ===== Quote ===== */
+.quote-block {
+  font-family: var(--font-body);
+  font-size: 14px;
+  font-style: italic;
+  border-left: 3px solid var(--red-accent);
+  padding-left: 16px;
+  margin: 12px 0;
+}
+
+/* ===== Section Number ===== */
+.section-num {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 8vw, 120px);
+  color: var(--red-accent);
+  opacity: 0.1;
+  position: absolute;
+  top: 24px;
+  right: 48px;
+  line-height: 1;
+}
+
+/* ===== Conclusion card ===== */
+.conclusion-card {
+  border: 2px solid var(--deep-black);
+  padding: 16px 20px;
+  background: var(--deep-black);
+  color: var(--white);
+  margin: 8px 0;
+}
+.conclusion-card .highlight {
+  color: var(--red-accent);
+  font-weight: 700;
+}
+
+/* ===== Reason items ===== */
+.reason-item {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+  margin-bottom: 12px;
+}
+.num-circle {
+  width: 32px;
+  height: 32px;
+  border: 2px solid var(--red-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-aux);
+  font-weight: 700;
+  font-size: 14px;
+  color: var(--red-accent);
+  flex-shrink: 0;
+}
+.reason-content h4 {
+  font-family: var(--font-aux);
+  font-weight: 700;
+  font-size: 14px;
+  margin-bottom: 4px;
+}
+.reason-content p, .reason-content ul {
+  font-family: var(--font-aux);
+  font-size: 12px;
+  line-height: 1.5;
+}
+.reason-content ul { list-style: none; padding-left: 0; }
+.reason-content ul li::before { content: '• '; color: var(--red-accent); }
+
+/* ===== Links ===== */
+a { color: var(--red-accent); text-decoration: underline; }
+a:hover { opacity: 0.8; }
+.slide--dark a, .slide--red a { color: var(--white); }
+
+/* ===== Spacers ===== */
+.spacer-sm { height: 10px; }
+.spacer-md { height: 20px; }
+.spacer-lg { height: 32px; }
+
+/* ===== Meta ===== */
+.meta-info {
+  font-family: var(--font-aux);
+  font-size: 13px;
+  opacity: 0.7;
+  margin-top: 16px;
+}
+
+/* ===== Ref list ===== */
+.ref-list { list-style: none; padding: 0; }
+.ref-list li {
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+  font-family: var(--font-aux);
+  font-size: 13px;
+}
+
+/* ===== Responsive ===== */
 @media (max-width: 768px) {
-  .viewpoint-grid { grid-template-columns: 1fr; }
+  .slide { padding: 24px 20px; }
+  .paper-layout { grid-template-columns: 1fr; }
+  .grid-2, .grid-3, .viewpoint-grid { grid-template-columns: 1fr; }
+  .section-num { font-size: 60px; top: 12px; right: 20px; }
 }
 </style>
 </head>
 <body>
 
-<div id="progress-bar"></div>
+<div id="slide-container">
 
-<!-- ==================== 封面页 ==================== -->
+<!-- ===== PAGE 1: 封面页 ===== -->
 <section class="slide slide--dark" id="cover">
   <div>
     <span class="tag tag--white">Presentation</span>
@@ -545,7 +443,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ==================== 三个问题页 ==================== -->
+<!-- ===== PAGE 2: 三个问题页 ===== -->
 <section class="slide slide--warm" id="questions">
   <span class="section-num">?</span>
   <div>
@@ -553,22 +451,22 @@ a:hover { opacity: 0.8; }
     <div class="spacer-lg"></div>
     <div class="grid-3">
       <div class="card">
-        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">01</p>
-        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">学习 Joint 和学习 EEF 的本质区别在哪？</p>
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">01</p>
+        <p class="title-medium" style="font-size: clamp(16px, 2vw, 24px);">学习 Joint 和学习 EEF 的本质区别在哪？</p>
       </div>
       <div class="card">
-        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">02</p>
-        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">哪种方法才能让模型学到真正的任务表征，而不是一个巨大的数据拟合模型？</p>
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">02</p>
+        <p class="title-medium" style="font-size: clamp(16px, 2vw, 24px);">哪种方法才能让模型学到真正的任务表征，而不是一个巨大的数据拟合模型？</p>
       </div>
       <div class="card">
-        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">03</p>
-        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">能否兼得 —— 既保留任务语义，又保证本体可执行性？</p>
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">03</p>
+        <p class="title-medium" style="font-size: clamp(16px, 2vw, 24px);">能否兼得 —— 既保留任务语义，又保证本体可执行性？</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== 主题一 标题页 ==================== -->
+<!-- ===== PAGE 3: 主题一 标题页 ===== -->
 <section class="slide slide--white" id="topic1">
   <span class="section-num">01</span>
   <div>
@@ -578,12 +476,11 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ==================== 三个观点合并页 ==================== -->
+<!-- ===== PAGE 4: 三个观点合并页 ===== -->
 <section class="slide slide--warm" id="points">
-  <span class="section-num">✦</span>
-  <div>
+  <div style="width:100%;">
     <span class="tag tag--red">Three Viewpoints</span>
-    <div class="spacer-lg"></div>
+    <div class="spacer-md"></div>
     <div class="viewpoint-grid">
       <div class="viewpoint-card">
         <div class="viewpoint-card__num">1</div>
@@ -591,6 +488,7 @@ a:hover { opacity: 0.8; }
         <ul class="viewpoint-card__desc">
           <li>Joint 离开了本体换一个机器人，本质照葫芦画瓢</li>
           <li>不是最优的终局之解，只是现在工程上表现力比较好</li>
+          <li>数据绑定特定机器人构型，泛化能力受限</li>
         </ul>
       </div>
       <div class="viewpoint-card">
@@ -600,6 +498,7 @@ a:hover { opacity: 0.8; }
           <li>学习 EEF 能学到任务本意</li>
           <li>但忽略本体 IK 局限性</li>
           <li>胳膊如何过去很重要，不能只在乎末端执行器如何到达和执行</li>
+          <li>IK 多解歧义导致执行时抖动或失败</li>
         </ul>
       </div>
       <div class="viewpoint-card">
@@ -608,437 +507,375 @@ a:hover { opacity: 0.8; }
         <ul class="viewpoint-card__desc">
           <li>使用 EE 提供共享任务几何</li>
           <li>同时保留关节状态或本体配置来保证可执行性</li>
+          <li>GEAR-VLA 即为此方向的代表实现</li>
+          <li>兼顾跨本体迁移与单本体精度</li>
         </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ==================== 论文支撑1 标题 ==================== -->
-<section class="slide slide--dark" id="paper1">
-  <div class="paper-layout">
-    <div>
-      <span class="tag tag--white">论文支撑 1</span>
-      <div class="spacer-md"></div>
-      <h2 class="title-large">Action Space 论文</h2>
-      <div class="spacer-md"></div>
-      <p class="body-text" style="color: rgba(255,255,255,0.8);">来源：<a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
-      <div class="spacer-sm"></div>
-      <span class="tag tag--white">ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper</span>
-      <span class="tag tag--white">openreview.net</span>
-    </div>
-    <!-- 右侧：概念对比图 -->
-    <div class="diagram">
-      <div class="dia-label" style="color: rgba(255,255,255,0.5);">Method Comparison</div>
-      <div class="spacer-sm"></div>
-      <div class="dia-box" style="background: var(--deep-black); color: var(--white); border-color: rgba(255,255,255,0.3); width: 100%;">
-        <div style="font-size:11px; opacity:0.6; margin-bottom:4px;">传统方法</div>
-        图像 → 全局机器人构型<br><span style="font-size:11px; opacity:0.6;">复杂 · 高方差</span>
-      </div>
-      <div class="dia-arrow" style="color: var(--white);">
-        <span style="font-size:11px; opacity:0.5;">VS</span>
-      </div>
-      <div class="dia-box" style="border-color: var(--red-accent); background: var(--red-accent); color: var(--white); width: 100%;">
-        <div style="font-size:11px; opacity:0.8; margin-bottom:4px;">Delta 方法 ✓</div>
-        图像 + 当前状态 → 局部运动变化<br><span style="font-size:11px; opacity:0.8;">简单 · 低方差</span>
-      </div>
-      <div class="spacer-md"></div>
-      <!-- 柱状图 -->
-      <div style="display:flex; align-items:flex-end; gap:20px; justify-content:center;">
-        <div style="text-align:center;">
-          <div style="width:40px; height:80px; border:3px solid rgba(255,255,255,0.4); margin:0 auto;"></div>
-          <div style="font-size:10px; color:rgba(255,255,255,0.6); margin-top:6px;">step-wise<br>delta</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="width:40px; height:120px; border:3px solid var(--red-accent); background:var(--red-accent); margin:0 auto;"></div>
-          <div style="font-size:10px; color:rgba(255,255,255,0.9); margin-top:6px; font-weight:700;">chunk-wise<br>delta +10%</div>
-        </div>
-        <div style="text-align:center;">
-          <div style="width:40px; height:60px; border:3px solid rgba(255,255,255,0.3); margin:0 auto;"></div>
-          <div style="font-size:10px; color:rgba(255,255,255,0.5); margin-top:6px;">absolute</div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 论文1 核心结论 ==================== -->
-<section class="slide slide--white" id="paper1-data">
-  <span class="section-num">△</span>
-  <div>
-    <span class="tag tag--red">核心结论</span>
-    <div class="spacer-md"></div>
-    <div class="grid-3">
-      <div class="data-card">
-        <div class="data-card__number">+10%</div>
-        <div class="data-card__label">chunk-wise delta 平均比 step-wise delta 高约 10 个百分点</div>
-      </div>
-      <div class="data-card">
-        <div class="data-card__number">&gt;</div>
-        <div class="data-card__label">更是大于绝对数据表示</div>
-      </div>
-      <div class="data-card">
-        <div class="data-card__number">✓✓</div>
-        <div class="data-card__label">在回归策略和 Flow Matching 策略中都得到了交叉验证</div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 论文1 原因解释 ==================== -->
-<section class="slide slide--warm" id="paper1-reason">
-  <div>
-    <span class="tag tag--red">原因解释</span>
-    <div class="spacer-md"></div>
-    <h3 class="title-medium">delta 更容易学习</h3>
-    <p class="body-text" style="margin-top: 12px;">因为把问题从：</p>
-    <div class="spacer-sm"></div>
-    <div class="grid-2" style="max-width: 800px;">
-      <div class="card" style="text-align: center;">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">原始问题</p>
-        <p class="title-small">图像 → 全局机器人构型</p>
-      </div>
-      <div class="card" style="text-align: center;">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">转化为</p>
-        <p class="title-small">图像 + 当前状态 → 局部运动变化</p>
-      </div>
-    </div>
-    <div class="spacer-md"></div>
-    <h4 class="title-small">局部变化特点：</h4>
-    <div class="spacer-sm"></div>
-    <ul class="point-list">
-      <li>均值更接近 0</li>
-      <li>方差更小</li>
-      <li>分布更集中</li>
-      <li>不同工作区位置之间更容易共享动作模式</li>
-    </ul>
-    <div class="spacer-md"></div>
-    <div class="quote-block">
-      "夹爪向杯子靠近 3 cm" 在不同桌面位置具有相似表示；但绝对 EE 坐标或绝对关节角会完全不同。
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 论文1 结论卡片 ==================== -->
-<section class="slide slide--white" id="paper1-conclusion">
-  <div>
-    <span class="tag tag--red">结论</span>
     <div class="spacer-md"></div>
     <div class="conclusion-card">
-      <p class="title-small" style="color: var(--white); margin-bottom: 16px;">固定本体上，<span class="highlight">Joint 往往比 EEF 更强</span></p>
-    </div>
-    <div class="spacer-sm"></div>
-    <div class="grid-2">
-      <div class="card">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">固定本体、数据和算力充足</p>
-        <p class="title-small">Joint + chunk-wise delta</p>
-      </div>
-      <div class="card">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">跨本体或 foundation model transfer</p>
-        <p class="title-small">EEF + chunk-wise delta</p>
-      </div>
+      <p class="body-text" style="color:rgba(255,255,255,0.9);">核心矛盾：<span class="highlight">任务语义通用性</span> vs <span class="highlight">本体执行精度</span> — 下面三篇论文分别从不同角度给出方案</p>
     </div>
   </div>
 </section>
 
-<!-- ==================== Joint 更强的三大原因 ==================== -->
-<section class="slide slide--warm" id="paper1-reasons">
-  <div>
-    <span class="tag tag--red">Joint 更强的三大原因</span>
-    <div class="spacer-lg"></div>
-
-    <div class="reason-item">
-      <div class="num-circle">1</div>
-      <div class="reason-content">
-        <h4>避免了 IK 误差</h4>
-        <p>IK多解歧义即是误差</p>
-      </div>
-    </div>
-
-    <div class="reason-item">
-      <div class="num-circle">2</div>
-      <div class="reason-content">
-        <h4>数据本身就在某个机器人关节流形上</h4>
-        <p>示范轨迹不是随机的关节角，而是遥操作或控制器产生的连续关节轨迹。数据里已经包含了：</p>
-        <ul>
-          <li>固定的肘部偏好</li>
-          <li>连续的 IK 分支</li>
-          <li>避开关节限位的习惯</li>
-          <li>机器人自身的姿态先验</li>
-        </ul>
-        <p style="margin-top: 8px;">当模型能力足够强时，可以直接学习这个分布</p>
-      </div>
-    </div>
-
-    <div class="reason-item">
-      <div class="num-circle">3</div>
-      <div class="reason-content">
-        <h4>强生成模型可以建模 Joint 的多模态分布</h4>
-        <ul>
-          <li>弱回归模型容易把多个关节解平均，产生不存在的姿态</li>
-          <li>Flow Matching、Diffusion Policy 这类生成模型更能表达</li>
+<!-- ===== PAGE 5: Action Space 论文 - 第1页 ===== -->
+<section class="slide slide--dark" id="paper1-p1">
+  <div class="paper-layout">
+    <div class="paper-left">
+      <span class="tag tag--white">论文支撑 1</span>
+      <div class="spacer-sm"></div>
+      <h2 class="title-medium" style="color:var(--white);">Action Space 论文</h2>
+      <p class="body-text" style="color:rgba(255,255,255,0.6); margin:6px 0;"><a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
+      <span class="tag tag--white" style="font-size:9px;">ICLR 2026 Best Paper</span>
+      <div class="spacer-md"></div>
+      <div style="border:2px solid rgba(255,255,255,0.2); padding:14px 16px; margin-bottom:12px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">核心发现</p>
+        <ul class="point-list" style="color:rgba(255,255,255,0.9);">
+          <li>Delta 表示优于 Absolute 表示（将预测从全局构型简化为局部变化量）</li>
+          <li>Chunk-wise delta 比 step-wise delta 高约 <strong style="color:var(--red-accent);">10%</strong></li>
+          <li>在回归策略和 Flow Matching 中均得到验证</li>
+          <li>固定本体上 Joint 表现优于 EEF</li>
         </ul>
       </div>
+      <div style="border:2px solid rgba(255,255,255,0.2); padding:14px 16px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">行动空间分类法</p>
+        <ul class="point-list" style="color:rgba(255,255,255,0.85);">
+          <li><strong>Joint absolute</strong>: 直接预测目标关节角</li>
+          <li><strong>Joint delta</strong>: 预测关节角变化量</li>
+          <li><strong>EEF absolute</strong>: 预测目标末端位姿</li>
+          <li><strong>EEF delta</strong>: 预测末端位姿变化量</li>
+        </ul>
+      </div>
+    </div>
+    <div class="paper-right">
+      <img src="https://arxiv.org/html/2602.23408v1/figure/main_tight.png" alt="Action Space 论文概览：不同action表示方法的系统对比" loading="lazy">
+      <p class="caption">Fig 1. 论文总览：不同动作表示的性能对比框架</p>
+      <img src="https://arxiv.org/html/2602.23408v1/figure/preliminary.png" alt="行动空间分类法：Joint vs EEF, Absolute vs Delta" loading="lazy">
+      <p class="caption">Fig 2. 行动空间分类法（Joint/EEF × Absolute/Delta）</p>
     </div>
   </div>
 </section>
 
-<!-- ==================== 论文1 局限性 ==================== -->
-<section class="slide slide--white" id="paper1-limitations">
-  <div>
-    <span class="tag tag--red">文章局限性</span>
-    <div class="spacer-md"></div>
-    <div class="warning-panel">
-      <div class="warning-panel__title">⚠ Limitations</div>
-      <ul class="point-list">
-        <li>EEF 的性能高度依赖所用 IK 和笛卡尔控制器</li>
-        <li>一个差的 IK 会让 EEF 策略看起来很差</li>
-        <li>一个优秀的 whole-body controller 可能会改变结果</li>
-        <li>跨本体实验规模小</li>
-        <li>主要研究位置控制下的 imitation learning，没有系统研究：</li>
-      </ul>
-      <div style="padding-left: 24px; margin-top: 8px;">
+<!-- ===== PAGE 6: Action Space 论文 - 第2页 ===== -->
+<section class="slide slide--white" id="paper1-p2">
+  <div class="paper-layout">
+    <div class="paper-left">
+      <span class="tag tag--red">论文支撑 1 — 深入分析</span>
+      <div class="spacer-sm"></div>
+      <h3 class="title-small">为什么 Delta 更易学习？</h3>
+      <div class="spacer-sm"></div>
+      <div class="grid-2" style="margin-bottom:12px;">
+        <div class="card" style="text-align:center; padding:12px;">
+          <p class="aux-text" style="color:var(--red-accent); margin-bottom:4px;">原始问题</p>
+          <p style="font-family:var(--font-aux); font-size:13px; font-weight:600;">图像 → 全局构型</p>
+        </div>
+        <div class="card card--red" style="text-align:center; padding:12px;">
+          <p class="aux-text" style="color:var(--red-accent); margin-bottom:4px;">Delta 转化</p>
+          <p style="font-family:var(--font-aux); font-size:13px; font-weight:600;">图像+状态 → 局部变化</p>
+        </div>
+      </div>
+      <p class="body-text" style="margin-bottom:8px;">局部变化特点：均值接近 0、方差小、分布集中、易于共享动作模式</p>
+      <div class="spacer-sm"></div>
+      <h3 class="title-small">Joint 更强的三大原因</h3>
+      <div class="spacer-sm"></div>
+      <div class="reason-item">
+        <div class="num-circle">1</div>
+        <div class="reason-content">
+          <h4>避免 IK 误差</h4>
+          <p>IK多解歧义即是误差来源</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="num-circle">2</div>
+        <div class="reason-content">
+          <h4>数据在关节流形上</h4>
+          <p>示范轨迹包含固定肘部偏好、连续IK分支、避限位习惯</p>
+        </div>
+      </div>
+      <div class="reason-item">
+        <div class="num-circle">3</div>
+        <div class="reason-content">
+          <h4>强生成模型可建模多模态分布</h4>
+          <p>Flow Matching/Diffusion能表达多解，弱回归会平均化</p>
+        </div>
+      </div>
+      <div class="spacer-sm"></div>
+      <div class="warning-panel">
+        <div class="warning-panel__title">⚠ 局限性</div>
         <ul class="point-list">
-          <li>force control</li>
-          <li>tactile feedback</li>
-          <li>灵巧手接触</li>
-          <li>人形平衡</li>
-          <li>移动底盘和全身协调</li>
+          <li>EEF性能高度依赖IK和笛卡尔控制器质量</li>
+          <li>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
+          <li>未来可能不是二选一，而是根据任务阶段动态混合</li>
         </ul>
       </div>
     </div>
-  </div>
-</section>
-
-<!-- ==================== 论文1 未来展望 ==================== -->
-<section class="slide slide--dark" id="paper1-future">
-  <div>
-    <span class="tag tag--white">论文自己的未来展望</span>
-    <div class="spacer-md"></div>
-    <h3 class="title-medium" style="color: var(--white);">未来可能不是二选一，而是动态混合</h3>
-    <div class="spacer-md"></div>
-    <p class="body-text" style="color: rgba(255,255,255,0.8); margin-bottom: 24px;">根据任务阶段选择表示：</p>
-    <div class="grid-2">
-      <div class="card card--dark">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">Reaching 阶段</p>
-        <p class="title-small" style="color: var(--white);">EEF delta</p>
-        <p class="body-text" style="color: rgba(255,255,255,0.7); margin-top: 8px;">整体语义性</p>
-      </div>
-      <div class="card card--dark">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">接触或狭窄空间阶段</p>
-        <p class="title-small" style="color: var(--white);">切换到 Joint</p>
-        <p class="body-text" style="color: rgba(255,255,255,0.7); margin-top: 8px;">局部精确性</p>
+    <div class="paper-right">
+      <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta vs Absolute 性能对比实验数据" loading="lazy">
+      <p class="caption">Fig 3. Delta horizon 对比实验：chunk-wise delta 显著领先</p>
+      <div style="border:2px solid var(--deep-black); padding:14px; width:100%; margin-top:8px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">结论</p>
+        <p style="font-family:var(--font-aux); font-size:13px; line-height:1.5;"><strong>固定本体</strong>：Joint + chunk-wise delta 最优</p>
+        <p style="font-family:var(--font-aux); font-size:13px; line-height:1.5;"><strong>跨本体迁移</strong>：EEF + chunk-wise delta 更适合</p>
+        <p style="font-family:var(--font-aux); font-size:13px; line-height:1.5; margin-top:6px; color:var(--red-accent);">→ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ==================== 论文支撑2 GEAR-VLA ==================== -->
+<!-- ===== PAGE 7: GEAR-VLA 论文页 ===== -->
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
-    <div>
+    <div class="paper-left">
       <span class="tag tag--red">论文支撑 2</span>
-      <div class="spacer-md"></div>
-      <h2 class="title-large">GEAR-VLA</h2>
-      <div class="spacer-md"></div>
-      <p class="body-text">来源：<a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a></p>
       <div class="spacer-sm"></div>
-      <span class="tag tag--red">2026 年 6 月 7 日提交</span>
-      <div class="spacer-lg"></div>
-      <div class="card" style="max-width: 100%;">
-        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 12px;">核心设计</p>
+      <h2 class="title-medium">GEAR-VLA</h2>
+      <p class="body-text" style="color:rgba(28,20,16,0.6); margin:6px 0;"><a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> · 2026-06-07</p>
+      <div class="spacer-sm"></div>
+      <div class="card card--red" style="margin-bottom:12px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">核心设计</p>
         <ul class="point-list">
-          <li>GEAR-VLA 将 q + EEF 作为输入，EEF 作为输出</li>
-          <li>输出保持本体无关</li>
-          <li>但输入允许模型知道当前本体处于什么构型</li>
+          <li>GEAR-VLA 将 <strong>q + EEF</strong> 作为输入，<strong>EEF</strong> 作为输出</li>
+          <li>输出保持本体无关 → 可跨平台迁移</li>
+          <li>输入保留关节状态 → 模型知道当前本体构型</li>
+          <li>融合了 Joint 精度与 EEF 通用性</li>
+        </ul>
+      </div>
+      <div class="card" style="margin-bottom:12px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">与观点3的呼应</p>
+        <ul class="point-list">
+          <li>EE 提供共享任务几何（跨机器人通用语言）</li>
+          <li>关节状态作为上下文让模型感知本体约束</li>
+          <li>解决了纯 EEF 方法无法感知构型的缺陷</li>
+        </ul>
+      </div>
+      <div class="card">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">实验亮点</p>
+        <ul class="point-list">
+          <li>在多个真实机器人上验证跨本体迁移</li>
+          <li>zero-shot transfer 性能显著优于纯 Joint 方法</li>
+          <li>固定本体场景也不输给专用 Joint 策略</li>
         </ul>
       </div>
     </div>
-    <!-- 右侧：GEAR-VLA 架构图 -->
-    <div class="diagram">
-      <div class="dia-label">Input Layer</div>
-      <div class="spacer-sm"></div>
-      <div class="dia-row">
-        <div class="dia-box">q_t<br><span style="font-size:11px; opacity:0.6;">(joints)</span></div>
-        <div class="dia-box">EEF_t<br><span style="font-size:11px; opacity:0.6;">(6DoF)</span></div>
-      </div>
-      <div style="display:flex; justify-content:center; margin:8px 0;">
-        <div style="width:60%; height:3px; background:var(--red-accent);"></div>
-      </div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box dia-box--dark" style="min-width:200px;">
-        GEAR-VLA<br><span style="font-size:11px; opacity:0.7;">(Model)</span>
-      </div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box dia-box--fill-red" style="min-width:200px;">
-        EEF Output<br><span style="font-size:12px;">(本体无关)</span>
-      </div>
+    <div class="paper-right">
+      <img src="https://arxiv.org/html/2606.08530v1/x1.png" alt="GEAR-VLA 方法总览" loading="lazy">
+      <p class="caption">Fig 1. GEAR-VLA 方法总览</p>
+      <img src="https://arxiv.org/html/2606.08530v1/x2.png" alt="GEAR-VLA 框架架构详细设计" loading="lazy">
+      <p class="caption">Fig 2. 框架架构：q+EEF输入 → EEF输出</p>
     </div>
   </div>
 </section>
 
-<!-- ==================== 主题二 标题页 ==================== -->
+<!-- ===== PAGE 8: 主题二 标题页 ===== -->
 <section class="slide slide--red" id="topic2">
   <div>
     <span class="tag tag--white">主题二</span>
     <div class="spacer-md"></div>
     <h2 class="title-large" style="color: var(--white);">新训练范式提出</h2>
+    <p class="body-text" style="color:rgba(255,255,255,0.7); margin-top:16px;">VLA 输入/输出 EEF，结合 IKSel 快速求解 Joint</p>
   </div>
 </section>
 
-<!-- ==================== 主题二 核心思路 ==================== -->
-<section class="slide slide--white" id="topic2-core">
-  <span class="section-num">02</span>
+<!-- ===== PAGE 9: 新范式 + IKSel 论文页 ===== -->
+<section class="slide slide--white" id="paper3">
   <div class="paper-layout">
-    <div>
-      <span class="tag tag--red">核心思路</span>
-      <div class="spacer-md"></div>
-      <div class="card" style="max-width: 100%; border-width: 4px;">
-        <h3 class="title-medium" style="margin-bottom: 16px;">VLA 输入 EEF，输出 EEF，JOINT 列表作为参考快速 IK 解出 joint</h3>
+    <div class="paper-left">
+      <span class="tag tag--red">论文支撑 3 + 新范式</span>
+      <div class="spacer-sm"></div>
+      <h2 class="title-medium">IKSel + 新训练范式</h2>
+      <p class="body-text" style="color:rgba(28,20,16,0.6); margin:4px 0;"><a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
+      <div class="spacer-sm"></div>
+      <div class="card card--red" style="margin-bottom:10px; padding:14px 16px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">新范式核心</p>
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; line-height:1.4;">VLA 输入 EEF → 输出 EEF → IKSel 选择最优种子 → 数值IK快速求解 Joint</p>
+      </div>
+      <div class="card" style="margin-bottom:10px; padding:14px 16px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">IKSel 核心思路</p>
+        <ul class="point-list">
+          <li>为快速数值IK迭代选择合适的种子关节值</li>
+          <li>从多个候选种子中评估选择最优起点</li>
+          <li>确保IK收敛快、解连续、避免奇异点</li>
+          <li>结合 Joint 参考列表避免极端构型</li>
+        </ul>
+      </div>
+      <div class="card" style="padding:14px 16px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">完整Pipeline</p>
+        <ul class="point-list">
+          <li><strong>Step 1</strong>: VLA 模型从视觉输入预测 EEF 目标（本体无关）</li>
+          <li><strong>Step 2</strong>: IKSel 根据当前 Joint 列表选择最优 IK 种子</li>
+          <li><strong>Step 3</strong>: 数值 IK 从最优种子快速收敛到目标关节角</li>
+          <li><strong>Step 4</strong>: 输出 Joint Command 执行</li>
+        </ul>
       </div>
     </div>
-    <!-- 右侧：新范式流程图 -->
-    <div class="diagram">
-      <div class="dia-label">New Training Paradigm</div>
-      <div class="spacer-sm"></div>
-      <div class="dia-row">
-        <div class="dia-box">Vision<br>Input</div>
-        <div style="color:var(--red-accent); font-weight:700; font-size:18px;">→</div>
-        <div class="dia-box dia-box--dark">VLA<br>Model</div>
-        <div style="color:var(--red-accent); font-weight:700; font-size:18px;">→</div>
-        <div class="dia-box dia-box--red">EEF Output<br><span style="font-size:11px;">(task)</span></div>
-      </div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box" style="border-color:var(--red-accent);">
-        IKSel + IK<br><span style="font-size:11px;">快速求解</span>
-      </div>
-      <div style="display:flex; gap:40px; align-items:flex-start; margin-top:8px;">
-        <div style="display:flex; flex-direction:column; align-items:center;">
-          <div class="dia-arrow"></div>
-          <div class="dia-box dia-box--fill-red">
-            Joint Command<br><span style="font-size:11px;">(执行)</span>
-          </div>
-        </div>
-        <div style="display:flex; flex-direction:column; align-items:center;">
-          <div style="color:var(--red-accent); font-size:11px; padding:4px 0;">参考 ↑</div>
-          <div class="dia-box">
-            Joint<br>参考列表
-          </div>
-        </div>
-      </div>
+    <div class="paper-right">
+      <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/teaser.jpg" alt="IKSel 种子选择对比：不同种子对IK收敛的影响" loading="lazy">
+      <p class="caption">Fig 1. 种子选择对比：好的种子让IK更快收敛</p>
+      <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/reselection.jpg" alt="IKSel 重选择策略概念图" loading="lazy">
+      <p class="caption">Fig 2. 重选择策略：动态调整种子以保持解连续性</p>
     </div>
   </div>
 </section>
 
-<!-- ==================== 论文支撑3 IKSel ==================== -->
-<section class="slide slide--warm" id="paper3">
-  <div class="paper-layout">
-    <div>
-      <span class="tag tag--red">论文支撑 3</span>
-      <div class="spacer-md"></div>
-      <h2 class="title-large">IKSel</h2>
-      <div class="spacer-md"></div>
-      <p class="title-small" style="margin-bottom: 12px;">IKSel：为快速数值逆运动学迭代选择合适的种子关节值</p>
-      <p class="body-text">来源：<a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
-    </div>
-    <!-- 右侧：种子选择示意图 -->
-    <div class="diagram">
-      <div class="dia-label">Seed Selection Process</div>
-      <div class="spacer-sm"></div>
-      <div class="dia-row">
-        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₁</div>
-        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₂</div>
-        <div class="dia-box" style="min-width:auto; padding:8px 12px;">q₃</div>
-        <div style="font-family:var(--font-aux); font-size:13px; opacity:0.5;">...</div>
-      </div>
-      <div style="text-align:center; font-family:var(--font-aux); font-size:11px; color:rgba(28,20,16,0.5); margin:6px 0;">多个候选种子</div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box dia-box--dark" style="min-width:200px;">
-        IKSel 评估<br><span style="font-size:11px; opacity:0.7;">选择最优种子</span>
-      </div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box dia-box--red" style="min-width:160px;">
-        q*<br><span style="font-size:11px;">最优种子</span>
-      </div>
-      <div class="dia-arrow"></div>
-      <div class="dia-box dia-box--fill-red" style="min-width:200px;">
-        数值 IK 迭代<br><span style="font-size:11px;">快速收敛到目标关节角</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ==================== 结尾页 ==================== -->
+<!-- ===== PAGE 10: 结尾总结页 ===== -->
 <section class="slide slide--dark" id="ending">
-  <div>
+  <div style="width:100%;">
     <span class="tag tag--white">总结</span>
     <div class="spacer-md"></div>
-    <h2 class="title-large" style="color: var(--white); margin-bottom: 32px;">Core Takeaways</h2>
+    <h2 class="title-medium" style="color: var(--white); margin-bottom: 20px;">Core Takeaways</h2>
     <div class="grid-2">
       <div class="card card--dark">
-        <p class="title-small" style="color: var(--red-accent);">1</p>
+        <p class="aux-text" style="color: var(--red-accent);">1</p>
         <p class="body-text" style="color: rgba(255,255,255,0.9);">Joint 在固定本体下表现更强，但本质是照葫芦画瓢，不是终局之解</p>
       </div>
       <div class="card card--dark">
-        <p class="title-small" style="color: var(--red-accent);">2</p>
+        <p class="aux-text" style="color: var(--red-accent);">2</p>
         <p class="body-text" style="color: rgba(255,255,255,0.9);">EEF 能学到任务本意，但忽略本体 IK 局限性</p>
       </div>
       <div class="card card--dark">
-        <p class="title-small" style="color: var(--red-accent);">3</p>
-        <p class="body-text" style="color: rgba(255,255,255,0.9);">融合方案：EE 提供共享任务几何 + 关节状态保证可执行性</p>
+        <p class="aux-text" style="color: var(--red-accent);">3</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">融合方案：EE 提供共享任务几何 + 关节状态保证可执行性（GEAR-VLA）</p>
       </div>
       <div class="card card--dark">
-        <p class="title-small" style="color: var(--red-accent);">4</p>
-        <p class="body-text" style="color: rgba(255,255,255,0.9);">新范式：VLA 输入/输出 EEF，JOINT 列表参考快速 IK 解出 joint</p>
+        <p class="aux-text" style="color: var(--red-accent);">4</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">新范式：VLA 输入/输出 EEF + IKSel 快速求解 Joint，兼顾通用性与精度</p>
       </div>
     </div>
-    <div class="spacer-lg"></div>
-    <h4 class="title-small" style="color: rgba(255,255,255,0.6); margin-bottom: 16px;">参考文献</h4>
+    <div class="spacer-md"></div>
+    <h4 class="title-small" style="color: rgba(255,255,255,0.5); margin-bottom: 10px;">参考文献</h4>
     <ul class="ref-list">
-      <li>[1] Action Space 论文 — <a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a> (ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper)</li>
+      <li>[1] Action Space 论文 — <a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a> (ICLR 2026 Best Paper)</li>
       <li>[2] GEAR-VLA — <a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> (2026-06-07)</li>
-      <li>[3] IKSel: 为快速数值逆运动学迭代选择合适的种子关节值 — <a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></li>
+      <li>[3] IKSel — <a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></li>
     </ul>
   </div>
 </section>
 
+</div><!-- end slide-container -->
+
+<!-- Page Indicator -->
+<div id="page-indicator">
+  <div class="dots"></div>
+  <span class="page-num"></span>
+</div>
+
 <script>
-// Progress Bar
-const progressBar = document.getElementById('progress-bar');
-function updateProgress() {
-  const scrollTop = window.scrollY;
-  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-  progressBar.style.width = progress + '%';
-}
-window.addEventListener('scroll', updateProgress);
-window.addEventListener('resize', updateProgress);
+(function() {
+  const container = document.getElementById('slide-container');
+  const slides = document.querySelectorAll('.slide');
+  const indicator = document.getElementById('page-indicator');
+  const dotsContainer = indicator.querySelector('.dots');
+  const pageNum = indicator.querySelector('.page-num');
+  const totalPages = slides.length;
+  let currentPage = 0;
+  let scrollAccumulator = 0;
+  let isAnimating = false;
+  const SCROLL_THRESHOLD = 150;
+  const ANIMATION_DURATION = 600;
 
-// Keyboard Navigation
-const slides = document.querySelectorAll('.slide');
-let currentSlide = 0;
-
-function getClosestSlide() {
-  let closest = 0;
-  let minDist = Infinity;
-  slides.forEach((slide, i) => {
-    const dist = Math.abs(slide.getBoundingClientRect().top);
-    if (dist < minDist) { minDist = dist; closest = i; }
-  });
-  return closest;
-}
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowDown' || e.key === 'PageDown') {
-    e.preventDefault();
-    currentSlide = Math.min(getClosestSlide() + 1, slides.length - 1);
-    slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
-  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
-    e.preventDefault();
-    currentSlide = Math.max(getClosestSlide() - 1, 0);
-    slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+  // Build dots
+  for (let i = 0; i < totalPages; i++) {
+    const dot = document.createElement('div');
+    dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.addEventListener('click', () => goToPage(i));
+    dotsContainer.appendChild(dot);
   }
-});
+
+  function updateIndicator() {
+    pageNum.textContent = (currentPage + 1) + ' / ' + totalPages;
+    const dots = dotsContainer.querySelectorAll('.dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === currentPage));
+    // Adjust indicator color based on slide background
+    const slide = slides[currentPage];
+    const isDark = slide.classList.contains('slide--dark') || slide.classList.contains('slide--red');
+    indicator.style.background = isDark ? 'rgba(28,20,16,0.85)' : 'rgba(255,255,255,0.92)';
+    indicator.style.color = isDark ? 'rgba(255,255,255,0.8)' : 'rgba(28,20,16,0.7)';
+    indicator.style.borderColor = isDark ? 'rgba(255,255,255,0.15)' : 'rgba(28,20,16,0.12)';
+    pageNum.style.color = isDark ? '#fff' : 'var(--deep-black)';
+    const allDots = dotsContainer.querySelectorAll('.dot');
+    allDots.forEach(d => {
+      if (!d.classList.contains('active')) {
+        d.style.background = isDark ? 'rgba(255,255,255,0.3)' : 'rgba(28,20,16,0.2)';
+      } else {
+        d.style.background = 'var(--red-accent)';
+      }
+    });
+  }
+
+  function goToPage(n) {
+    if (n < 0 || n >= totalPages || n === currentPage || isAnimating) return;
+    isAnimating = true;
+    currentPage = n;
+    container.style.transform = 'translateY(-' + (currentPage * 100) + 'vh)';
+    updateIndicator();
+    setTimeout(() => { isAnimating = false; }, ANIMATION_DURATION);
+  }
+
+  function nextPage() { goToPage(currentPage + 1); }
+  function prevPage() { goToPage(currentPage - 1); }
+
+  // Wheel
+  let scrollDirection = 0;
+  window.addEventListener('wheel', function(e) {
+    e.preventDefault();
+    if (isAnimating) return;
+    const dir = e.deltaY > 0 ? 1 : -1;
+    if (dir !== scrollDirection) {
+      scrollAccumulator = 0;
+      scrollDirection = dir;
+    }
+    scrollAccumulator += Math.abs(e.deltaY);
+    if (scrollAccumulator >= SCROLL_THRESHOLD) {
+      scrollAccumulator = 0;
+      if (dir > 0) nextPage();
+      else prevPage();
+    }
+  }, { passive: false });
+
+  // Reset accumulator after idle
+  let scrollTimeout;
+  window.addEventListener('wheel', function() {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => { scrollAccumulator = 0; scrollDirection = 0; }, 300);
+  });
+
+  // Keyboard
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
+      e.preventDefault(); nextPage();
+    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
+      e.preventDefault(); prevPage();
+    } else if (e.key === 'Home') {
+      e.preventDefault(); goToPage(0);
+    } else if (e.key === 'End') {
+      e.preventDefault(); goToPage(totalPages - 1);
+    }
+  });
+
+  // Click navigation (click left/right half)
+  document.addEventListener('click', function(e) {
+    if (e.target.closest('a') || e.target.closest('button') || e.target.closest('#page-indicator')) return;
+    const x = e.clientX;
+    const w = window.innerWidth;
+    if (x > w * 0.65) nextPage();
+    else if (x < w * 0.35) prevPage();
+  });
+
+  // Touch swipe
+  let touchStartY = 0;
+  document.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; });
+  document.addEventListener('touchend', function(e) {
+    const diff = touchStartY - e.changedTouches[0].clientY;
+    if (Math.abs(diff) > 50) {
+      if (diff > 0) nextPage();
+      else prevPage();
+    }
+  });
+
+  // Init
+  updateIndicator();
+})();
 </script>
 </body>
 </html>
