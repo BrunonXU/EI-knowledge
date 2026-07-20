@@ -454,6 +454,39 @@ a:hover { opacity: 0.8; }
   font-size: 15px;
 }
 
+/* ===== Lightbox ===== */
+.lightbox {
+  display: none;
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0,0,0,0.9);
+  z-index: 10000;
+  cursor: zoom-out;
+  justify-content: center;
+  align-items: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+.lightbox.active {
+  display: flex;
+  opacity: 1;
+}
+.lightbox.fade-in {
+  opacity: 1;
+}
+.lightbox img {
+  max-width: 90vw;
+  max-height: 90vh;
+  object-fit: contain;
+  border-radius: 4px;
+  box-shadow: 0 0 40px rgba(0,0,0,0.5);
+  transform: scale(0.95);
+  transition: transform 0.3s ease;
+}
+.lightbox.fade-in img {
+  transform: scale(1);
+}
+
 /* ===== Responsive ===== */
 @media (max-width: 768px) {
   .slide { padding: 24px 20px; }
@@ -795,6 +828,11 @@ a:hover { opacity: 0.8; }
   <span class="page-num"></span>
 </div>
 
+<!-- Lightbox Overlay -->
+<div id="lightbox" class="lightbox">
+  <img id="lightbox-img" src="" alt="">
+</div>
+
 <script>
 (function() {
   const container = document.getElementById('slide-container');
@@ -808,6 +846,41 @@ a:hover { opacity: 0.8; }
   let isAnimating = false;
   const SCROLL_THRESHOLD = 150;
   const ANIMATION_DURATION = 600;
+
+  // Lightbox references
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  function isLightboxOpen() {
+    return lightbox.classList.contains('active');
+  }
+
+  // Lightbox: all images clickable
+  document.querySelectorAll('.paper-right img, .slide img').forEach(img => {
+    img.style.cursor = 'zoom-in';
+    img.addEventListener('click', function(e) {
+      e.stopPropagation();
+      e.preventDefault();
+      lightboxImg.src = img.src;
+      lightboxImg.alt = img.alt;
+      lightbox.classList.add('active');
+      // Trigger fade-in on next frame
+      requestAnimationFrame(() => {
+        lightbox.classList.add('fade-in');
+      });
+    });
+  });
+
+  // Close lightbox
+  function closeLightbox() {
+    lightbox.classList.remove('fade-in');
+    setTimeout(() => {
+      lightbox.classList.remove('active');
+      lightboxImg.src = '';
+    }, 300);
+  }
+
+  lightbox.addEventListener('click', closeLightbox);
 
   // Build dots
   for (let i = 0; i < totalPages; i++) {
@@ -854,7 +927,7 @@ a:hover { opacity: 0.8; }
   let scrollDirection = 0;
   window.addEventListener('wheel', function(e) {
     e.preventDefault();
-    if (isAnimating) return;
+    if (isAnimating || isLightboxOpen()) return;
     const dir = e.deltaY > 0 ? 1 : -1;
     if (dir !== scrollDirection) {
       scrollAccumulator = 0;
@@ -877,6 +950,13 @@ a:hover { opacity: 0.8; }
 
   // Keyboard
   document.addEventListener('keydown', function(e) {
+    // ESC closes lightbox
+    if (e.key === 'Escape') {
+      if (isLightboxOpen()) { closeLightbox(); }
+      return;
+    }
+    // Block navigation when lightbox is open
+    if (isLightboxOpen()) return;
     if (e.key === 'ArrowDown' || e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') {
       e.preventDefault(); nextPage();
     } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'PageUp') {
@@ -890,7 +970,9 @@ a:hover { opacity: 0.8; }
 
   // Click navigation (click left/right half)
   document.addEventListener('click', function(e) {
+    if (isLightboxOpen()) return;
     if (e.target.closest('a') || e.target.closest('button') || e.target.closest('#page-indicator')) return;
+    if (e.target.closest('img')) return;
     const x = e.clientX;
     const w = window.innerWidth;
     if (x > w * 0.65) nextPage();
@@ -901,6 +983,7 @@ a:hover { opacity: 0.8; }
   let touchStartY = 0;
   document.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; });
   document.addEventListener('touchend', function(e) {
+    if (isLightboxOpen()) return;
     const diff = touchStartY - e.changedTouches[0].clientY;
     if (Math.abs(diff) > 50) {
       if (diff > 0) nextPage();
