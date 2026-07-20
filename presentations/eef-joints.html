@@ -179,6 +179,7 @@ html, body {
   overflow-y: auto;
   max-height: 100%;
   padding-right: 12px;
+  padding-top: 0;
 }
 
 .paper-layout .paper-right {
@@ -186,8 +187,10 @@ html, body {
   flex-direction: column;
   gap: 8px;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   height: 100%;
+  overflow-y: auto;
+  padding-top: 0;
 }
 
 .paper-layout .paper-right img {
@@ -397,6 +400,38 @@ a { color: var(--red-accent); text-decoration: underline; }
 a:hover { opacity: 0.8; }
 .slide--dark a, .slide--red a { color: var(--white); }
 
+/* ===== Typography Hierarchy ===== */
+.text-h1 {
+  font-family: var(--font-aux);
+  font-size: clamp(20px, 2.2vw, 28px);
+  font-weight: 700;
+  line-height: 1.4;
+  color: #1C1410;
+}
+.text-h2 {
+  font-family: var(--font-aux);
+  font-size: clamp(18px, 2vw, 24px);
+  font-weight: 700;
+  line-height: 1.3;
+  color: #1C1410;
+}
+.text-body {
+  font-family: var(--font-aux);
+  font-size: clamp(15px, 1.4vw, 18px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #333;
+}
+.text-aux {
+  font-family: var(--font-aux);
+  font-size: clamp(13px, 1.2vw, 15px);
+  font-weight: 400;
+  line-height: 1.5;
+  color: #666;
+}
+.text-h1 .red { color: var(--red-accent); font-weight: 700; }
+.text-body .red { color: var(--red-accent); font-weight: 700; }
+
 /* ===== Spacers ===== */
 .spacer-sm { height: 6px; }
 .spacer-md { height: 14px; }
@@ -520,31 +555,31 @@ a:hover { opacity: 0.8; }
 </section>
 
 <!-- ===== PAGE 5: Action Space 论文 - 第1页 ===== -->
-<section class="slide slide--dark" id="paper1-p1">
+<section class="slide slide--white" id="paper1-p1">
   <div class="paper-layout">
     <div class="paper-left">
-      <span class="tag tag--white">论文支撑 1</span>
+      <span class="tag tag--red">论文支撑 1</span>
       <div class="spacer-sm"></div>
-      <h2 class="title-medium" style="color:var(--white);">Action Space 论文</h2>
-      <p class="body-text" style="color:rgba(255,255,255,0.6); margin:6px 0;"><a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
-      <span class="tag tag--white" style="font-size:11px;">ICLR 2026 Best Paper</span>
+      <h2 class="text-h2">Action Space 论文</h2>
+      <p class="text-aux" style="margin:6px 0;"><a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
+      <span class="tag tag--red" style="font-size:11px;">ICLR 2026 Best Paper</span>
       <div class="spacer-md"></div>
-      <div style="border:2px solid rgba(255,255,255,0.2); padding:14px 16px; margin-bottom:12px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">核心发现</p>
-        <ul class="point-list" style="color:rgba(255,255,255,0.9);">
-          <li>Delta 表示优于 Absolute 表示（将预测从全局构型简化为局部变化量）</li>
-          <li>Chunk-wise delta 比 step-wise delta 高约 <strong style="color:var(--red-accent);">10%</strong></li>
-          <li>在回归策略和 Flow Matching 中均得到验证</li>
-          <li>固定本体上 Joint 表现优于 EEF</li>
+      <div style="border:2px solid rgba(28,20,16,0.15); padding:14px 16px; margin-bottom:12px; background:rgba(216,0,15,0.03);">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心发现</p>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>Delta 表示优于 Absolute 表示</li>
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>Chunk-wise delta 比 step-wise delta 高约 <span class="red">10%</span></li>
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>固定本体上 Joint 表现优于 EEF</li>
         </ul>
+        <p class="text-body" style="padding-left:22px; margin-top:4px; color:#666;">在回归策略和 Flow Matching 中均得到验证</p>
       </div>
-      <div style="border:2px solid rgba(255,255,255,0.2); padding:14px 16px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">行动空间分类法</p>
-        <ul class="point-list" style="color:rgba(255,255,255,0.85);">
-          <li><strong>Joint absolute</strong>: 直接预测目标关节角</li>
-          <li><strong>Joint delta</strong>: 预测关节角变化量</li>
-          <li><strong>EEF absolute</strong>: 预测目标末端位姿</li>
-          <li><strong>EEF delta</strong>: 预测末端位姿变化量</li>
+      <div style="border:2px solid rgba(28,20,16,0.15); padding:14px 16px;">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">行动空间分类法</p>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Joint absolute</strong>: 直接预测目标关节角</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Joint delta</strong>: 预测关节角变化量</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>EEF absolute</strong>: 预测目标末端位姿</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>EEF delta</strong>: 预测末端位姿变化量</li>
         </ul>
       </div>
     </div>
@@ -563,50 +598,50 @@ a:hover { opacity: 0.8; }
     <div class="paper-left">
       <span class="tag tag--red">论文支撑 1 — 深入分析</span>
       <div class="spacer-sm"></div>
-      <h3 class="title-small">为什么 Delta 更易学习？</h3>
+      <h3 class="text-h2">为什么 Delta 更易学习？</h3>
       <div class="spacer-sm"></div>
       <div class="grid-2" style="margin-bottom:12px;">
         <div class="card" style="text-align:center; padding:12px;">
           <p class="aux-text" style="color:var(--red-accent); margin-bottom:4px;">原始问题</p>
-          <p style="font-family:var(--font-aux); font-size:17px; font-weight:600;">图像 → 全局构型</p>
+          <p class="text-body" style="font-weight:600;">图像 → 全局构型</p>
         </div>
         <div class="card card--red" style="text-align:center; padding:12px;">
           <p class="aux-text" style="color:var(--red-accent); margin-bottom:4px;">Delta 转化</p>
-          <p style="font-family:var(--font-aux); font-size:17px; font-weight:600;">图像+状态 → 局部变化</p>
+          <p class="text-body" style="font-weight:600;">图像+状态 → 局部变化</p>
         </div>
       </div>
-      <p class="body-text" style="margin-bottom:8px;">局部变化特点：均值接近 0、方差小、分布集中、易于共享动作模式</p>
+      <p class="text-body" style="margin-bottom:8px; color:#666;">局部变化特点：均值接近 0、方差小、分布集中、易于共享动作模式</p>
       <div class="spacer-sm"></div>
-      <h3 class="title-small">Joint 更强的三大原因</h3>
+      <h3 class="text-h2">Joint 更强的三大原因</h3>
       <div class="spacer-sm"></div>
       <div class="reason-item">
         <div class="num-circle">1</div>
         <div class="reason-content">
-          <h4>避免 IK 误差</h4>
-          <p>IK多解歧义即是误差来源</p>
+          <h4 class="text-body" style="font-weight:700; color:#1C1410;">避免 IK 误差</h4>
+          <p class="text-body">IK多解歧义即是误差来源</p>
         </div>
       </div>
       <div class="reason-item">
         <div class="num-circle">2</div>
         <div class="reason-content">
-          <h4>数据在关节流形上</h4>
-          <p>示范轨迹包含固定肘部偏好、连续IK分支、避限位习惯</p>
+          <h4 class="text-body" style="font-weight:700; color:#1C1410;">数据在关节流形上</h4>
+          <p class="text-body">示范轨迹包含固定肘部偏好、连续IK分支、避限位习惯</p>
         </div>
       </div>
       <div class="reason-item">
         <div class="num-circle">3</div>
         <div class="reason-content">
-          <h4>强生成模型可建模多模态分布</h4>
-          <p>Flow Matching/Diffusion能表达多解，弱回归会平均化</p>
+          <h4 class="text-body" style="font-weight:700; color:#1C1410;">强生成模型可建模多模态分布</h4>
+          <p class="text-body">Flow Matching/Diffusion能表达多解，弱回归会平均化</p>
         </div>
       </div>
       <div class="spacer-sm"></div>
       <div class="warning-panel">
         <div class="warning-panel__title">⚠ 局限性</div>
-        <ul class="point-list">
-          <li>EEF性能高度依赖IK和笛卡尔控制器质量</li>
-          <li>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
-          <li>未来可能不是二选一，而是根据任务阶段动态混合</li>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-aux" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>EEF性能高度依赖IK和笛卡尔控制器质量</li>
+          <li class="text-aux" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
+          <li class="text-aux" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
         </ul>
       </div>
     </div>
@@ -615,9 +650,9 @@ a:hover { opacity: 0.8; }
       <p class="caption">Fig 3. Delta horizon 对比实验：chunk-wise delta 显著领先</p>
       <div style="border:2px solid var(--deep-black); padding:14px; width:100%; margin-top:8px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">结论</p>
-        <p style="font-family:var(--font-aux); font-size:16px; line-height:1.5;"><strong>固定本体</strong>：Joint + chunk-wise delta 最优</p>
-        <p style="font-family:var(--font-aux); font-size:16px; line-height:1.5;"><strong>跨本体迁移</strong>：EEF + chunk-wise delta 更适合</p>
-        <p style="font-family:var(--font-aux); font-size:16px; line-height:1.5; margin-top:6px; color:var(--red-accent);">→ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
+        <p class="text-h1" style="margin-bottom:4px;"><strong>固定本体</strong>：Joint + <span class="red">chunk-wise delta</span> 最优</p>
+        <p class="text-h1" style="margin-bottom:4px;"><strong>跨本体迁移</strong>：EEF + <span class="red">chunk-wise delta</span> 更适合</p>
+        <p class="text-body" style="margin-top:8px; color:var(--red-accent);">→ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
       </div>
     </div>
   </div>
@@ -629,32 +664,32 @@ a:hover { opacity: 0.8; }
     <div class="paper-left">
       <span class="tag tag--red">论文支撑 2</span>
       <div class="spacer-sm"></div>
-      <h2 class="title-medium">GEAR-VLA</h2>
-      <p class="body-text" style="color:rgba(28,20,16,0.6); margin:6px 0;"><a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> · 2026-06-07</p>
+      <h2 class="text-h2">GEAR-VLA</h2>
+      <p class="text-aux" style="margin:6px 0;"><a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> · 2026-06-07</p>
       <div class="spacer-sm"></div>
       <div class="card card--red" style="margin-bottom:12px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">核心设计</p>
-        <ul class="point-list">
-          <li>GEAR-VLA 将 <strong>q + EEF</strong> 作为输入，<strong>EEF</strong> 作为输出</li>
-          <li>输出保持本体无关 → 可跨平台迁移</li>
-          <li>输入保留关节状态 → 模型知道当前本体构型</li>
-          <li>融合了 Joint 精度与 EEF 通用性</li>
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心设计</p>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>将 <strong>q + EEF</strong> 作为输入，<strong>EEF</strong> 作为输出</li>
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>输出保持本体无关 → 可跨平台迁移</li>
+          <li class="text-h1" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>融合了 Joint 精度与 EEF 通用性</li>
         </ul>
+        <p class="text-body" style="padding-left:22px; margin-top:4px; color:#666;">输入保留关节状态 → 模型知道当前本体构型</p>
       </div>
       <div class="card" style="margin-bottom:12px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">与观点3的呼应</p>
-        <ul class="point-list">
-          <li>EE 提供共享任务几何（跨机器人通用语言）</li>
-          <li>关节状态作为上下文让模型感知本体约束</li>
-          <li>解决了纯 EEF 方法无法感知构型的缺陷</li>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>EE 提供共享任务几何（跨机器人通用语言）</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>关节状态作为上下文让模型感知本体约束</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>解决了纯 EEF 方法无法感知构型的缺陷</li>
         </ul>
       </div>
       <div class="card">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">实验亮点</p>
-        <ul class="point-list">
-          <li>在多个真实机器人上验证跨本体迁移</li>
-          <li>zero-shot transfer 性能显著优于纯 Joint 方法</li>
-          <li>固定本体场景也不输给专用 Joint 策略</li>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>在多个真实机器人上验证跨本体迁移</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>zero-shot transfer 性能显著优于纯 Joint 方法</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>固定本体场景也不输给专用 Joint 策略</li>
         </ul>
       </div>
     </div>
@@ -683,29 +718,29 @@ a:hover { opacity: 0.8; }
     <div class="paper-left">
       <span class="tag tag--red">论文支撑 3 + 新范式</span>
       <div class="spacer-sm"></div>
-      <h2 class="title-medium">IKSel + 新训练范式</h2>
-      <p class="body-text" style="color:rgba(28,20,16,0.6); margin:4px 0;"><a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
+      <h2 class="text-h2">IKSel + 新训练范式</h2>
+      <p class="text-aux" style="margin:4px 0;"><a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
       <div class="spacer-sm"></div>
       <div class="card card--red" style="margin-bottom:10px; padding:14px 16px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">新范式核心</p>
-        <p style="font-family:var(--font-aux); font-size:17px; font-weight:700; line-height:1.4;">VLA 输入 EEF → 输出 EEF → IKSel 选择最优种子 → 数值IK快速求解 Joint</p>
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">新范式核心</p>
+        <p class="text-h1">VLA 输入 EEF → 输出 EEF → IKSel 选择最优种子 → 数值IK快速求解 <span class="red">Joint</span></p>
       </div>
       <div class="card" style="margin-bottom:10px; padding:14px 16px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">IKSel 核心思路</p>
-        <ul class="point-list">
-          <li>为快速数值IK迭代选择合适的种子关节值</li>
-          <li>从多个候选种子中评估选择最优起点</li>
-          <li>确保IK收敛快、解连续、避免奇异点</li>
-          <li>结合 Joint 参考列表避免极端构型</li>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>为快速数值IK迭代选择合适的种子关节值</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>从多个候选种子中评估选择最优起点</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>确保IK收敛快、解连续、避免奇异点</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>结合 Joint 参考列表避免极端构型</li>
         </ul>
       </div>
       <div class="card" style="padding:14px 16px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">完整Pipeline</p>
-        <ul class="point-list">
-          <li><strong>Step 1</strong>: VLA 模型从视觉输入预测 EEF 目标（本体无关）</li>
-          <li><strong>Step 2</strong>: IKSel 根据当前 Joint 列表选择最优 IK 种子</li>
-          <li><strong>Step 3</strong>: 数值 IK 从最优种子快速收敛到目标关节角</li>
-          <li><strong>Step 4</strong>: 输出 Joint Command 执行</li>
+        <ul style="list-style:none; padding:0;">
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Step 1</strong>: VLA 模型从视觉输入预测 EEF 目标（本体无关）</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Step 2</strong>: IKSel 根据当前 Joint 列表选择最优 IK 种子</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Step 3</strong>: 数值 IK 从最优种子快速收敛到目标关节角</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span><strong>Step 4</strong>: 输出 Joint Command 执行</li>
         </ul>
       </div>
     </div>
