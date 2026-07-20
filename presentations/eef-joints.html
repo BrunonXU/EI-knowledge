@@ -1,0 +1,750 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>从EEF和Joints出发探究模型训练新范式</title>
+<link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+:root {
+  --white: #FFFFFF;
+  --warm-white: #F5F2EF;
+  --deep-black: #1C1410;
+  --red-accent: #D8000F;
+  --font-display: 'Shrikhand', cursive;
+  --font-body: 'Libre Baskerville', serif;
+  --font-aux: 'Space Grotesk', sans-serif;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--warm-white);
+  color: var(--deep-black);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+/* Progress Bar */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: var(--red-accent);
+  z-index: 9999;
+  transition: width 0.2s ease;
+}
+
+/* Section Base */
+.slide {
+  min-height: 100vh;
+  padding: 48px 56px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  position: relative;
+  border-bottom: 3px solid var(--deep-black);
+}
+
+.slide--white { background: var(--white); }
+.slide--warm { background: var(--warm-white); }
+.slide--dark { background: var(--deep-black); color: var(--white); }
+.slide--red { background: var(--red-accent); color: var(--white); }
+
+/* Typography */
+.title-huge {
+  font-family: var(--font-display);
+  font-size: clamp(60px, 8vw, 120px);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+}
+
+.title-large {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 5vw, 72px);
+  line-height: 1.15;
+}
+
+.title-medium {
+  font-family: var(--font-aux);
+  font-size: clamp(24px, 3vw, 48px);
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.title-small {
+  font-family: var(--font-aux);
+  font-size: clamp(18px, 2vw, 28px);
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.body-text {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.2vw, 16px);
+  line-height: 1.8;
+}
+
+.aux-text {
+  font-family: var(--font-aux);
+  font-size: clamp(12px, 1vw, 14px);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+/* Tag/Label */
+.tag {
+  font-family: var(--font-aux);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 6px 14px;
+  border: 2px solid currentColor;
+  display: inline-block;
+  margin: 4px 4px 4px 0;
+}
+
+.tag--red {
+  border-color: var(--red-accent);
+  color: var(--red-accent);
+}
+
+.tag--white {
+  border-color: var(--white);
+  color: var(--white);
+}
+
+/* Cards */
+.card {
+  border: 3px solid var(--deep-black);
+  padding: 32px;
+  background: var(--white);
+}
+
+.card--dark {
+  border-color: var(--white);
+  background: var(--deep-black);
+  color: var(--white);
+}
+
+.card--red {
+  border: 3px solid var(--red-accent);
+  background: rgba(216, 0, 15, 0.05);
+}
+
+/* Grid Layout */
+.grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px 32px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px 32px;
+}
+
+/* Data Card */
+.data-card {
+  border: 3px solid var(--deep-black);
+  padding: 24px;
+  text-align: center;
+}
+
+.data-card__number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 64px);
+  color: var(--red-accent);
+  line-height: 1;
+}
+
+.data-card__label {
+  font-family: var(--font-aux);
+  font-size: 13px;
+  margin-top: 8px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* Lists */
+.point-list {
+  list-style: none;
+  padding: 0;
+}
+
+.point-list li {
+  padding: 8px 0 8px 24px;
+  position: relative;
+  font-family: var(--font-aux);
+  font-size: clamp(13px, 1.2vw, 16px);
+}
+
+.point-list li::before {
+  content: '→';
+  position: absolute;
+  left: 0;
+  color: var(--red-accent);
+  font-weight: 700;
+}
+
+/* Warning Panel */
+.warning-panel {
+  border: 3px solid var(--red-accent);
+  border-left: 8px solid var(--red-accent);
+  padding: 24px 32px;
+  background: rgba(216, 0, 15, 0.04);
+  margin: 24px 0;
+}
+
+.warning-panel__title {
+  font-family: var(--font-aux);
+  font-weight: 700;
+  color: var(--red-accent);
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 12px;
+}
+
+/* Spacers */
+.spacer-sm { height: 16px; }
+.spacer-md { height: 32px; }
+.spacer-lg { height: 48px; }
+
+/* Links */
+a { color: var(--red-accent); text-decoration: underline; }
+a:hover { opacity: 0.8; }
+.slide--dark a, .slide--red a { color: var(--white); }
+
+/* Quote Block */
+.quote-block {
+  font-family: var(--font-body);
+  font-size: clamp(18px, 2.5vw, 32px);
+  font-style: italic;
+  border-left: 4px solid var(--red-accent);
+  padding-left: 24px;
+  margin: 24px 0;
+}
+
+/* Section Number */
+.section-num {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 10vw, 160px);
+  color: var(--red-accent);
+  opacity: 0.15;
+  position: absolute;
+  top: 32px;
+  right: 56px;
+  line-height: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .slide { padding: 32px 24px; }
+  .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  .section-num { font-size: 80px; top: 16px; right: 24px; }
+}
+
+/* Author info */
+.meta-info {
+  font-family: var(--font-aux);
+  font-size: 14px;
+  opacity: 0.7;
+  margin-top: 24px;
+}
+
+/* Conclusion card */
+.conclusion-card {
+  border: 3px solid var(--deep-black);
+  padding: 32px;
+  background: var(--deep-black);
+  color: var(--white);
+  margin: 16px 0;
+}
+
+.conclusion-card .highlight {
+  color: var(--red-accent);
+  font-weight: 700;
+}
+
+/* Number circle */
+.num-circle {
+  width: 48px;
+  height: 48px;
+  border: 3px solid var(--red-accent);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-aux);
+  font-weight: 700;
+  font-size: 18px;
+  color: var(--red-accent);
+  flex-shrink: 0;
+}
+
+.reason-item {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  margin-bottom: 24px;
+}
+
+.reason-content h4 {
+  font-family: var(--font-aux);
+  font-weight: 700;
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.reason-content p, .reason-content ul {
+  font-family: var(--font-aux);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.reason-content ul {
+  list-style: none;
+  padding-left: 0;
+}
+
+.reason-content ul li::before {
+  content: '• ';
+  color: var(--red-accent);
+}
+
+/* Reference list */
+.ref-list {
+  list-style: none;
+  padding: 0;
+}
+
+.ref-list li {
+  padding: 12px 0;
+  border-bottom: 1px solid rgba(28,20,16,0.1);
+  font-family: var(--font-aux);
+  font-size: 14px;
+}
+
+.slide--dark .ref-list li {
+  border-bottom-color: rgba(255,255,255,0.15);
+}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<!-- ==================== 封面页 ==================== -->
+<section class="slide slide--dark" id="cover">
+  <div>
+    <span class="tag tag--white">Presentation</span>
+    <div class="spacer-md"></div>
+    <h1 class="title-huge">从EEF和Joints出发探究模型训练新范式</h1>
+    <div class="spacer-md"></div>
+    <p class="meta-info">2026 年 7 月</p>
+  </div>
+</section>
+
+<!-- ==================== 三个问题页 ==================== -->
+<section class="slide slide--warm" id="questions">
+  <span class="section-num">?</span>
+  <div>
+    <span class="tag tag--red">Core Questions</span>
+    <div class="spacer-lg"></div>
+    <div class="grid-3">
+      <div class="card">
+        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">01</p>
+        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">学习 Joint 和学习 EEF 的本质区别在哪？</p>
+      </div>
+      <div class="card">
+        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">02</p>
+        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">哪种方法才能让模型学到真正的任务表征，而不是一个巨大的数据拟合模型？</p>
+      </div>
+      <div class="card">
+        <p class="title-small" style="color: var(--red-accent); margin-bottom: 12px;">03</p>
+        <p class="title-medium" style="font-size: clamp(18px, 2.2vw, 28px);">能否兼得 —— 既保留任务语义，又保证本体可执行性？</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 主题一 标题页 ==================== -->
+<section class="slide slide--white" id="topic1">
+  <span class="section-num">01</span>
+  <div>
+    <span class="tag tag--red">主题一</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large">Joint vs EEF 的本质探讨</h2>
+  </div>
+</section>
+
+<!-- ==================== 观点1 ==================== -->
+<section class="slide slide--warm" id="point1">
+  <div>
+    <span class="tag">观点 1</span>
+    <div class="spacer-md"></div>
+    <h3 class="title-large">Joint 照葫芦画瓢</h3>
+    <div class="spacer-md"></div>
+    <div class="card" style="max-width: 800px;">
+      <ul class="point-list">
+        <li>Joint 离开了本体换一个机器人，本质照葫芦画瓢</li>
+        <li>不是最优的终局之解，只是现在工程上表现力比较好</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 观点2 ==================== -->
+<section class="slide slide--white" id="point2">
+  <div>
+    <span class="tag">观点 2</span>
+    <div class="spacer-md"></div>
+    <h3 class="title-large">EEF 能学任务本意但忽略 IK 局限</h3>
+    <div class="spacer-md"></div>
+    <div class="card" style="max-width: 800px;">
+      <ul class="point-list">
+        <li>学习 EEF 能学到任务本意</li>
+        <li>但忽略本体 IK 局限性</li>
+        <li>胳膊如何过去很重要，不能只在乎末端执行器如何到达和执行</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 观点3 ==================== -->
+<section class="slide slide--warm" id="point3">
+  <div>
+    <span class="tag">观点 3</span>
+    <div class="spacer-md"></div>
+    <h3 class="title-large">EE + 关节状态的融合方案</h3>
+    <div class="spacer-md"></div>
+    <div class="card" style="max-width: 800px;">
+      <ul class="point-list">
+        <li>使用 EE 提供共享任务几何</li>
+        <li>同时保留关节状态或本体配置来保证可执行性</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文支撑1 标题 ==================== -->
+<section class="slide slide--dark" id="paper1">
+  <div>
+    <span class="tag tag--white">论文支撑 1</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large">Action Space 论文</h2>
+    <div class="spacer-md"></div>
+    <p class="body-text" style="color: rgba(255,255,255,0.8);">来源：<a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
+    <div class="spacer-sm"></div>
+    <span class="tag tag--white">ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper</span>
+    <span class="tag tag--white">openreview.net</span>
+  </div>
+</section>
+
+<!-- ==================== 论文1 核心结论 ==================== -->
+<section class="slide slide--white" id="paper1-data">
+  <span class="section-num">△</span>
+  <div>
+    <span class="tag tag--red">核心结论</span>
+    <div class="spacer-md"></div>
+    <div class="grid-3">
+      <div class="data-card">
+        <div class="data-card__number">+10%</div>
+        <div class="data-card__label">chunk-wise delta 平均比 step-wise delta 高约 10 个百分点</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card__number">&gt;</div>
+        <div class="data-card__label">更是大于绝对数据表示</div>
+      </div>
+      <div class="data-card">
+        <div class="data-card__number">✓✓</div>
+        <div class="data-card__label">在回归策略和 Flow Matching 策略中都得到了交叉验证</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文1 原因解释 ==================== -->
+<section class="slide slide--warm" id="paper1-reason">
+  <div>
+    <span class="tag tag--red">原因解释</span>
+    <div class="spacer-md"></div>
+    <h3 class="title-medium">delta 更容易学习</h3>
+    <p class="body-text" style="margin-top: 12px;">因为把问题从：</p>
+    <div class="spacer-sm"></div>
+    <div class="grid-2" style="max-width: 800px;">
+      <div class="card" style="text-align: center;">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">原始问题</p>
+        <p class="title-small">图像 → 全局机器人构型</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">转化为</p>
+        <p class="title-small">图像 + 当前状态 → 局部运动变化</p>
+      </div>
+    </div>
+    <div class="spacer-md"></div>
+    <h4 class="title-small">局部变化特点：</h4>
+    <div class="spacer-sm"></div>
+    <ul class="point-list">
+      <li>均值更接近 0</li>
+      <li>方差更小</li>
+      <li>分布更集中</li>
+      <li>不同工作区位置之间更容易共享动作模式</li>
+    </ul>
+    <div class="spacer-md"></div>
+    <div class="quote-block">
+      "夹爪向杯子靠近 3 cm" 在不同桌面位置具有相似表示；但绝对 EE 坐标或绝对关节角会完全不同。
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文1 结论卡片 ==================== -->
+<section class="slide slide--white" id="paper1-conclusion">
+  <div>
+    <span class="tag tag--red">结论</span>
+    <div class="spacer-md"></div>
+    <div class="conclusion-card">
+      <p class="title-small" style="color: var(--white); margin-bottom: 16px;">固定本体上，<span class="highlight">Joint 往往比 EEF 更强</span></p>
+    </div>
+    <div class="spacer-sm"></div>
+    <div class="grid-2">
+      <div class="card">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">固定本体、数据和算力充足</p>
+        <p class="title-small">Joint + chunk-wise delta</p>
+      </div>
+      <div class="card">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">跨本体或 foundation model transfer</p>
+        <p class="title-small">EEF + chunk-wise delta</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Joint 更强的三大原因 ==================== -->
+<section class="slide slide--warm" id="paper1-reasons">
+  <div>
+    <span class="tag tag--red">Joint 更强的三大原因</span>
+    <div class="spacer-lg"></div>
+
+    <div class="reason-item">
+      <div class="num-circle">1</div>
+      <div class="reason-content">
+        <h4>避免了 IK 误差</h4>
+        <p>IK多解歧义即是误差</p>
+      </div>
+    </div>
+
+    <div class="reason-item">
+      <div class="num-circle">2</div>
+      <div class="reason-content">
+        <h4>数据本身就在某个机器人关节流形上</h4>
+        <p>示范轨迹不是随机的关节角，而是遥操作或控制器产生的连续关节轨迹。数据里已经包含了：</p>
+        <ul>
+          <li>固定的肘部偏好</li>
+          <li>连续的 IK 分支</li>
+          <li>避开关节限位的习惯</li>
+          <li>机器人自身的姿态先验</li>
+        </ul>
+        <p style="margin-top: 8px;">当模型能力足够强时，可以直接学习这个分布</p>
+      </div>
+    </div>
+
+    <div class="reason-item">
+      <div class="num-circle">3</div>
+      <div class="reason-content">
+        <h4>强生成模型可以建模 Joint 的多模态分布</h4>
+        <ul>
+          <li>弱回归模型容易把多个关节解平均，产生不存在的姿态</li>
+          <li>Flow Matching、Diffusion Policy 这类生成模型更能表达</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文1 局限性 ==================== -->
+<section class="slide slide--white" id="paper1-limitations">
+  <div>
+    <span class="tag tag--red">文章局限性</span>
+    <div class="spacer-md"></div>
+    <div class="warning-panel">
+      <div class="warning-panel__title">⚠ Limitations</div>
+      <ul class="point-list">
+        <li>EEF 的性能高度依赖所用 IK 和笛卡尔控制器</li>
+        <li>一个差的 IK 会让 EEF 策略看起来很差</li>
+        <li>一个优秀的 whole-body controller 可能会改变结果</li>
+        <li>跨本体实验规模小</li>
+        <li>主要研究位置控制下的 imitation learning，没有系统研究：</li>
+      </ul>
+      <div style="padding-left: 24px; margin-top: 8px;">
+        <ul class="point-list">
+          <li>force control</li>
+          <li>tactile feedback</li>
+          <li>灵巧手接触</li>
+          <li>人形平衡</li>
+          <li>移动底盘和全身协调</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文1 未来展望 ==================== -->
+<section class="slide slide--dark" id="paper1-future">
+  <div>
+    <span class="tag tag--white">论文自己的未来展望</span>
+    <div class="spacer-md"></div>
+    <h3 class="title-medium" style="color: var(--white);">未来可能不是二选一，而是动态混合</h3>
+    <div class="spacer-md"></div>
+    <p class="body-text" style="color: rgba(255,255,255,0.8); margin-bottom: 24px;">根据任务阶段选择表示：</p>
+    <div class="grid-2">
+      <div class="card card--dark">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">Reaching 阶段</p>
+        <p class="title-small" style="color: var(--white);">EEF delta</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.7); margin-top: 8px;">整体语义性</p>
+      </div>
+      <div class="card card--dark">
+        <p class="aux-text" style="color: var(--red-accent); margin-bottom: 8px;">接触或狭窄空间阶段</p>
+        <p class="title-small" style="color: var(--white);">切换到 Joint</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.7); margin-top: 8px;">局部精确性</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文支撑2 GEAR-VLA ==================== -->
+<section class="slide slide--warm" id="paper2">
+  <div>
+    <span class="tag tag--red">论文支撑 2</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large">GEAR-VLA</h2>
+    <div class="spacer-md"></div>
+    <p class="body-text">来源：<a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a></p>
+    <div class="spacer-sm"></div>
+    <span class="tag tag--red">2026 年 6 月 7 日提交</span>
+    <div class="spacer-lg"></div>
+    <div class="card" style="max-width: 800px;">
+      <p class="aux-text" style="color: var(--red-accent); margin-bottom: 12px;">核心设计</p>
+      <ul class="point-list">
+        <li>GEAR-VLA 将 q + EEF 作为输入，EEF 作为输出</li>
+        <li>输出保持本体无关</li>
+        <li>但输入允许模型知道当前本体处于什么构型</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 主题二 标题页 ==================== -->
+<section class="slide slide--red" id="topic2">
+  <div>
+    <span class="tag tag--white">主题二</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large" style="color: var(--white);">新训练范式提出</h2>
+  </div>
+</section>
+
+<!-- ==================== 主题二 核心思路 ==================== -->
+<section class="slide slide--white" id="topic2-core">
+  <span class="section-num">02</span>
+  <div>
+    <span class="tag tag--red">核心思路</span>
+    <div class="spacer-md"></div>
+    <div class="card" style="max-width: 900px; border-width: 4px;">
+      <h3 class="title-medium" style="margin-bottom: 16px;">VLA 输入 EEF，输出 EEF，JOINT 列表作为参考快速 IK 解出 joint</h3>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== 论文支撑3 IKSel ==================== -->
+<section class="slide slide--warm" id="paper3">
+  <div>
+    <span class="tag tag--red">论文支撑 3</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large">IKSel</h2>
+    <div class="spacer-md"></div>
+    <p class="title-small" style="margin-bottom: 12px;">IKSel：为快速数值逆运动学迭代选择合适的种子关节值</p>
+    <p class="body-text">来源：<a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
+  </div>
+</section>
+
+<!-- ==================== 结尾页 ==================== -->
+<section class="slide slide--dark" id="ending">
+  <div>
+    <span class="tag tag--white">总结</span>
+    <div class="spacer-md"></div>
+    <h2 class="title-large" style="color: var(--white); margin-bottom: 32px;">Core Takeaways</h2>
+    <div class="grid-2">
+      <div class="card card--dark">
+        <p class="title-small" style="color: var(--red-accent);">1</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">Joint 在固定本体下表现更强，但本质是照葫芦画瓢，不是终局之解</p>
+      </div>
+      <div class="card card--dark">
+        <p class="title-small" style="color: var(--red-accent);">2</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">EEF 能学到任务本意，但忽略本体 IK 局限性</p>
+      </div>
+      <div class="card card--dark">
+        <p class="title-small" style="color: var(--red-accent);">3</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">融合方案：EE 提供共享任务几何 + 关节状态保证可执行性</p>
+      </div>
+      <div class="card card--dark">
+        <p class="title-small" style="color: var(--red-accent);">4</p>
+        <p class="body-text" style="color: rgba(255,255,255,0.9);">新范式：VLA 输入/输出 EEF，JOINT 列表参考快速 IK 解出 joint</p>
+      </div>
+    </div>
+    <div class="spacer-lg"></div>
+    <h4 class="title-small" style="color: rgba(255,255,255,0.6); margin-bottom: 16px;">参考文献</h4>
+    <ul class="ref-list">
+      <li>[1] Action Space 论文 — <a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a> (ICLR 2026 Efficient Spatial Reasoning Workshop Best Paper)</li>
+      <li>[2] GEAR-VLA — <a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> (2026-06-07)</li>
+      <li>[3] IKSel: 为快速数值逆运动学迭代选择合适的种子关节值 — <a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></li>
+    </ul>
+  </div>
+</section>
+
+<script>
+// Progress Bar
+const progressBar = document.getElementById('progress-bar');
+function updateProgress() {
+  const scrollTop = window.scrollY;
+  const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+  const progress = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
+  progressBar.style.width = progress + '%';
+}
+window.addEventListener('scroll', updateProgress);
+window.addEventListener('resize', updateProgress);
+
+// Keyboard Navigation
+const slides = document.querySelectorAll('.slide');
+let currentSlide = 0;
+
+function getClosestSlide() {
+  let closest = 0;
+  let minDist = Infinity;
+  slides.forEach((slide, i) => {
+    const dist = Math.abs(slide.getBoundingClientRect().top);
+    if (dist < minDist) { minDist = dist; closest = i; }
+  });
+  return closest;
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'ArrowDown' || e.key === 'PageDown') {
+    e.preventDefault();
+    currentSlide = Math.min(getClosestSlide() + 1, slides.length - 1);
+    slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+  } else if (e.key === 'ArrowUp' || e.key === 'PageUp') {
+    e.preventDefault();
+    currentSlide = Math.max(getClosestSlide() - 1, 0);
+    slides[currentSlide].scrollIntoView({ behavior: 'smooth' });
+  }
+});
+</script>
+</body>
+</html>

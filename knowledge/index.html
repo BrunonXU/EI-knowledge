@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>知识库 | EI Knowledge</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Shrikhand&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg-primary: #FFFFFF;
+  --bg-secondary: #F5F2EF;
+  --text-primary: #1C1410;
+  --accent: #D8000F;
+  --border-heavy: 3px solid #1C1410;
+  --border-cell: 1.5px solid #1C1410;
+  --font-display: 'Shrikhand', cursive;
+  --font-body: 'Libre Baskerville', serif;
+  --font-chrome: 'Space Grotesk', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: var(--font-body);
+  background: var(--bg-primary);
+  color: var(--text-primary);
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: hidden;
+  animation: fadeIn 0.6s ease-out;
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Side decoration */
+.side-text {
+  position: fixed;
+  left: 20px;
+  top: 50%;
+  transform: translateY(-50%) rotate(-90deg);
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--text-primary);
+  opacity: 0.3;
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+/* Navigation */
+.nav {
+  padding: 24px 56px;
+  border-bottom: var(--border-cell);
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--bg-secondary);
+}
+
+.nav a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-primary);
+  padding-bottom: 2px;
+  transition: color 0.2s, border-color 0.2s;
+}
+.nav a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+.nav .sep {
+  opacity: 0.3;
+}
+
+/* Header */
+.page-header {
+  padding: 48px 56px;
+  padding-top: 64px;
+  border-bottom: var(--border-heavy);
+  background: var(--bg-secondary);
+  position: relative;
+  overflow: hidden;
+}
+
+.page-header-number {
+  font-family: var(--font-display);
+  font-size: clamp(80px, 12vw, 160px);
+  line-height: 1;
+  color: var(--accent);
+  opacity: 0.08;
+  position: absolute;
+  top: -10px;
+  right: 40px;
+}
+
+.page-header-label {
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.page-header h1 {
+  font-family: var(--font-display);
+  font-size: clamp(40px, 6vw, 80px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.page-header .subtitle {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.2vw, 16px);
+  font-style: italic;
+  opacity: 0.6;
+  margin-top: 16px;
+  max-width: 600px;
+}
+
+/* Card List */
+.list-section {
+  padding: 48px 56px;
+}
+
+.list-item {
+  display: flex;
+  border: var(--border-heavy);
+  text-decoration: none;
+  color: inherit;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 24px;
+  background: var(--bg-primary);
+  overflow: hidden;
+}
+
+.list-item:hover {
+  transform: translate(-4px, -4px);
+  box-shadow: 8px 8px 0 var(--text-primary);
+}
+
+.list-item-number {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 4vw, 56px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 120px;
+  border-right: var(--border-heavy);
+  background: var(--bg-secondary);
+  color: var(--accent);
+}
+
+.list-item-content {
+  padding: 32px 40px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.list-item-meta {
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  opacity: 0.5;
+  margin-bottom: 8px;
+}
+
+.list-item-title {
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2.5vw, 28px);
+  line-height: 1.2;
+  margin-bottom: 8px;
+}
+
+.list-item-desc {
+  font-family: var(--font-body);
+  font-size: clamp(13px, 1.2vw, 16px);
+  opacity: 0.65;
+  line-height: 1.5;
+}
+
+.list-item-tags {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 12px;
+}
+
+.tag {
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  padding: 4px 10px;
+  border: var(--border-cell);
+  text-transform: uppercase;
+}
+
+.list-item-arrow {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 60px;
+  border-left: var(--border-cell);
+  font-size: 24px;
+  transition: transform 0.3s;
+}
+
+.list-item:hover .list-item-arrow {
+  transform: translateX(4px);
+}
+
+/* Footer */
+.footer {
+  padding: 32px 56px;
+  border-top: var(--border-heavy);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-family: var(--font-chrome);
+  font-size: 10px;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  background: var(--bg-secondary);
+  margin-top: auto;
+}
+
+.footer a {
+  color: var(--text-primary);
+  text-decoration: none;
+  border-bottom: 1px solid var(--text-primary);
+  transition: color 0.2s, border-color 0.2s;
+}
+.footer a:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav { padding: 16px 24px; }
+  .page-header { padding: 32px 24px; }
+  .list-section { padding: 32px 24px; }
+  .list-item { flex-direction: column; }
+  .list-item-number {
+    min-width: unset;
+    border-right: none;
+    border-bottom: var(--border-heavy);
+    padding: 16px;
+  }
+  .list-item-content { padding: 24px; }
+  .list-item-arrow {
+    border-left: none;
+    border-top: var(--border-cell);
+    min-width: unset;
+    padding: 12px;
+  }
+  .footer {
+    padding: 24px;
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
+  .side-text { display: none; }
+}
+</style>
+</head>
+<body>
+
+<div class="side-text">Knowledge Base · Deep Dives · Technical Analysis</div>
+
+<!-- Nav -->
+<nav class="nav">
+  <a href="../index.html">← Home</a>
+  <span class="sep">/</span>
+  <span>知识库</span>
+</nav>
+
+<!-- Header -->
+<header class="page-header">
+  <span class="page-header-number">02</span>
+  <div class="page-header-label">Section 02 — Knowledge Base</div>
+  <h1>知识库</h1>
+  <p class="subtitle">深度技术解析，系统拆解具身智能关键技术的原理、数学推导与工程实现。</p>
+</header>
+
+<!-- List -->
+<main class="list-section">
+  <a class="list-item" href="mimicgen.html">
+    <div class="list-item-number">01</div>
+    <div class="list-item-content">
+      <div class="list-item-meta">2024 · Technical Deep Dive</div>
+      <div class="list-item-title">MimicGen 仿真数据扩充原理</div>
+      <div class="list-item-desc">深入解析 MimicGen 核心思想：如何从少量人类演示出发，通过对象姿态变换自动生成大规模高质量机器人操作训练数据。</div>
+      <div class="list-item-tags">
+        <span class="tag">Data Augmentation</span>
+        <span class="tag">Robosuite</span>
+        <span class="tag">Manipulation</span>
+        <span class="tag">Imitation Learning</span>
+      </div>
+    </div>
+    <div class="list-item-arrow">→</div>
+  </a>
+</main>
+
+<!-- Footer -->
+<footer class="footer">
+  <span>EI Knowledge — 知识库</span>
+  <a href="../index.html">返回首页</a>
+</footer>
+
+</body>
+</html>
