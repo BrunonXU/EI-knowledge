@@ -944,6 +944,104 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
+<!-- ===== PAGE: 为什么需要 IK？ ===== -->
+<section class="slide slide--white" id="why-ik">
+  <div class="paper-layout">
+    <div class="paper-left">
+      <span class="tag tag--red">IK 的角色</span>
+      <div class="spacer-sm"></div>
+      <h2 class="text-h2" style="margin-bottom:16px;">为什么需要 IK？</h2>
+      <p class="text-body" style="margin-bottom:14px;">从 EEF 到算出机器人可执行的 joints 需要 IK，而 FK 就是正向过程，已知 Joints 到算出末端姿态。</p>
+      <p class="text-body" style="margin-bottom:14px;">而假如一个模型输出为 EEF，则需要再次从 EEF 经过特定 IK 或者控制器到真正 Joints 的映射，所以最终的实际效果不仅受限于模型的 EEF 输出，同时也取决于你用的 IK 算法的精度和有效性。</p>
+    </div>
+    <div class="paper-right">
+      <div class="fkik-diagram">
+        <div class="fkik-row">
+          <div class="fkik-box">Joints</div>
+          <div class="fkik-arrow"><span>FK</span><span class="arrow-line">──→</span></div>
+          <div class="fkik-box">EEF</div>
+          <span class="text-aux" style="margin-left:8px; color:#666;">（正向，确定性）</span>
+        </div>
+        <div class="fkik-row">
+          <div class="fkik-box">EEF</div>
+          <div class="fkik-arrow"><span>IK</span><span class="arrow-line">──→</span></div>
+          <div class="fkik-box">Joints</div>
+          <span class="text-aux" style="margin-left:8px; color:#666;">（逆向，多解/歧义）</span>
+        </div>
+        <div class="fkik-pipeline">
+          <span>模型输出 EEF</span><span class="pipe-arrow">→</span>
+          <span>IK算法</span><span class="pipe-arrow">→</span>
+          <span>Joints</span><span class="pipe-arrow">→</span>
+          <span>执行</span>
+        </div>
+        <div class="fkik-note">↑ 精度和有效性决定最终效果</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE: 现在的模型怎么做？ ===== -->
+<section class="slide slide--white" id="how-models-do">
+  <div style="width:100%; padding: 0 48px; overflow-y:auto; max-height:calc(100vh - 64px);">
+    <span class="tag tag--red">IK 的角色</span>
+    <div class="spacer-sm"></div>
+    <h2 class="text-h2" style="margin-bottom:14px;">现在的模型怎么做？—— 以 GR00T N1.7 DROID 为例</h2>
+    <div class="card card--red" style="margin-bottom:10px; padding:12px 16px;">
+      <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">核心发现</p>
+      <p class="text-h1" style="margin-bottom:4px;">以 GR00T N1.7 的 DROID 配置为例，状态和动作中同时包含：</p>
+      <ul class="point-list" style="margin:6px 0 0 0;">
+        <li>relative EEF</li>
+        <li>relative joint position</li>
+        <li>gripper</li>
+      </ul>
+      <p class="text-body" style="margin-top:8px; color:#666;">而官方 DROID 真机脚本最终取 joint_position 输出执行。</p>
+    </div>
+    <div class="card" style="margin-bottom:10px; padding:12px 16px;">
+      <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">关键洞察</p>
+      <p class="text-h1"><span class="red">EEF 确实可以承担跨本体表示、辅助监督和几何理解</span>，而 Joint head 承担目标本体的稳定执行。</p>
+      <p class="text-body" style="margin-top:8px;">也就是说输入可以容纳许多字段，但是真正推理执行的时候大家都通常保留 joints 直接输出机器人关节角度。从而避免从 EEF 经过 IK 算法到 joint 的在线 IK 过程。</p>
+    </div>
+    <div style="border-left:5px solid var(--red-accent); padding:10px 16px; background:rgba(216,0,15,0.03); margin-bottom:10px;">
+      <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">本质解释</p>
+      <p class="text-body">它不是物理上"没有 IK"，而是：模型从示范数据中隐式学习了本体的关节运动规律，在线时不再调用一个单独的 IK 求解器。</p>
+    </div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;">
+      <div class="card" style="padding:10px 14px; border-left:4px solid #28a745;">
+        <p class="aux-text" style="color:#28a745; margin-bottom:4px;">优势</p>
+        <p class="text-body">稳定、简单，没有在线 IK 分支跳变</p>
+      </div>
+      <div class="card" style="padding:10px 14px; border-left:4px solid var(--red-accent);">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:4px;">代价</p>
+        <p class="text-body">强本体绑定</p>
+      </div>
+    </div>
+    <div style="display:grid; grid-template-columns:repeat(4,1fr); gap:8px;">
+      <div class="card" style="padding:10px; text-align:center;"><span style="font-size:20px; font-weight:700; color:var(--red-accent); display:block;">1</span><span class="text-body">EEF 提供通用任务几何</span></div>
+      <div class="card" style="padding:10px; text-align:center;"><span style="font-size:20px; font-weight:700; color:var(--red-accent); display:block;">2</span><span class="text-body">Joint 保留目标本体的肩肘构型</span></div>
+      <div class="card" style="padding:10px; text-align:center;"><span style="font-size:20px; font-weight:700; color:var(--red-accent); display:block;">3</span><span class="text-body">执行时绕过显式在线 IK</span></div>
+      <div class="card" style="padding:10px; text-align:center;"><span style="font-size:20px; font-weight:700; color:var(--red-accent); display:block;">4</span><span class="text-body">可通过 FK consistency 约束两输出一致</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE: 但 IK 仍然不可或缺 ===== -->
+<section class="slide slide--white" id="ik-still-needed">
+  <div style="width:100%; padding: 0 48px;">
+    <span class="tag tag--red">IK 的角色</span>
+    <div class="spacer-sm"></div>
+    <h2 class="text-h2" style="margin-bottom:18px;">但 IK 算法仍然是必需的</h2>
+    <div class="card" style="margin-bottom:14px; padding:16px 18px;">
+      <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">场景一：脚本采集</p>
+      <p class="text-body">在脚本采集的时候通常都是设定对应的 EEF waypoint，然后通过 IK 算出对应的 joints，而不是直接写死关节角度。</p>
+    </div>
+    <div class="card" style="margin-bottom:14px; padding:16px 18px;">
+      <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">场景二：数据扩充（如 MimicGen）</p>
+      <p class="text-body">在类 mimicGen 的数据扩充功能中，算法本身就是基于物体的位姿 EEF 相对变化，此时更需要一个好的 IK 算法来对 joint 进行约束，避免奇异值等多种问题，从而得到更加平滑可用的轨迹。</p>
+    </div>
+    <p class="text-aux" style="color:#999; margin-top:12px;">（这里不细说具体每一个 IK 算法的特征，毕竟经典的有 PINK IK、Lula IK 等）</p>
+  </div>
+</section>
+
 <!-- ===== PAGE 7: GEAR-VLA 论文页 ===== -->
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
