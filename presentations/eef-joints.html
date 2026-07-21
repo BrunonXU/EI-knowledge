@@ -432,6 +432,115 @@ a:hover { opacity: 0.8; }
 .text-h1 .red { color: var(--red-accent); font-weight: 700; }
 .text-body .red { color: var(--red-accent); font-weight: 700; }
 
+/* ===== Consensus Page ===== */
+.consensus-title {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 4vw, 56px);
+  line-height: 1.15;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.consensus-thesis {
+  font-family: var(--font-aux);
+  font-size: clamp(16px, 1.6vw, 22px);
+  font-weight: 700;
+  text-align: center;
+  line-height: 1.5;
+  max-width: 900px;
+  margin: 0 auto 20px auto;
+  color: rgba(255,255,255,0.92);
+}
+.evidence-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-bottom: 18px;
+}
+.evidence-card {
+  border: 2px solid rgba(255,255,255,0.18);
+  background: rgba(255,255,255,0.05);
+  padding: 18px 16px;
+  position: relative;
+  overflow: hidden;
+}
+.evidence-card::before {
+  content: '\201C';
+  position: absolute;
+  top: -8px;
+  left: 10px;
+  font-size: 72px;
+  font-family: var(--font-body);
+  color: var(--red-accent);
+  opacity: 0.25;
+  line-height: 1;
+}
+.evidence-card__team {
+  font-family: var(--font-aux);
+  font-size: clamp(22px, 2.4vw, 32px);
+  font-weight: 700;
+  color: var(--white);
+  margin-bottom: 2px;
+}
+.evidence-card__year {
+  font-family: var(--font-aux);
+  font-size: 13px;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 10px;
+  letter-spacing: 0.06em;
+}
+.evidence-card__term {
+  font-family: var(--font-aux);
+  font-size: clamp(14px, 1.3vw, 17px);
+  font-weight: 700;
+  color: var(--red-accent);
+  margin-bottom: 8px;
+  padding: 4px 10px;
+  border: 1.5px solid var(--red-accent);
+  display: inline-block;
+}
+.evidence-card__desc {
+  font-family: var(--font-aux);
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.55;
+  color: rgba(255,255,255,0.82);
+}
+.consensus-conclusion {
+  text-align: center;
+  padding: 16px 24px;
+  background: var(--red-accent);
+  margin-bottom: 14px;
+}
+.consensus-conclusion p {
+  font-family: var(--font-aux);
+  font-size: clamp(18px, 2vw, 26px);
+  font-weight: 700;
+  color: var(--white);
+  line-height: 1.45;
+}
+.consensus-why {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+  text-align: center;
+}
+.consensus-why__item {
+  font-family: var(--font-aux);
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.5;
+  color: rgba(255,255,255,0.78);
+  padding: 0 8px;
+}
+.consensus-why__item strong {
+  color: var(--white);
+  display: block;
+  margin-bottom: 3px;
+  font-size: clamp(15px, 1.4vw, 18px);
+}
+
+@media (max-width: 768px) {
+  .evidence-grid, .consensus-why { grid-template-columns: 1fr; }
+}
+
 /* ===== Spacers ===== */
 .spacer-sm { height: 6px; }
 .spacer-md { height: 14px; }
@@ -677,19 +786,7 @@ a:hover { opacity: 0.8; }
           <li class="text-aux" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
         </ul>
       </div>
-      <div class="spacer-sm"></div>
-      <!-- 澄清卡片：chunk-wise delta vs Anchored-relative -->
-      <div style="border-left:5px solid var(--red-accent); border:2px solid rgba(216,0,15,0.25); border-left:5px solid var(--red-accent); padding:14px 18px; background:rgba(216,0,15,0.03); margin:8px 0;">
-        <p class="text-h2" style="color:var(--red-accent); margin-bottom:10px;">chunk-wise delta = Anchored-relative？</p>
-        <p class="text-body" style="margin-bottom:10px;">chunk-wise delta 就是 Anchored-relative 吗？—— <span style="color:var(--red-accent); font-weight:700;">不是</span>。GR00T N1.7 提出的也不是这个概念的首创。</p>
-        <p class="text-body" style="font-weight:600; margin-bottom:6px;">更准确的溯源：</p>
-        <ul style="list-style:none; padding:0; margin-bottom:12px;">
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>UMI</strong>（2024）将其称为 relative EE trajectory，明确规定所有未来 pose 都相对于当前同一个 EE pose</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>GEAR-VLA</strong> 称为 Relative End-effector Action，也明确强调不是相对前一预测帧</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>GR00T N1.7</strong> 官方称 Relative EEF Action Space，描述为未来动作相对于 current pose 的 delta</li>
-        </ul>
-        <p class="text-h1" style="margin-top:8px;"><strong>核心区别：</strong>chunk-wise delta 是一个 chunk 内所有动作相对同一锚点（当前帧 EE pose）的增量，而非逐帧相对前一步的增量（step-wise delta）。</p>
-      </div>
+
     </div>
     <div class="paper-right">
       <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta vs Absolute 性能对比实验数据" loading="lazy">
@@ -699,6 +796,64 @@ a:hover { opacity: 0.8; }
         <p class="text-h1" style="margin-bottom:4px;"><strong>固定本体</strong>：Joint + <span class="red">chunk-wise delta</span> 最优</p>
         <p class="text-h1" style="margin-bottom:4px;"><strong>跨本体迁移</strong>：EEF + <span class="red">chunk-wise delta</span> 更适合</p>
         <p class="text-body" style="margin-top:8px; color:var(--red-accent);">→ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 6.5: 行业共识 — Relative EE ===== -->
+<section class="slide slide--dark" id="consensus">
+  <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
+    <span class="tag tag--white" style="align-self:center; margin-bottom:10px;">行业趋势</span>
+    <h2 class="consensus-title">行业共识：<span style="color:var(--red-accent);">Relative EE</span> 已成为主流动作表示</h2>
+    <p class="consensus-thesis">多家顶级团队不约而同选择了同一范式 ——<br>所有未来动作相对当前 EE pose 的增量（chunk-wise delta / anchored-relative）</p>
+
+    <div class="evidence-grid">
+      <!-- UMI -->
+      <div class="evidence-card">
+        <div class="evidence-card__team">UMI</div>
+        <div class="evidence-card__year">2024 · Columbia / Toyota</div>
+        <div class="evidence-card__term">relative EE trajectory</div>
+        <p class="evidence-card__desc">
+          所有未来 pose 都相对于<strong style="color:var(--white);">当前同一个 EE pose</strong>，而非逐帧递推。一个 anchor，整段轨迹。
+        </p>
+      </div>
+      <!-- GEAR-VLA -->
+      <div class="evidence-card">
+        <div class="evidence-card__team">GEAR-VLA</div>
+        <div class="evidence-card__year">2026 · 跨本体迁移</div>
+        <div class="evidence-card__term">Relative End-effector Action</div>
+        <p class="evidence-card__desc">
+          明确强调：<strong style="color:var(--white);">不是相对前一预测帧</strong>，而是始终锚定当前观测帧的 EE pose。
+        </p>
+      </div>
+      <!-- GR00T N1.7 -->
+      <div class="evidence-card">
+        <div class="evidence-card__team">GR00T N1.7</div>
+        <div class="evidence-card__year">NVIDIA · 人形机器人基座模型</div>
+        <div class="evidence-card__term">Relative EEF Action Space</div>
+        <p class="evidence-card__desc">
+          未来动作定义为相对于 <strong style="color:var(--white);">current pose 的 delta</strong>，贯穿整个预测 horizon。
+        </p>
+      </div>
+    </div>
+
+    <div class="consensus-conclusion">
+      <p>不同名字，同一本质 —— 以当前帧 EE 为唯一锚点。<br>这不是巧合，而是工程验证后的最优解。</p>
+    </div>
+
+    <div class="consensus-why">
+      <div class="consensus-why__item">
+        <strong>消除分布偏移</strong>
+        绝对坐标系带来的分布偏移被彻底消除，动作空间更紧凑、更易学习
+      </div>
+      <div class="consensus-why__item">
+        <strong>跨本体迁移</strong>
+        EE 层面本体无关，同一策略可迁移到不同机器人构型
+      </div>
+      <div class="consensus-why__item">
+        <strong>天然支持 Chunk</strong>
+        一个 anchor，多个未来步 —— 完美适配 chunk prediction 范式
       </div>
     </div>
   </div>
