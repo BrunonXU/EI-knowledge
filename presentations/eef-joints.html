@@ -1091,34 +1091,34 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--warm" id="ik-summary">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <span class="tag tag--red">IK 小结</span>
-    <div class="spacer-md"></div>
-    <h2 class="text-h2" style="margin-bottom:24px;">三个核心认知</h2>
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1200px;">
-      <div style="border:2px solid var(--deep-black); padding:22px 24px; background:var(--white);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:10px;">一、IK 是 EEF 到执行的必经桥梁</p>
+    <div class="spacer-sm"></div>
+    <h2 class="text-h2" style="margin-bottom:16px;">三个核心认知</h2>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:16px; max-width:1200px;">
+      <div style="border:2px solid var(--deep-black); padding:16px 18px; background:var(--white);">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">一、IK 是 EEF 到执行的必经桥梁</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>模型输出 EEF 后，必须经 IK 求解才能得到可执行的关节指令</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>最终执行质量 = 模型 EEF 精度 × IK 算法质量</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>模型输出 EEF 后，必须经 IK 求解才能得到可执行的关节指令</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>最终执行质量 = 模型 EEF 精度 × IK 算法质量</li>
         </ul>
       </div>
-      <div style="border:2px solid var(--deep-black); padding:22px 24px; background:var(--white);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:10px;">二、IK 在数据侧仍然不可或缺</p>
+      <div style="border:2px solid var(--deep-black); padding:16px 18px; background:var(--white);">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">二、IK 在数据侧仍然不可或缺</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>脚本采集依赖 IK 从 EEF waypoint 反算关节角</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>MimicGen 通过 EEF 相对变换生成新轨迹，仍需 IK 反算出平滑可用的关节序列</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>仿真数据生成（如 Isaac Sim）同样依赖 IK 将任务级 EEF 规划转为可执行的关节轨迹</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>脚本采集依赖 IK 从 EEF waypoint 反算关节角</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>MimicGen 通过 EEF 相对变换生成新轨迹，仍需 IK 反算出平滑可用的关节序列</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>仿真数据生成（如 Isaac Sim）同样依赖 IK 将任务级 EEF 规划转为可执行的关节轨迹</li>
         </ul>
       </div>
-      <div style="border:2px solid var(--deep-black); padding:22px 24px; background:var(--white);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:10px;">三、IK 算法选择与求解速度</p>
+      <div style="border:2px solid var(--deep-black); padding:16px 18px; background:var(--white);">
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">三、IK 算法选择与求解速度</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>IK 多解歧义需要合理的种子选择策略（如 IKSel）</li>
-          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>高频控制回路要求 IK 足够快，但不必追求极致速度，关键是快且不牺牲解的质量</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>IK 多解歧义需要合理的种子选择策略（如 IKSel）</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>高频控制回路要求 IK 足够快，但不必追求极致速度，关键是快且不牺牲解的质量</li>
         </ul>
       </div>
     </div>
-    <div style="margin-top:24px; border-left:4px solid var(--red-accent); padding:10px 18px; max-width:1200px; background:rgba(216,0,15,0.03);">
-      <p class="text-body" style="color:#444;">总之，IK 不仅决定模型输出的最终执行质量，也是数据采集与扩充（如 MimicGen、Isaac Sim）流水线的关键一环 —— 没有好的 IK，再好的 EEF 预测也落不了地。</p>
+    <div style="margin-top:18px; border-left:4px solid var(--red-accent); padding:10px 18px; max-width:1200px; background:rgba(216,0,15,0.03);">
+      <p class="text-body" style="color:#444; font-weight:600;">总之，IK 不仅决定模型输出的最终执行质量，也是数据采集与扩充（如 MimicGen、Isaac Sim）流水线的关键一环 —— 没有好的 IK，再好的 EEF 预测也落不了地。</p>
     </div>
   </div>
 </section>
