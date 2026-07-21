@@ -677,6 +677,19 @@ a:hover { opacity: 0.8; }
           <li class="text-aux" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
         </ul>
       </div>
+      <div class="spacer-sm"></div>
+      <!-- 澄清卡片：chunk-wise delta vs Anchored-relative -->
+      <div style="border-left:5px solid var(--red-accent); border:2px solid rgba(216,0,15,0.25); border-left:5px solid var(--red-accent); padding:14px 18px; background:rgba(216,0,15,0.03); margin:8px 0;">
+        <p class="text-h2" style="color:var(--red-accent); margin-bottom:10px;">chunk-wise delta = Anchored-relative？</p>
+        <p class="text-body" style="margin-bottom:10px;">chunk-wise delta 就是 Anchored-relative 吗？—— <span style="color:var(--red-accent); font-weight:700;">不是</span>。GR00T N1.7 提出的也不是这个概念的首创。</p>
+        <p class="text-body" style="font-weight:600; margin-bottom:6px;">更准确的溯源：</p>
+        <ul style="list-style:none; padding:0; margin-bottom:12px;">
+          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>UMI</strong>（2024）将其称为 relative EE trajectory，明确规定所有未来 pose 都相对于当前同一个 EE pose</li>
+          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>GEAR-VLA</strong> 称为 Relative End-effector Action，也明确强调不是相对前一预测帧</li>
+          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">•</span><strong>GR00T N1.7</strong> 官方称 Relative EEF Action Space，描述为未来动作相对于 current pose 的 delta</li>
+        </ul>
+        <p class="text-h1" style="margin-top:8px;"><strong>核心区别：</strong>chunk-wise delta 是一个 chunk 内所有动作相对同一锚点（当前帧 EE pose）的增量，而非逐帧相对前一步的增量（step-wise delta）。</p>
+      </div>
     </div>
     <div class="paper-right">
       <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta vs Absolute 性能对比实验数据" loading="lazy">
