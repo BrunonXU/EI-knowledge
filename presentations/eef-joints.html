@@ -1106,6 +1106,7 @@ a:hover { opacity: 0.8; }
         <ul style="list-style:none; padding:0;">
           <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>脚本采集依赖 IK 从 EEF waypoint 反算关节角</li>
           <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>MimicGen 通过 EEF 相对变换生成新轨迹，仍需 IK 反算出平滑可用的关节序列</li>
+          <li class="text-body" style="padding:4px 0 4px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>仿真数据生成（如 Isaac Sim）同样依赖 IK 将任务级 EEF 规划转为可执行的关节轨迹</li>
         </ul>
       </div>
       <div style="border:2px solid var(--deep-black); padding:22px 24px; background:var(--white);">
@@ -1117,7 +1118,7 @@ a:hover { opacity: 0.8; }
       </div>
     </div>
     <div style="margin-top:24px; border-left:4px solid var(--red-accent); padding:10px 18px; max-width:1200px; background:rgba(216,0,15,0.03);">
-      <p class="text-body" style="color:#444;">总之，IK 不仅决定模型输出的最终执行质量，也是数据采集与扩充（如 MimicGen）流水线的关键一环 —— 没有好的 IK，再好的 EEF 预测也落不了地。</p>
+      <p class="text-body" style="color:#444;">总之，IK 不仅决定模型输出的最终执行质量，也是数据采集与扩充（如 MimicGen、Isaac Sim）流水线的关键一环 —— 没有好的 IK，再好的 EEF 预测也落不了地。</p>
     </div>
   </div>
 </section>
