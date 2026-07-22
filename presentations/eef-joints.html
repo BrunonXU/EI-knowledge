@@ -505,48 +505,56 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 10: Action Space 论文 p2 ===== -->
 <section class="slide slide--white" id="paper1-p2">
-  <div class="paper-layout">
-    <div class="paper-left" style="overflow-y:auto; max-height:calc(100vh - 64px);">
-      <p class="note-label">Paper Reference · Deep Dive</p>
-      <div class="spacer-sm"></div>
-      <p class="slide-thesis" style="margin:6px 0 10px; font-size:clamp(19px,2vw,26px);">Delta 让分布紧凑易学，<span class="red">Joint 避开 IK 误差</span> —— 数据本就在关节流形上</p>
-      <h3 class="text-h2">为什么 Delta 更易学习？</h3>
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:8px; margin:8px 0;">
-        <div style="text-align:center; padding:8px; border-left:4px solid rgba(28,20,16,0.15); background:rgba(28,20,16,0.02);">
-          <p class="aux-text" style="color:var(--red-accent); margin-bottom:2px;">原始问题</p>
-          <p class="text-body" style="font-weight:600;">图像 → 全局构型</p>
+  <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:32px 48px;">
+    <!-- 顶部：注记 + 大字结论 -->
+    <p class="note-label">Paper Reference · Deep Dive</p>
+    <div style="text-align:center; margin:20px 0 28px;">
+      <p style="font-family:var(--font-aux); font-size:clamp(28px,3.2vw,44px); font-weight:700; line-height:1.4; color:var(--deep-black);">
+        固定本体：Joint + <span style="color:var(--red-accent);">chunk-wise delta</span> 最优
+      </p>
+      <p style="font-family:var(--font-aux); font-size:clamp(22px,2.4vw,34px); font-weight:600; line-height:1.4; color:#444; margin-top:6px;">
+        跨本体迁移：EEF + <span style="color:var(--red-accent);">chunk-wise delta</span> 更适合
+      </p>
+    </div>
+
+    <!-- 中段：左三原因 + 右实验图 -->
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; max-width:1300px; margin:0 auto;">
+      <!-- 左侧：三大原因 -->
+      <div style="display:flex; flex-direction:column; gap:18px;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:600; color:#999; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2px;">Joint 更强的三大原因</p>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">避免 IK 误差</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">IK 多解歧义即是误差来源，直接输出 Joint 绕开这一环节</p>
+          </div>
         </div>
-        <div style="text-align:center; padding:8px; border-left:4px solid var(--red-accent); background:rgba(216,0,15,0.02);">
-          <p class="aux-text" style="color:var(--red-accent); margin-bottom:2px;">Delta 转化</p>
-          <p class="text-body" style="font-weight:600;">图像+状态 → 局部变化</p>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">数据本就在关节流形上</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">示范轨迹包含肘部偏好、连续 IK 分支、避限位习惯</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">强生成模型可建模多模态分布</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">Flow Matching / Diffusion 能表达多解，弱回归会平均化</p>
+          </div>
         </div>
       </div>
-      <p class="text-body" style="margin-bottom:6px; color:#666;">局部变化特点：均值接近 0、方差小、分布集中、易于共享动作模式</p>
-      <h3 class="text-h2" style="margin-top:6px;">Joint 更强的三大原因</h3>
-      <div style="margin-top:6px;">
-        <div class="reason-item" style="margin-bottom:6px;"><div class="num-circle" style="width:26px;height:26px;font-size:12px;">1</div><div class="reason-content"><h4 class="text-body" style="font-weight:700; color:#1C1410;">避免 IK 误差</h4><p class="text-body">IK多解歧义即是误差来源</p></div></div>
-        <div class="reason-item" style="margin-bottom:6px;"><div class="num-circle" style="width:26px;height:26px;font-size:12px;">2</div><div class="reason-content"><h4 class="text-body" style="font-weight:700; color:#1C1410;">数据在关节流形上</h4><p class="text-body">示范轨迹包含固定肘部偏好、连续IK分支、避限位习惯</p></div></div>
-        <div class="reason-item" style="margin-bottom:6px;"><div class="num-circle" style="width:26px;height:26px;font-size:12px;">3</div><div class="reason-content"><h4 class="text-body" style="font-weight:700; color:#1C1410;">强生成模型可建模多模态分布</h4><p class="text-body">Flow Matching/Diffusion能表达多解，弱回归会平均化</p></div></div>
-      </div>
-      <div class="warning-panel" style="padding:8px 12px; margin-top:6px;">
-        <div class="warning-panel__title" style="font-size:12px; margin-bottom:4px;">⚠ 局限性</div>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>EEF性能高度依赖IK和笛卡尔控制器质量</li>
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
-        </ul>
+      <!-- 右侧：实验图 -->
+      <div style="display:flex; flex-direction:column; align-items:center;">
+        <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta horizon 对比实验" onerror="imgFallback(this)" style="max-width:100%; max-height:38vh; object-fit:contain; border:1px solid #DDD; border-radius:6px;">
+        <p class="fig-caption" style="margin-top:6px;">Fig 3. Delta horizon 对比：chunk-wise delta 显著领先</p>
       </div>
     </div>
-    <div class="paper-right" style="max-height:calc(100vh - 64px); overflow-y:auto;">
-      <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta vs Absolute 性能对比" onerror="imgFallback(this)" style="max-height:32vh;">
-      <p class="caption">Fig 3. Delta horizon 对比实验：chunk-wise delta 显著领先</p>
-      <div style="border-left:5px solid var(--red-accent); padding:14px 18px; width:100%; margin-top:6px; background:rgba(216,0,15,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">结论</p>
-        <p class="text-h1" style="margin-bottom:3px;"><strong>固定本体</strong>：Joint + <span class="red">chunk-wise delta</span> 最优</p>
-        <p class="text-h1" style="margin-bottom:3px;"><strong>跨本体迁移</strong>：EEF + <span class="red">chunk-wise delta</span> 更适合</p>
-        <p class="text-body" style="margin-top:6px; color:var(--red-accent);">▸ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
-      </div>
-    </div>
+
+    <!-- 底部：局限性小字 -->
+    <p style="font-family:var(--font-aux); font-size:clamp(13px,1.1vw,15px); color:#999; text-align:center; margin-top:28px; line-height:1.6;">
+      局限性：EEF 依赖 IK 质量 / 跨本体实验规模小，未覆盖 force·tactile·灵巧手 / 未来可能按任务阶段动态混合而非二选一
+    </p>
   </div>
 </section>
 
