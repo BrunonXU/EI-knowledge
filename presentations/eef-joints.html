@@ -442,25 +442,33 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
     <div class="paper-left">
-      <p class="note-label">Paper Reference</p>
-      <div class="spacer-sm"></div>
-      <h2 style="font-family:var(--font-aux); font-size:clamp(24px,2.6vw,36px); font-weight:700; line-height:1.2; margin-bottom:4px; color:var(--deep-black);">GEAR-VLA</h2>
-      <p class="text-aux" style="margin:6px 0;"><a href="https://arxiv.org/html/2606.08530v1" target="_blank">arxiv.org/html/2606.08530v1</a> · 2026-06-07</p>
-      <p class="slide-thesis" style="margin:10px 0 14px;"><span class="red">q + EEF 输入，EEF 输出</span> —— 融合 Joint 精度与 EEF 通用性</p>
-      <div style="border-left:4px solid var(--red-accent); padding:12px 18px; margin-bottom:12px; background:rgba(216,0,15,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心设计</p>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>输出保持本体无关 → 可跨平台迁移</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>输入保留关节状态 → 模型感知当前本体构型</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>解决纯 EEF 方法无法感知构型的缺陷（即观点 3）</li>
-        </ul>
-      </div>
-      <div style="border-left:4px solid rgba(28,20,16,0.15); padding:12px 18px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">实验亮点</p>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>zero-shot 跨本体迁移显著优于纯 Joint 方法</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>固定本体场景也不输专用 Joint 策略</li>
-        </ul>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 2：GEAR-VLA</h2>
+      <p class="text-aux" style="color:#999; margin-bottom:16px;">Generalizable End-effector Action Representation for VLA · arxiv 2606.08530</p>
+
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心思想：q + EEF 输入，EEF 输出 —— 融合 Joint 精度与 EEF 通用性</p>
+
+      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">输出保持本体无关</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">可跨平台迁移，同一策略直接部署不同机器人</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">输入保留关节状态</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">模型感知当前本体构型，解决纯 EEF 方法的缺陷</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">实验验证</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">zero-shot 跨本体迁移显著优于纯 Joint，固定本体也不输专用 Joint 策略</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="paper-right" style="max-height:85vh; overflow-y:auto;">
@@ -476,23 +484,36 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--white" id="paper1-p1">
   <div class="paper-layout">
     <div class="paper-left">
-      <p class="note-label">Paper Reference</p>
-      <div class="spacer-sm"></div>
-      <h2 style="font-family:var(--font-aux); font-size:clamp(22px,2.4vw,34px); font-weight:700; line-height:1.2; margin-bottom:4px; color:var(--deep-black);">Does the Action Space Matter?<br><span style="color:var(--red-accent);">A Systematic Study of Robot Action Representations</span></h2>
-      <p class="text-aux" style="margin:6px 0;"><a href="https://arxiv.org/html/2602.23408v1" target="_blank">arxiv.org/html/2602.23408v1</a></p>
-      <p class="slide-thesis" style="margin:10px 0 14px;">固定本体上 <span class="red">Joint + chunk-wise delta</span> 表现最优</p>
-      <div style="border-left:4px solid var(--red-accent); padding:14px 16px; margin-bottom:12px; background:rgba(216,0,15,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心发现（回归策略与 Flow Matching 均验证）</p>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>Delta 表示优于 Absolute 表示</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>Chunk-wise delta 比 step-wise delta 高约 <span style="color:var(--red-accent);font-weight:700;">10%</span></li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>固定本体上 Joint 表现优于 EEF</li>
-        </ul>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 1：Does the Action Space Matter?</h2>
+      <p class="text-aux" style="color:#999; margin-bottom:16px;">A Systematic Study of Robot Action Representations · arxiv 2602.23408</p>
+
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心结论：固定本体上 Joint + chunk-wise delta 表现最优</p>
+
+      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Delta 表示优于 Absolute 表示</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">回归策略与 Flow Matching 均验证了这一结论</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Chunk-wise delta 比 step-wise delta 高约 10%</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">锚定同一观测帧，误差不累积</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">固定本体上 Joint 表现优于 EEF</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">避免 IK 多解歧义，数据在关节流形上</p>
+          </div>
+        </div>
       </div>
-      <div style="border-left:4px solid rgba(28,20,16,0.15); padding:14px 16px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">行动空间分类法</p>
-        <div class="formula-block formula-block--sm" style="font-family:var(--font-aux); font-style:normal;">{ Joint, EEF } × { <span class="var">Absolute</span>, <span class="var">Delta</span> } → 4 种表示</div>
-      </div>
+
+      <p style="font-family:var(--font-aux); font-size:clamp(15px,1.4vw,18px); color:#555; line-height:1.6; padding:10px 16px; background:#F8F7F5; border-radius:4px;">行动空间分类：{ Joint, EEF } × { Absolute, Delta } → 4 种表示</p>
     </div>
     <div class="paper-right">
       <img src="https://arxiv.org/html/2602.23408v1/figure/main_tight.png" alt="Action Space 论文概览" onerror="imgFallback(this)">
@@ -715,28 +736,33 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--white" id="paper3">
   <div class="paper-layout">
     <div class="paper-left">
-      <p class="note-label">Paper Reference · New Paradigm</p>
-      <div class="spacer-sm"></div>
-      <h2 style="font-family:var(--font-aux); font-size:clamp(24px,2.6vw,36px); font-weight:700; line-height:1.2; margin-bottom:4px; color:var(--deep-black);">IKSel + 新训练范式</h2>
-      <p class="text-aux" style="margin:4px 0;"><a href="https://arxiv.org/html/2503.22234v1" target="_blank">arxiv.org/html/2503.22234v1</a></p>
-      <p class="slide-thesis" style="margin:10px 0 14px; font-size:clamp(19px,2vw,26px);">新范式：<span class="red">VLA 输入/输出 EEF + IKSel 快速求解 Joint</span></p>
-      <div style="border-left:4px solid var(--red-accent); padding:12px 18px; margin-bottom:10px; background:rgba(216,0,15,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">完整 Pipeline</p>
-        <div class="formula-block formula-block--sm" style="font-family:var(--font-aux); font-style:normal; text-align:left;">VLA 预测 <span class="var">EEF</span> → IKSel 选最优种子 → 数值 IK 快速收敛 → 输出 <span class="var">Joint</span> 执行</div>
-      </div>
-      <div style="border-left:4px solid rgba(28,20,16,0.15); padding:12px 18px; margin-bottom:10px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">IKSel 核心思路</p>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>从多个候选种子中评估选择最优起点，确保 IK 收敛快、解连续</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>结合 Joint 参考列表避开奇异点与极端构型</li>
-        </ul>
-      </div>
-      <div style="border-left:4px solid rgba(28,20,16,0.15); padding:12px 18px;">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">为什么兼顾通用性与精度</p>
-        <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>EEF 输出本体无关 → 保留跨平台迁移能力</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>IKSel 保证 Joint 解的质量与速度 → 执行精度不打折</li>
-        </ul>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 3：IKSel</h2>
+      <p class="text-aux" style="color:#999; margin-bottom:16px;">Inverse Kinematics Seed Selection for Fast IK Convergence · arxiv 2503.22234</p>
+
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">新范式：VLA 输入/输出 EEF + IKSel 快速求解 Joint</p>
+
+      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">完整 Pipeline</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">VLA 预测 EEF → IKSel 选最优种子 → 数值 IK 快速收敛 → Joint 执行</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">IKSel 核心思路</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">从多个候选种子中评估选择最优起点，确保 IK 收敛快、解连续，结合 Joint 参考列表避开奇异点</p>
+          </div>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:12px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+          <div>
+            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">兼顾通用性与精度</p>
+            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">EEF 输出本体无关 → 保留跨平台迁移；IKSel 保证 Joint 解质量与速度 → 执行精度不打折</p>
+          </div>
+        </div>
       </div>
     </div>
     <div class="paper-right">
