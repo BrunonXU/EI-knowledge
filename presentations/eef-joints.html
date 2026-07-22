@@ -51,9 +51,9 @@ html, body { overflow: hidden; height: 100vh; width: 100vw; font-family: var(--f
 .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
 
-.point-list { list-style: none; padding: 0; }
-.point-list li { padding: 3px 0 3px 22px; position: relative; font-family: var(--font-aux); font-size: clamp(16px, 1.5vw, 20px); line-height: 1.45; }
-.point-list li::before { content: '→'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; }
+.point-list { list-style: none; padding: 0; counter-reset: pt; }
+.point-list li { padding: 3px 0 3px 26px; position: relative; font-family: var(--font-aux); font-size: clamp(16px, 1.5vw, 20px); line-height: 1.45; counter-increment: pt; }
+.point-list li::before { content: counter(pt) '.'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; font-family: var(--font-aux); font-size: 0.9em; }
 
 .warning-panel { border: 2px solid var(--red-accent); border-left: 6px solid var(--red-accent); padding: 12px 16px; background: rgba(216, 0, 15, 0.03); margin: 8px 0; }
 .warning-panel__title { font-family: var(--font-aux); font-weight: 700; color: var(--red-accent); font-size: 14px; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px; }
@@ -62,9 +62,9 @@ html, body { overflow: hidden; height: 100vh; width: 100vw; font-family: var(--f
 .viewpoint-card { border: 2px solid var(--deep-black); padding: 16px 14px; background: var(--white); display: flex; flex-direction: column; }
 .viewpoint-card__num { font-family: var(--font-display); font-size: 36px; color: var(--red-accent); line-height: 1; margin-bottom: 6px; }
 .viewpoint-card__title { font-family: var(--font-aux); font-weight: 700; font-size: clamp(17px, 1.6vw, 21px); margin-bottom: 8px; line-height: 1.3; }
-.viewpoint-card__desc { font-family: var(--font-aux); font-size: clamp(14px, 1.3vw, 17px); line-height: 1.5; flex: 1; }
-.viewpoint-card__desc li { padding: 2px 0 2px 16px; position: relative; list-style: none; }
-.viewpoint-card__desc li::before { content: '→'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; }
+.viewpoint-card__desc { font-family: var(--font-aux); font-size: clamp(14px, 1.3vw, 17px); line-height: 1.5; flex: 1; counter-reset: vpt; }
+.viewpoint-card__desc li { padding: 2px 0 2px 20px; position: relative; list-style: none; counter-increment: vpt; }
+.viewpoint-card__desc li::before { content: counter(vpt) '.'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; font-family: var(--font-aux); font-size: 0.85em; }
 
 .section-num { font-family: var(--font-display); font-size: clamp(60px, 8vw, 120px); color: var(--red-accent); opacity: 0.1; position: absolute; top: 24px; right: 48px; line-height: 1; }
 
@@ -145,9 +145,9 @@ a:hover { opacity: 0.8; }
 .questions-vertical .q-num { font-family: var(--font-display); font-size: clamp(36px, 4vw, 56px); color: var(--red-accent); line-height: 1; flex-shrink: 0; }
 .questions-vertical .q-text { font-family: var(--font-aux); font-size: clamp(24px, 2.8vw, 38px); font-weight: 700; line-height: 1.3; color: var(--deep-black); }
 
-.model-evidence-list { list-style: none; padding: 0; margin: 10px 0; }
-.model-evidence-list li { padding: 5px 0 5px 22px; position: relative; font-family: var(--font-aux); font-size: clamp(14px, 1.3vw, 17px); line-height: 1.5; color: #333; }
-.model-evidence-list li::before { content: '→'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; }
+.model-evidence-list { list-style: none; padding: 0; margin: 10px 0; counter-reset: mel; }
+.model-evidence-list li { padding: 5px 0 5px 26px; position: relative; font-family: var(--font-aux); font-size: clamp(14px, 1.3vw, 17px); line-height: 1.5; color: #333; counter-increment: mel; }
+.model-evidence-list li::before { content: counter(mel) '.'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; font-family: var(--font-aux); }
 .model-evidence-list li strong { color: var(--deep-black); font-weight: 700; }
 
 /* 无边框大条目式模型对比（风格参照 #questions） */
@@ -462,16 +462,16 @@ a:hover { opacity: 0.8; }
       <div class="card card--red" style="margin-bottom:12px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心设计</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>输出保持本体无关 → 可跨平台迁移</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>输入保留关节状态 → 模型感知当前本体构型</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>解决纯 EEF 方法无法感知构型的缺陷（即观点 3）</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>输出保持本体无关 → 可跨平台迁移</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>输入保留关节状态 → 模型感知当前本体构型</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>解决纯 EEF 方法无法感知构型的缺陷（即观点 3）</li>
         </ul>
       </div>
       <div class="card">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">实验亮点</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>zero-shot 跨本体迁移显著优于纯 Joint 方法</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>固定本体场景也不输专用 Joint 策略</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>zero-shot 跨本体迁移显著优于纯 Joint 方法</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>固定本体场景也不输专用 Joint 策略</li>
         </ul>
       </div>
     </div>
@@ -496,9 +496,9 @@ a:hover { opacity: 0.8; }
       <div style="border:2px solid rgba(28,20,16,0.15); padding:14px 16px; margin-bottom:12px; background:rgba(216,0,15,0.03);">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">核心发现（回归策略与 Flow Matching 均验证）</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>Delta 表示优于 Absolute 表示</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>Chunk-wise delta 比 step-wise delta 高约 <span class="red" style="color:var(--red-accent);font-weight:700;">10%</span></li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>固定本体上 Joint 表现优于 EEF</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>Delta 表示优于 Absolute 表示</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>Chunk-wise delta 比 step-wise delta 高约 <span class="red" style="color:var(--red-accent);font-weight:700;">10%</span></li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>固定本体上 Joint 表现优于 EEF</li>
         </ul>
       </div>
       <div style="border:2px solid rgba(28,20,16,0.15); padding:14px 16px;">
@@ -543,9 +543,9 @@ a:hover { opacity: 0.8; }
       <div class="warning-panel" style="padding:8px 12px; margin-top:6px;">
         <div class="warning-panel__title" style="font-size:12px; margin-bottom:4px;">⚠ 局限性</div>
         <ul style="list-style:none; padding:0;">
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>EEF性能高度依赖IK和笛卡尔控制器质量</li>
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
-          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
+          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>EEF性能高度依赖IK和笛卡尔控制器质量</li>
+          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>跨本体实验规模小，未覆盖force/tactile/灵巧手</li>
+          <li class="text-aux" style="padding:2px 0 2px 22px; position:relative; font-size:12px;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">③</span>未来可能不是二选一，而是根据任务阶段动态混合</li>
         </ul>
       </div>
     </div>
@@ -556,7 +556,7 @@ a:hover { opacity: 0.8; }
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">结论</p>
         <p class="text-h1" style="margin-bottom:3px;"><strong>固定本体</strong>：Joint + <span class="red">chunk-wise delta</span> 最优</p>
         <p class="text-h1" style="margin-bottom:3px;"><strong>跨本体迁移</strong>：EEF + <span class="red">chunk-wise delta</span> 更适合</p>
-        <p class="text-body" style="margin-top:6px; color:var(--red-accent);">→ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
+        <p class="text-body" style="margin-top:6px; color:var(--red-accent);">▸ 未来方向：Reaching阶段用EEF delta，接触阶段切换Joint</p>
       </div>
     </div>
   </div>
@@ -658,7 +658,7 @@ a:hover { opacity: 0.8; }
     <div class="card" style="margin-top:4px; padding:14px 18px; border-left:4px solid var(--red-accent);">
       <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">如何选择 IK？</p>
       <p class="text-body" style="margin-bottom:6px;">不选排行榜第一，而是沿用：<strong>采集时的控制器 / 厂商验证过的笛卡尔接口 / benchmark 标准控制器</strong></p>
-      <p class="text-body" style="font-weight:600; color:var(--red-accent);">→ 降低训练与部署之间的控制分布差异</p>
+      <p class="text-body" style="font-weight:600; color:var(--red-accent);">▸ 降低训练与部署之间的控制分布差异</p>
     </div>
     <p class="text-aux" style="color:#999; margin-top:8px;">（经典 IK：PINK IK、Lula IK 等，此处不展开）</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
@@ -726,15 +726,15 @@ a:hover { opacity: 0.8; }
       <div class="card" style="margin-bottom:10px; padding:12px 16px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">IKSel 核心思路</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>从多个候选种子中评估选择最优起点，确保 IK 收敛快、解连续</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>结合 Joint 参考列表避开奇异点与极端构型</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>从多个候选种子中评估选择最优起点，确保 IK 收敛快、解连续</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>结合 Joint 参考列表避开奇异点与极端构型</li>
         </ul>
       </div>
       <div class="card" style="padding:12px 16px;">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">为什么兼顾通用性与精度</p>
         <ul style="list-style:none; padding:0;">
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>EEF 输出本体无关 → 保留跨平台迁移能力</li>
-          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">→</span>IKSel 保证 Joint 解的质量与速度 → 执行精度不打折</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">①</span>EEF 输出本体无关 → 保留跨平台迁移能力</li>
+          <li class="text-body" style="padding:3px 0 3px 22px; position:relative;"><span style="position:absolute;left:0;color:var(--red-accent);font-weight:700;">②</span>IKSel 保证 Joint 解的质量与速度 → 执行精度不打折</li>
         </ul>
       </div>
     </div>
