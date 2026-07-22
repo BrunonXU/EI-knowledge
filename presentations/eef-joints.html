@@ -265,7 +265,50 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 4.5A: 动作空间对比 A — OpenVLA + OpenPI ===== -->
+<!-- ===== PAGE 5: 主题一 标题页 ===== -->
+<section class="slide slide--white" id="topic1">
+  <span class="section-num">01</span>
+  <div>
+    <p class="note-label">Topic One</p>
+    <div class="spacer-md"></div>
+    <h2 class="title-large">Joint vs EEF 的本质探讨</h2>
+  </div>
+</section>
+
+<!-- ===== PAGE 6: 三个观点（无框大字） ===== -->
+<section class="slide slide--warm" id="points">
+  <div style="width:100%;">
+    <p class="note-label">Three Viewpoints</p>
+    <p class="slide-thesis">核心矛盾：<span class="red">任务语义通用性</span> vs <span class="red">本体执行精度</span></p>
+    <div class="viewpoints-flow">
+      <div class="vp-item">
+        <span class="vp-item__num">01</span>
+        <div class="vp-item__content">
+          <span class="vp-item__title">Joint 照葫芦画瓢</span>
+          <span class="vp-item__desc">数据绑定特定机器人构型，泛化受限；工程表现好，但不是终局之解</span>
+        </div>
+      </div>
+      <div class="vp-item">
+        <span class="vp-item__num">02</span>
+        <div class="vp-item__content">
+          <span class="vp-item__title">EEF 学任务本意但忽略 IK 局限</span>
+          <span class="vp-item__desc">能学到任务本意，但胳膊如何过去同样重要；IK 多解歧义 → 执行抖动或失败</span>
+        </div>
+      </div>
+      <div class="vp-item">
+        <span class="vp-item__num">03</span>
+        <div class="vp-item__content">
+          <span class="vp-item__title">EE + 关节状态融合</span>
+          <span class="vp-item__desc">EE 提供共享任务几何，关节状态保证可执行性；代表：GEAR-VLA，兼顾迁移与精度</span>
+        </div>
+      </div>
+    </div>
+    <div class="spacer-lg"></div>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--deep-black);">下面三篇论文分别从不同角度给出方案 →</p>
+  </div>
+</section>
+
+<!-- ===== PAGE 7: 动作空间对比 A — OpenVLA + OpenPI ===== -->
 <section class="slide slide--white" id="action-space-a">
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Action Space · Part A</p>
@@ -308,7 +351,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 4.5B: 动作空间对比 B — GR00T N1.7 + LINGBot VLA 2.0 ===== -->
+<!-- ===== PAGE 8: 动作空间对比 B — GR00T N1.7 + LINGBot VLA 2.0 ===== -->
 <section class="slide slide--white" id="action-space-b">
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Action Space · Part B</p>
@@ -356,50 +399,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 5: 主题一 标题页 ===== -->
-<section class="slide slide--white" id="topic1">
-  <span class="section-num">01</span>
-  <div>
-    <p class="note-label">Topic One</p>
-    <div class="spacer-md"></div>
-    <h2 class="title-large">Joint vs EEF 的本质探讨</h2>
-  </div>
-</section>
-
-<!-- ===== PAGE 6: 三个观点（无框大字） ===== -->
-<section class="slide slide--warm" id="points">
-  <div style="width:100%;">
-    <p class="note-label">Three Viewpoints</p>
-    <p class="slide-thesis">核心矛盾：<span class="red">任务语义通用性</span> vs <span class="red">本体执行精度</span></p>
-    <div class="viewpoints-flow">
-      <div class="vp-item">
-        <span class="vp-item__num">01</span>
-        <div class="vp-item__content">
-          <span class="vp-item__title">Joint 照葫芦画瓢</span>
-          <span class="vp-item__desc">数据绑定特定机器人构型，泛化受限；工程表现好，但不是终局之解</span>
-        </div>
-      </div>
-      <div class="vp-item">
-        <span class="vp-item__num">02</span>
-        <div class="vp-item__content">
-          <span class="vp-item__title">EEF 学任务本意但忽略 IK 局限</span>
-          <span class="vp-item__desc">能学到任务本意，但胳膊如何过去同样重要；IK 多解歧义 → 执行抖动或失败</span>
-        </div>
-      </div>
-      <div class="vp-item">
-        <span class="vp-item__num">03</span>
-        <div class="vp-item__content">
-          <span class="vp-item__title">EE + 关节状态融合</span>
-          <span class="vp-item__desc">EE 提供共享任务几何，关节状态保证可执行性；代表：GEAR-VLA，兼顾迁移与精度</span>
-        </div>
-      </div>
-    </div>
-    <div class="spacer-lg"></div>
-    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--deep-black);">下面三篇论文分别从不同角度给出方案 →</p>
-  </div>
-</section>
-
-<!-- ===== PAGE 7: 两种路线 ===== -->
+<!-- ===== PAGE 9: 两种路线 ===== -->
 <section class="slide slide--white" id="how-models-do">
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Practice Routes</p>
@@ -438,7 +438,155 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 8: GEAR-VLA ===== -->
+<!-- ===== PAGE 10: Action Space 论文 p1（论文 1） ===== -->
+<section class="slide slide--white" id="paper1-p1">
+  <div style="width:100%; display:flex; flex-direction:column; padding:32px 48px; height:100%; overflow:hidden;">
+    <div class="paper-layout" style="height:auto; flex:1; min-height:0;">
+      <div class="paper-left">
+        <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 1：Does the Action Space Matter?</h2>
+        <p class="text-aux" style="color:#999; margin-bottom:16px;">A Systematic Study of Robot Action Representations · arxiv 2602.23408</p>
+
+        <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心结论：固定本体上 Joint + chunk-wise delta 表现最优</p>
+
+        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+            <div>
+              <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Delta 表示优于 Absolute 表示</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">回归策略与 Flow Matching 均验证了这一结论</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+            <div>
+              <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Chunk-wise delta 比 step-wise delta 高约 10%</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">锚定同一观测帧，误差不累积</p>
+            </div>
+          </div>
+          <div style="display:flex; align-items:flex-start; gap:12px;">
+            <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+            <div>
+              <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">固定本体上 Joint 表现优于 EEF</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">避免 IK 多解歧义，数据在关节流形上</p>
+            </div>
+          </div>
+        </div>
+
+        <p style="font-family:var(--font-aux); font-size:clamp(15px,1.4vw,18px); color:#555; line-height:1.6; padding:10px 16px; background:#F8F7F5; border-radius:4px;">行动空间分类：{ Joint, EEF } × { Absolute, Delta } → 4 种表示</p>
+      </div>
+      <div class="paper-right">
+        <img src="https://arxiv.org/html/2602.23408v1/figure/main_tight.png" alt="Action Space 论文概览" onerror="imgFallback(this)">
+        <p class="caption">Fig 1. 不同动作表示的性能对比框架</p>
+      </div>
+    </div>
+    <!-- Fig 2 移到底部并变大 -->
+    <div style="text-align:center; margin-top:12px; flex-shrink:0;">
+      <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/preliminary.png" alt="行动空间分类法" onerror="imgFallback(this)" style="max-height:45vh; width:auto; object-fit:contain;">
+      <p class="fig-caption">Fig 2. 行动空间分类法（Joint/EEF × Absolute/Delta）</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 11: Action Space 论文 p2 ===== -->
+<section class="slide slide--white" id="paper1-p2">
+  <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:32px 48px;">
+    <!-- 顶部：注记 + 大字结论 -->
+    <p class="note-label">Paper Reference · Deep Dive</p>
+    <div style="text-align:center; margin:20px 0 28px;">
+      <p style="font-family:var(--font-aux); font-size:clamp(28px,3.2vw,44px); font-weight:700; line-height:1.4; color:var(--deep-black);">
+        固定本体：Joint + <span style="color:var(--red-accent);">chunk-wise delta</span> 最优
+      </p>
+      <p style="font-family:var(--font-aux); font-size:clamp(22px,2.4vw,34px); font-weight:600; line-height:1.4; color:#444; margin-top:6px;">
+        跨本体迁移：EEF + <span style="color:var(--red-accent);">chunk-wise delta</span> 更适合
+      </p>
+    </div>
+
+    <!-- 中段：三大原因 -->
+    <div style="display:flex; flex-direction:column; gap:18px; max-width:900px; margin:0 auto;">
+      <p style="font-family:var(--font-aux); font-size:14px; font-weight:600; color:#999; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2px;">Joint 更强的三大原因</p>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
+        <div>
+          <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">避免 IK 误差</p>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">IK 多解歧义即是误差来源，直接输出 Joint 绕开这一环节</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
+        <div>
+          <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">数据本就在关节流形上</p>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">示范轨迹包含肘部偏好、连续 IK 分支、避限位习惯</p>
+        </div>
+      </div>
+      <div style="display:flex; align-items:flex-start; gap:12px;">
+        <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
+        <div>
+          <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">强生成模型可建模多模态分布</p>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">Flow Matching / Diffusion 能表达多解，弱回归会平均化</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部：局限性小字 -->
+    <p style="font-family:var(--font-aux); font-size:clamp(13px,1.1vw,15px); color:#999; text-align:center; margin-top:28px; line-height:1.6;">
+      局限性：EEF 依赖 IK 质量 / 跨本体实验规模小，未覆盖 force·tactile·灵巧手 / 未来可能按任务阶段动态混合而非二选一
+    </p>
+  </div>
+</section>
+
+<!-- ===== PAGE 12: Delta 详解（合并页） ===== -->
+<section class="slide slide--white" id="delta-deep-dive">
+  <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
+    <p class="note-label">Deep Dive · Delta</p>
+    <div class="spacer-sm"></div>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 16px;">Chunk-wise delta 锚定同一观测帧，<span class="red">误差不累积</span> —— 这是领先 ~10% 的原因</p>
+
+    <div style="display:grid; grid-template-columns:1fr auto; gap:24px; align-items:start;">
+      <!-- 左侧：Delta 条目 -->
+      <div class="delta-flow">
+        <div class="delta-item">
+          <div class="delta-item__head"><span class="delta-item__num">01</span><span class="delta-item__title">Step-wise<span class="delta-item__sub">逐步增量</span></span></div>
+          <div class="delta-item__body">
+            <div class="formula-block formula-block--sm"><span class="var">a<sub>t</sub></span> = q<sub>t</sub> − q<sub>t−1</sub>&ensp;→&ensp;q<sub>t</sub> = q<sub>t−1</sub> + <span class="var">a<sub>t</sub></span></div>
+            <p class="delta-item__line">参考上一步串行递推，<span class="red">误差逐步累积（drift）</span> —— 像闭眼走路每步靠上一步，越走越偏</p>
+          </div>
+        </div>
+
+        <div class="delta-item">
+          <div class="delta-item__head"><span class="delta-item__num">02</span><span class="delta-item__title">Chunk-wise<span class="delta-item__sub">锚定增量</span></span></div>
+          <div class="delta-item__body">
+            <div class="formula-block formula-block--sm"><span class="var">a<sub>t+k</sub></span> = q<sub>t+k</sub> − q<sub>t</sub>&ensp;→&ensp;q<sub>t+k</sub> = q<sub>t</sub> + <span class="var">a<sub>t+k</sub></span></div>
+            <p class="delta-item__line">整段锚定同一观测点 q<sub>t</sub>，<strong>不累积误差、天然并行</strong> —— 盯着起点地标走，每步独立参考</p>
+          </div>
+        </div>
+
+        <div class="delta-item">
+          <div class="delta-item__head"><span class="delta-item__num">03</span><span class="delta-item__title">为什么 Delta 优于 Absolute</span></div>
+          <div class="delta-item__body">
+            <p class="delta-item__line"><strong>Absolute</strong>：直接输出 q<sub>target</sub>，不同机器人绝对值分布差异巨大 → 需拟合全局关节空间，泛化差</p>
+            <p class="delta-item__line"><strong>Delta</strong>：输出 Δq = q<sub>target</sub> − q<sub>current</sub>，分布紧凑（均值≈0、方差小）→ <span class="red">与起始状态无关，泛化强</span></p>
+          </div>
+        </div>
+
+        <div class="delta-item">
+          <div class="delta-item__head"><span class="delta-item__num">04</span><span class="delta-item__title">EEF 的特殊性<span class="delta-item__sub">SE(3) 上的 delta 不是加法</span></span></div>
+          <div class="delta-item__body">
+            <div class="formula-block formula-block--sm">T<sub>target</sub> = <span class="var">ΔT</span> · T<sub>current</sub>&ensp;<span style="font-family:var(--font-aux); font-size:0.72em;">（位置可加，旋转是矩阵 / 四元数乘法）</span></div>
+            <p class="delta-item__line"><span class="red">⚠ EEF delta 需要群运算</span>，工程实现比 joint delta 复杂 —— 这也是固定本体 Joint delta 更优的原因之一</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- 右侧：Fig 3 证据图（从 paper1-p2 移入） -->
+      <div style="display:flex; flex-direction:column; align-items:center; min-width:280px; max-width:380px;">
+        <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta horizon 对比实验" onerror="imgFallback(this)" style="max-width:100%; max-height:42vh; object-fit:contain;">
+        <p class="fig-caption" style="margin-top:6px;">Fig 3. Delta horizon 对比：chunk-wise delta 显著领先</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 13: GEAR-VLA（论文 2） ===== -->
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
     <div class="paper-left">
@@ -480,149 +628,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 9: Action Space 论文 p1 ===== -->
-<section class="slide slide--white" id="paper1-p1">
-  <div class="paper-layout">
-    <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 1：Does the Action Space Matter?</h2>
-      <p class="text-aux" style="color:#999; margin-bottom:16px;">A Systematic Study of Robot Action Representations · arxiv 2602.23408</p>
-
-      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心结论：固定本体上 Joint + chunk-wise delta 表现最优</p>
-
-      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Delta 表示优于 Absolute 表示</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">回归策略与 Flow Matching 均验证了这一结论</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Chunk-wise delta 比 step-wise delta 高约 10%</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">锚定同一观测帧，误差不累积</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">固定本体上 Joint 表现优于 EEF</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">避免 IK 多解歧义，数据在关节流形上</p>
-          </div>
-        </div>
-      </div>
-
-      <p style="font-family:var(--font-aux); font-size:clamp(15px,1.4vw,18px); color:#555; line-height:1.6; padding:10px 16px; background:#F8F7F5; border-radius:4px;">行动空间分类：{ Joint, EEF } × { Absolute, Delta } → 4 种表示</p>
-    </div>
-    <div class="paper-right">
-      <img src="https://arxiv.org/html/2602.23408v1/figure/main_tight.png" alt="Action Space 论文概览" onerror="imgFallback(this)">
-      <p class="caption">Fig 1. 不同动作表示的性能对比框架</p>
-      <img src="https://arxiv.org/html/2602.23408v1/figure/preliminary.png" alt="行动空间分类法" onerror="imgFallback(this)">
-      <p class="caption">Fig 2. 行动空间分类法（Joint/EEF × Absolute/Delta）</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PAGE 10: Action Space 论文 p2 ===== -->
-<section class="slide slide--white" id="paper1-p2">
-  <div style="width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; padding:32px 48px;">
-    <!-- 顶部：注记 + 大字结论 -->
-    <p class="note-label">Paper Reference · Deep Dive</p>
-    <div style="text-align:center; margin:20px 0 28px;">
-      <p style="font-family:var(--font-aux); font-size:clamp(28px,3.2vw,44px); font-weight:700; line-height:1.4; color:var(--deep-black);">
-        固定本体：Joint + <span style="color:var(--red-accent);">chunk-wise delta</span> 最优
-      </p>
-      <p style="font-family:var(--font-aux); font-size:clamp(22px,2.4vw,34px); font-weight:600; line-height:1.4; color:#444; margin-top:6px;">
-        跨本体迁移：EEF + <span style="color:var(--red-accent);">chunk-wise delta</span> 更适合
-      </p>
-    </div>
-
-    <!-- 中段：左三原因 + 右实验图 -->
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px; align-items:start; max-width:1300px; margin:0 auto;">
-      <!-- 左侧：三大原因 -->
-      <div style="display:flex; flex-direction:column; gap:18px;">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:600; color:#999; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:2px;">Joint 更强的三大原因</p>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">避免 IK 误差</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">IK 多解歧义即是误差来源，直接输出 Joint 绕开这一环节</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">数据本就在关节流形上</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">示范轨迹包含肘部偏好、连续 IK 分支、避限位习惯</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,21px); font-weight:700; color:var(--deep-black); line-height:1.4;">强生成模型可建模多模态分布</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">Flow Matching / Diffusion 能表达多解，弱回归会平均化</p>
-          </div>
-        </div>
-      </div>
-      <!-- 右侧：实验图 -->
-      <div style="display:flex; flex-direction:column; align-items:center;">
-        <img src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta horizon 对比实验" onerror="imgFallback(this)" style="max-width:100%; max-height:38vh; object-fit:contain; border:1px solid #DDD; border-radius:6px;">
-        <p class="fig-caption" style="margin-top:6px;">Fig 3. Delta horizon 对比：chunk-wise delta 显著领先</p>
-      </div>
-    </div>
-
-    <!-- 底部：局限性小字 -->
-    <p style="font-family:var(--font-aux); font-size:clamp(13px,1.1vw,15px); color:#999; text-align:center; margin-top:28px; line-height:1.6;">
-      局限性：EEF 依赖 IK 质量 / 跨本体实验规模小，未覆盖 force·tactile·灵巧手 / 未来可能按任务阶段动态混合而非二选一
-    </p>
-  </div>
-</section>
-
-<!-- ===== PAGE 10.5: Delta 详解（合并页） ===== -->
-<section class="slide slide--white" id="delta-deep-dive">
-  <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
-    <p class="note-label">Deep Dive · Delta</p>
-    <div class="spacer-sm"></div>
-    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 16px;">Chunk-wise delta 锚定同一观测帧，<span class="red">误差不累积</span> —— 这是领先 ~10% 的原因</p>
-
-    <div class="delta-flow">
-      <div class="delta-item">
-        <div class="delta-item__head"><span class="delta-item__num">01</span><span class="delta-item__title">Step-wise<span class="delta-item__sub">逐步增量</span></span></div>
-        <div class="delta-item__body">
-          <div class="formula-block formula-block--sm"><span class="var">a<sub>t</sub></span> = q<sub>t</sub> − q<sub>t−1</sub>&ensp;→&ensp;q<sub>t</sub> = q<sub>t−1</sub> + <span class="var">a<sub>t</sub></span></div>
-          <p class="delta-item__line">参考上一步串行递推，<span class="red">误差逐步累积（drift）</span> —— 像闭眼走路每步靠上一步，越走越偏</p>
-        </div>
-      </div>
-
-      <div class="delta-item">
-        <div class="delta-item__head"><span class="delta-item__num">02</span><span class="delta-item__title">Chunk-wise<span class="delta-item__sub">锚定增量</span></span></div>
-        <div class="delta-item__body">
-          <div class="formula-block formula-block--sm"><span class="var">a<sub>t+k</sub></span> = q<sub>t+k</sub> − q<sub>t</sub>&ensp;→&ensp;q<sub>t+k</sub> = q<sub>t</sub> + <span class="var">a<sub>t+k</sub></span></div>
-          <p class="delta-item__line">整段锚定同一观测点 q<sub>t</sub>，<strong>不累积误差、天然并行</strong> —— 盯着起点地标走，每步独立参考</p>
-        </div>
-      </div>
-
-      <div class="delta-item">
-        <div class="delta-item__head"><span class="delta-item__num">03</span><span class="delta-item__title">为什么 Delta 优于 Absolute</span></div>
-        <div class="delta-item__body">
-          <p class="delta-item__line"><strong>Absolute</strong>：直接输出 q<sub>target</sub>，不同机器人绝对值分布差异巨大 → 需拟合全局关节空间，泛化差</p>
-          <p class="delta-item__line"><strong>Delta</strong>：输出 Δq = q<sub>target</sub> − q<sub>current</sub>，分布紧凑（均值≈0、方差小）→ <span class="red">与起始状态无关，泛化强</span></p>
-        </div>
-      </div>
-
-      <div class="delta-item">
-        <div class="delta-item__head"><span class="delta-item__num">04</span><span class="delta-item__title">EEF 的特殊性<span class="delta-item__sub">SE(3) 上的 delta 不是加法</span></span></div>
-        <div class="delta-item__body">
-          <div class="formula-block formula-block--sm">T<sub>target</sub> = <span class="var">ΔT</span> · T<sub>current</sub>&ensp;<span style="font-family:var(--font-aux); font-size:0.72em;">（位置可加，旋转是矩阵 / 四元数乘法）</span></div>
-          <p class="delta-item__line"><span class="red">⚠ EEF delta 需要群运算</span>，工程实现比 joint delta 复杂 —— 这也是固定本体 Joint delta 更优的原因之一</p>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PAGE 11: 行业共识（重做：白背景+无框大字） ===== -->
+<!-- ===== PAGE 14: 行业共识（重做：白背景+无框大字） ===== -->
 <section class="slide slide--warm" id="consensus">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="note-label">Industry Consensus</p>
@@ -660,7 +666,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 12: IK 仍然不可或缺 ===== -->
+<!-- ===== PAGE 15: IK 仍然不可或缺 ===== -->
 <section class="slide slide--white" id="ik-still-needed">
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">IK Still Matters</p>
@@ -696,7 +702,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 13: IK 小结 ===== -->
+<!-- ===== PAGE 16: IK 小结 ===== -->
 <section class="slide slide--warm" id="ik-summary" style="padding:24px 48px;">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="note-label">IK Summary</p>
@@ -722,7 +728,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 14: 主题二 标题页 ===== -->
+<!-- ===== PAGE 17: 主题二 标题页 ===== -->
 <section class="slide slide--red" id="topic2">
   <div>
     <p class="note-label note-label--light">Topic Two</p>
@@ -732,7 +738,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 15: IKSel + 新范式 ===== -->
+<!-- ===== PAGE 18: IKSel + 新范式 ===== -->
 <section class="slide slide--white" id="paper3">
   <div class="paper-layout">
     <div class="paper-left">
@@ -774,7 +780,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 16: 结尾（改善：去框大字简约） ===== -->
+<!-- ===== PAGE 19: 结尾（改善：去框大字简约） ===== -->
 <section class="slide slide--dark" id="ending">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%; max-width:1100px; margin:0 auto;">
     <h2 style="font-family:var(--font-aux); font-weight:700; font-size:clamp(36px, 4.5vw, 60px); color:rgba(255,255,255,0.95); margin-bottom:36px; letter-spacing:-0.02em;">核心结论</h2>
