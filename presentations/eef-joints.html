@@ -139,7 +139,6 @@ a:hover { opacity: 0.8; }
 /* 统一图片样式：1px 细边框 + 圆角 + 编号 caption */
 .fig-img { border: 1px solid #DDD; border-radius: 6px; }
 .fig-caption { font-family: var(--font-aux); font-size: 13px; color: rgba(28,20,16,0.55); text-align: center; margin-top: 4px; }
-.model-card__output-big { font-family: var(--font-aux); font-size: clamp(22px, 2.2vw, 30px); font-weight: 700; color: var(--red-accent); line-height: 1.2; }
 
 .questions-vertical { display: flex; flex-direction: column; gap: 28px; }
 .questions-vertical .q-item { display: flex; align-items: baseline; gap: 16px; }
@@ -151,23 +150,37 @@ a:hover { opacity: 0.8; }
 .model-evidence-list li::before { content: '→'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; }
 .model-evidence-list li strong { color: var(--deep-black); font-weight: 700; }
 
-.model-card { border: 2px solid var(--deep-black); padding: 18px 20px; background: var(--white); display: flex; flex-direction: column; gap: 8px; }
-.model-card__header { display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
-.model-card__name { font-family: var(--font-aux); font-weight: 700; font-size: clamp(20px, 2vw, 26px); color: var(--deep-black); }
-.model-card__link { font-family: var(--font-aux); font-size: 12px; color: var(--red-accent); text-decoration: underline; opacity: 0.8; }
-.model-card__output { font-family: var(--font-aux); font-size: clamp(14px, 1.3vw, 17px); line-height: 1.5; color: #333; }
-.model-card__output .dim { color: var(--red-accent); font-weight: 700; }
-.model-card__code { font-family: 'Space Mono', 'Courier New', monospace; font-size: clamp(12px, 1.1vw, 14px); background: #1C1410; color: #e8e0d8; padding: 10px 14px; border-radius: 3px; line-height: 1.55; overflow-x: auto; white-space: pre; }
-.model-card__code .kw { color: #ff7b72; }
-.model-card__code .str { color: #a5d6ff; }
-.model-card__code .num { color: #79c0ff; }
-.model-card__note { font-family: var(--font-aux); font-size: clamp(13px, 1.15vw, 15px); line-height: 1.5; color: #555; }
-.model-card__note li { padding: 2px 0 2px 18px; position: relative; list-style: none; }
-.model-card__note li::before { content: '→'; position: absolute; left: 0; color: var(--red-accent); font-weight: 700; }
-.model-card__ik-box { border: 1.5px solid var(--red-accent); border-left: 4px solid var(--red-accent); padding: 8px 12px; background: rgba(216,0,15,0.03); margin-top: 2px; }
-.model-card__ik-box p { font-family: var(--font-aux); font-size: clamp(13px, 1.15vw, 15px); line-height: 1.5; color: #333; }
-.model-card__ik-label { font-weight: 700; color: var(--red-accent); font-size: clamp(12px, 1.05vw, 13px); text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 3px; }
-.model-card__img { max-width: 100%; max-height: 180px; object-fit: contain; border: 1px solid #DDD; border-radius: 6px; }
+/* 无边框大条目式模型对比（风格参照 #questions） */
+.model-flow { display: flex; flex-direction: column; max-width: 1300px; }
+.model-entry { padding: 6px 0; }
+.model-entry__head { display: flex; align-items: baseline; gap: 18px; flex-wrap: wrap; }
+.model-entry__num { font-family: var(--font-display); font-style: italic; font-size: clamp(36px, 4vw, 56px); color: var(--red-accent); line-height: 1; flex-shrink: 0; }
+.model-entry__name { font-family: var(--font-aux); font-weight: 700; font-size: clamp(26px, 2.8vw, 40px); line-height: 1.15; color: var(--deep-black); }
+.model-entry__output { font-family: var(--font-aux); font-weight: 700; font-size: clamp(20px, 2.2vw, 30px); color: var(--red-accent); line-height: 1.2; }
+.model-entry__link { font-family: var(--font-aux); font-size: 13px; color: var(--red-accent); text-decoration: underline; opacity: 0.7; }
+.model-entry__body { padding-left: clamp(56px, 6vw, 80px); margin-top: 8px; display: flex; flex-direction: column; gap: 7px; align-items: flex-start; }
+.model-entry__body .formula-block { display: inline-block; text-align: left; margin: 2px 0; }
+.model-entry__line { font-family: var(--font-aux); font-size: clamp(16px, 1.6vw, 21px); line-height: 1.5; color: #333; }
+.model-entry__line strong { color: var(--deep-black); font-weight: 700; }
+.model-entry__line .red { color: var(--red-accent); font-weight: 700; }
+.model-entry__code { font-family: 'Space Mono', 'Courier New', monospace; font-size: clamp(12px, 1.1vw, 14px); background: #1C1410; color: #e8e0d8; padding: 10px 16px; border-radius: 4px; line-height: 1.55; overflow-x: auto; white-space: pre; max-width: 100%; }
+.model-entry__code .kw { color: #ff7b72; }
+.model-entry__code .str { color: #a5d6ff; }
+.model-entry__code .num { color: #79c0ff; }
+.model-entry__img { max-height: 160px; max-width: 320px; object-fit: contain; border: 1px solid #DDD; border-radius: 6px; }
+.model-divider { height: 1px; background: rgba(28,20,16,0.12); margin: 20px 0; }
+
+/* 无边框编号条目式 Delta 详解 */
+.delta-flow { display: flex; flex-direction: column; gap: 14px; max-width: 1150px; }
+.delta-item__head { display: flex; align-items: baseline; gap: 16px; }
+.delta-item__num { font-family: var(--font-display); font-style: italic; font-size: clamp(28px, 3vw, 42px); color: var(--red-accent); line-height: 1; flex-shrink: 0; }
+.delta-item__title { font-family: var(--font-aux); font-weight: 700; font-size: clamp(21px, 2.2vw, 30px); line-height: 1.2; color: var(--deep-black); }
+.delta-item__sub { font-family: var(--font-aux); font-weight: 400; font-size: clamp(14px, 1.4vw, 18px); color: #888; margin-left: 6px; }
+.delta-item__body { padding-left: clamp(46px, 4.6vw, 62px); margin-top: 5px; display: flex; flex-direction: column; gap: 4px; align-items: flex-start; }
+.delta-item__body .formula-block { display: inline-block; text-align: left; margin: 2px 0; }
+.delta-item__line { font-family: var(--font-aux); font-size: clamp(15px, 1.5vw, 20px); line-height: 1.5; color: #333; }
+.delta-item__line strong { color: var(--deep-black); font-weight: 700; }
+.delta-item__line .red { color: var(--red-accent); font-weight: 700; }
 
 @media (max-width: 768px) {
   .slide { padding: 24px 20px; }
@@ -261,53 +274,42 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 4.5A: 动作空间对比 A — OpenVLA + OpenPI ===== -->
 <section class="slide slide--white" id="action-space-a">
-  <div style="width:100%; padding:18px 48px; overflow-y:auto; max-height:100vh;">
+  <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <span class="tag tag--red">动作空间对比 A</span>
-    <div class="spacer-sm"></div>
-    <h2 class="text-h2">各模型动作空间对比 — EEF 输出代表</h2>
-    <p class="slide-thesis">EEF 输出流派：输出的是<span class="red">相对当前位姿的 delta</span>，能否绕过 IK 完全取决于配置</p>
+    <div class="spacer-md"></div>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">EEF 输出流派：输出的是<span class="red">相对当前位姿的 delta</span>，能否绕过 IK 完全取决于配置</p>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="model-flow">
       <!-- OpenVLA -->
-      <div class="model-card">
-        <div class="model-card__header">
-          <span class="model-card__name">OpenVLA</span>
-          <a class="model-card__link" href="https://github.com/openvla/openvla" target="_blank">github.com/openvla/openvla</a>
+      <div class="model-entry">
+        <div class="model-entry__head">
+          <span class="model-entry__num">01</span>
+          <span class="model-entry__name">OpenVLA</span>
+          <span class="model-entry__output">7-DoF delta EEF</span>
+          <a class="model-entry__link" href="https://github.com/openvla/openvla" target="_blank">github.com/openvla/openvla</a>
         </div>
-
-        <p class="model-card__output-big">7-DoF delta EEF</p>
-        <div class="formula-block formula-block--sm">[Δ<em>x</em>, Δ<em>y</em>, Δ<em>z</em>, Δ<em>roll</em>, Δ<em>pitch</em>, Δ<em>yaw</em>, <span class="var">g</span>]</div>
-
-        <p class="model-card__output">锚定<strong>当前 EEF 位姿</strong>的增量，不是绝对位姿</p>
-
-        <div class="model-card__code"><span class="kw">action</span> = vla.<span class="kw">predict_action</span>(**inputs, unnorm_key=<span class="str">"bridge_orig"</span>)</div>
-
-        <div class="model-card__ik-box">
-          <p class="model-card__ik-label">IK 结论</p>
-          <p style="color:var(--red-accent); font-weight:600;">必需下游 IK：current_eef + delta → IK → joint</p>
+        <div class="model-entry__body">
+          <p class="model-entry__line">锚定<strong>当前 EEF 位姿</strong>的增量 [Δx, Δy, Δz, Δroll, Δpitch, Δyaw, g]，不是绝对位姿</p>
+          <p class="model-entry__line"><span class="red">必需下游 IK</span>：current_eef + delta → IK → joint；旋转用小角度近似简化为向量加法</p>
+          <div class="model-entry__code"><span class="kw">action</span> = vla.<span class="kw">predict_action</span>(**inputs, unnorm_key=<span class="str">"bridge_orig"</span>)</div>
         </div>
-        <p class="model-card__note">注：旋转部分用小角度近似简化为向量加法；训练于 Bridge V2 / RT-1</p>
       </div>
 
+      <div class="model-divider"></div>
+
       <!-- OpenPI π₀ -->
-      <div class="model-card">
-        <div class="model-card__header">
-          <span class="model-card__name">OpenPI π₀</span>
-          <a class="model-card__link" href="https://github.com/Physical-Intelligence/openpi" target="_blank">github.com/Physical-Intelligence/openpi</a>
+      <div class="model-entry">
+        <div class="model-entry__head">
+          <span class="model-entry__num">02</span>
+          <span class="model-entry__name">OpenPI π₀</span>
+          <span class="model-entry__output">joint / EEF 可配置</span>
+          <a class="model-entry__link" href="https://github.com/Physical-Intelligence/openpi" target="_blank">github.com/Physical-Intelligence/openpi</a>
         </div>
-
-        <p class="model-card__output-big">joint / EEF 可配置</p>
-        <div class="formula-block formula-block--sm">action_dim = <span class="var">8</span> (FAST-DROID) · <span class="var">32</span> (π₀.₅)</div>
-
-        <p class="model-card__output">DROID 场景输出 <strong>joint delta</strong>（7 关节 + 1 gripper），缺失维度补 0</p>
-
-        <div class="model-card__code">config = <span class="kw">Pi0FASTConfig</span>(action_dim=<span class="num">8</span>, action_horizon=<span class="num">10</span>)</div>
-
-        <div class="model-card__ik-box">
-          <p class="model-card__ik-label">IK 结论</p>
-          <p style="color:var(--red-accent); font-weight:600;">joint 模式绕过 IK；EEF 模式同 OpenVLA 需 IK</p>
+        <div class="model-entry__body">
+          <p class="model-entry__line">DROID 场景输出 <strong>joint delta</strong>（7 关节 + 1 gripper）；action_dim = 8 (FAST-DROID) / 32 (π₀.₅)，缺失维度补 0</p>
+          <p class="model-entry__line"><span class="red">joint 模式绕过 IK</span>；EEF 模式同 OpenVLA 需 IK；执行依赖环境侧控制器，框架不内建 IK</p>
+          <div class="model-entry__code">config = <span class="kw">Pi0FASTConfig</span>(action_dim=<span class="num">8</span>, action_horizon=<span class="num">10</span>)</div>
         </div>
-        <p class="model-card__note">注：执行依赖环境侧控制器，框架不内建 IK</p>
       </div>
     </div>
   </div>
@@ -315,56 +317,46 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 4.5B: 动作空间对比 B — GR00T N1.7 + LINGBot VLA 2.0 ===== -->
 <section class="slide slide--white" id="action-space-b">
-  <div style="width:100%; padding:18px 48px; overflow-y:auto; max-height:100vh;">
+  <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <span class="tag tag--red">动作空间对比 B</span>
-    <div class="spacer-sm"></div>
-    <h2 class="text-h2">各模型动作空间对比 — 双 Head / 统一表示</h2>
-    <p class="slide-thesis">双 head / 统一向量流派：<span class="red">EEF 与 Joint 同时编码</span>，真机执行取 joint 侧绕过 IK</p>
+    <div class="spacer-md"></div>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">双 head / 统一向量流派：<span class="red">EEF 与 Joint 同时编码</span>，真机执行取 joint 侧绕过 IK</p>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+    <div class="model-flow">
       <!-- GR00T N1.7 -->
-      <div class="model-card">
-        <div class="model-card__header">
-          <span class="model-card__name">GR00T N1.7</span>
-          <a class="model-card__link" href="https://github.com/NVIDIA/Isaac-GR00T" target="_blank">github.com/NVIDIA/Isaac-GR00T</a>
+      <div class="model-entry">
+        <div class="model-entry__head">
+          <span class="model-entry__num">01</span>
+          <span class="model-entry__name">GR00T N1.7</span>
+          <span class="model-entry__output">双 head：ΔEEF + Δq</span>
+          <a class="model-entry__link" href="https://github.com/NVIDIA/Isaac-GR00T" target="_blank">github.com/NVIDIA/Isaac-GR00T</a>
         </div>
-
-        <p class="model-card__output-big">双 head：ΔEEF + Δq</p>
-        <div class="formula-block formula-block--sm">relative EEF (Δ pose) + relative joint (Δ<span class="var">q</span>)</div>
-
-        <p class="model-card__output">两个 head 都锚定<strong>当前观测帧</strong>（不是上一预测帧）；action 定义由 embodiment tag 决定</p>
-
-        <div class="model-card__code">action = output.joint  <span class="comment" style="color:#8b949e;"># current_q + delta → joint cmd</span></div>
-
-        <div class="model-card__ik-box">
-          <p class="model-card__ik-label">IK 结论</p>
-          <p style="color:var(--red-accent); font-weight:600;">真机执行取 joint head 绕过 IK；EEF head 仅作训练监督</p>
+        <div class="model-entry__body">
+          <p class="model-entry__line">两个 head 都锚定<strong>当前观测帧</strong>（不是上一预测帧）；action 定义由 embodiment tag 决定（LIBERO 为 absolute joint）</p>
+          <p class="model-entry__line"><span class="red">真机执行取 joint head 绕过 IK</span>；EEF head 仅作训练监督</p>
+          <div class="model-entry__code">action = output.joint  <span style="color:#8b949e;"># current_q + delta → joint cmd</span></div>
         </div>
-        <p class="model-card__note">注：LIBERO tag 为 absolute joint；不同 embodiment tag 定义不同</p>
       </div>
 
+      <div class="model-divider"></div>
+
       <!-- LINGBot VLA 2.0 -->
-      <div class="model-card">
-        <div class="model-card__header">
-          <span class="model-card__name">LINGBot VLA 2.0</span>
-          <a class="model-card__link" href="https://github.com/Robbyant/lingbot-vla-v2" target="_blank">github.com/Robbyant/lingbot-vla-v2</a>
+      <div class="model-entry">
+        <div class="model-entry__head">
+          <span class="model-entry__num">02</span>
+          <span class="model-entry__name">LINGBot VLA 2.0</span>
+          <span class="model-entry__output">55 维统一向量</span>
+          <a class="model-entry__link" href="https://github.com/Robbyant/lingbot-vla-v2" target="_blank">github.com/Robbyant/lingbot-vla-v2</a>
         </div>
-
-        <p class="model-card__output-big">55 维统一向量</p>
-        <div class="formula-block formula-block--sm">14 joint + 14 EEF + 2 gripper + 12 hand + … = <span class="var">55</span></div>
-
-        <p class="model-card__output">同一模型支持 EEF / Joint / 混合；<strong>subtract_state</strong> 标志决定增量还是绝对值</p>
-
-        <div class="model-card__code"><span class="comment" style="color:#8b949e;"># 纯 Joint: subtract_state=True → delta；含 EEF: False → absolute</span></div>
-
-        <div class="model-card__ik-box">
-          <p class="model-card__ik-label">IK 结论</p>
-          <p style="color:var(--red-accent); font-weight:600;">纯 Joint 模式无需 IK；含 EEF 模式需 IK 求解绝对目标位姿</p>
-        </div>
-
-        <div style="text-align:center; margin-top:4px;">
-          <img class="model-card__img" src="https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/main/assets/lingbot_vla2_data_dimension.png" alt="LINGBot VLA 2.0 — 55 维动作向量结构图" onerror="imgFallback(this)">
-          <p class="caption fig-caption">Fig 1. 55 维动作向量维度分布</p>
+        <div class="model-entry__body">
+          <p class="model-entry__line">14 joint + 14 EEF + 2 gripper + 12 hand + … = <span class="red">55</span>；同一模型支持 EEF / Joint / 混合，<strong>subtract_state</strong> 标志决定增量还是绝对值</p>
+          <p class="model-entry__line"><span class="red">纯 Joint 模式无需 IK</span>；含 EEF 模式需 IK 求解绝对目标位姿</p>
+          <div style="display:flex; align-items:flex-end; gap:14px; flex-wrap:wrap;">
+            <div>
+              <img class="model-entry__img" src="https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/main/assets/lingbot_vla2_data_dimension.png" alt="LINGBot VLA 2.0 — 55 维动作向量结构图" onerror="imgFallback(this)">
+              <p class="caption fig-caption" style="text-align:left;">Fig 1. 55 维动作向量维度分布</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -572,86 +564,41 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 10.5: Delta 详解（合并页） ===== -->
 <section class="slide slide--white" id="delta-deep-dive">
-  <div style="width:100%; padding:20px 48px; overflow-y:auto; max-height:100vh;">
+  <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <span class="tag tag--red">深入理解</span>
-    <h2 class="text-h2" style="margin:4px 0 6px;">Chunk-wise vs Step-wise · Delta vs Absolute · EEF 特殊性</h2>
-    <p class="slide-thesis" style="margin:4px 0 14px; font-size:clamp(19px,2vw,26px);">Chunk-wise delta 锚定同一观测帧，<span class="red">误差不累积</span> —— 这是领先 ~10% 的原因</p>
+    <div class="spacer-sm"></div>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 16px;">Chunk-wise delta 锚定同一观测帧，<span class="red">误差不累积</span> —— 这是领先 ~10% 的原因</p>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:18px;">
-      <!-- 左列：Chunk-wise vs Step-wise -->
-      <div>
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">一、Chunk-wise vs Step-wise Delta</p>
-        <div style="border:2px solid rgba(28,20,16,0.12); padding:12px 14px; margin-bottom:8px; background:var(--white);">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(14px,1.3vw,17px); color:var(--red-accent); margin-bottom:4px;">Step-wise（逐步增量）</p>
+    <div class="delta-flow">
+      <div class="delta-item">
+        <div class="delta-item__head"><span class="delta-item__num">01</span><span class="delta-item__title">Step-wise<span class="delta-item__sub">逐步增量</span></span></div>
+        <div class="delta-item__body">
           <div class="formula-block formula-block--sm"><span class="var">a<sub>t</sub></span> = q<sub>t</sub> − q<sub>t−1</sub>&ensp;→&ensp;q<sub>t</sub> = q<sub>t−1</sub> + <span class="var">a<sub>t</sub></span></div>
-          <p style="font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); color:var(--red-accent); margin-top:3px; font-weight:600;">参考上一步，误差逐步累积（drift）</p>
+          <p class="delta-item__line">参考上一步串行递推，<span class="red">误差逐步累积（drift）</span> —— 像闭眼走路每步靠上一步，越走越偏</p>
         </div>
-        <div style="border:2px solid var(--deep-black); padding:12px 14px; margin-bottom:8px; background:var(--white);">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(14px,1.3vw,17px); color:#28a745; margin-bottom:4px;">Chunk-wise（锚定增量）</p>
-          <div class="formula-block formula-block--sm"><span class="var">a<sub>t+k</sub></span> = q<sub>t+k</sub> − q<sub>t</sub>&ensp;→&ensp;q<sub>t+k</sub> = q<sub>t</sub> + <span class="var">a<sub>t+k</sub></span></div>
-          <p style="font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); color:#28a745; margin-top:3px; font-weight:600;">锚定同一观测点，不累积误差，天然并行</p>
-        </div>
-        <!-- 对比小表格 -->
-        <table style="width:100%; border-collapse:collapse; font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); margin-bottom:8px;">
-          <thead>
-            <tr style="border-bottom:2px solid var(--deep-black);">
-              <th style="text-align:left; padding:5px 8px; color:#999; font-weight:400;"></th>
-              <th style="text-align:left; padding:5px 8px; color:var(--red-accent); font-weight:700;">Step-wise</th>
-              <th style="text-align:left; padding:5px 8px; color:var(--deep-black); font-weight:700;">Chunk-wise</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr style="border-bottom:1px solid rgba(28,20,16,0.08);">
-              <td style="padding:5px 8px; font-weight:600; color:#333;">参考点</td>
-              <td style="padding:5px 8px; color:#333;">上一步 q<sub>t−1</sub></td>
-              <td style="padding:5px 8px; color:#333;">锚点 q<sub>t</sub></td>
-            </tr>
-            <tr style="border-bottom:1px solid rgba(28,20,16,0.08);">
-              <td style="padding:5px 8px; font-weight:600; color:#333;">误差</td>
-              <td style="padding:5px 8px; color:var(--red-accent); font-weight:600;">累积</td>
-              <td style="padding:5px 8px; color:#28a745; font-weight:600;">不累积</td>
-            </tr>
-            <tr>
-              <td style="padding:5px 8px; font-weight:600; color:#333;">预测</td>
-              <td style="padding:5px 8px; color:#333;">串行迭代</td>
-              <td style="padding:5px 8px; color:#333;">天然并行</td>
-            </tr>
-          </tbody>
-        </table>
-        <p style="font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); color:#333; line-height:1.55; padding:8px 12px; background:rgba(216,0,15,0.03); border-left:3px solid var(--red-accent);"><strong>直觉：</strong>Step-wise 像闭眼走路每步靠上一步——越走越偏；Chunk-wise 盯着起点地标走——每步独立参考，误差不沿路径累积。</p>
       </div>
 
-      <!-- 右列：Delta vs Absolute + EEF 特殊性 -->
-      <div>
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">二、为什么 Delta 优于 Absolute</p>
-        <div style="border:2px solid rgba(28,20,16,0.12); padding:10px 14px; margin-bottom:6px; background:var(--white);">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(13px,1.2vw,15px); color:var(--red-accent); margin-bottom:3px;">Absolute：直接输出 q<sub>target</sub> = [1.2, −0.5, 0.8, …]</p>
-          <p style="font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); color:#666; line-height:1.45;">不同机器人绝对值分布差异巨大 → 需拟合全局关节空间 → 数据需求大、泛化差</p>
+      <div class="delta-item">
+        <div class="delta-item__head"><span class="delta-item__num">02</span><span class="delta-item__title">Chunk-wise<span class="delta-item__sub">锚定增量</span></span></div>
+        <div class="delta-item__body">
+          <div class="formula-block formula-block--sm"><span class="var">a<sub>t+k</sub></span> = q<sub>t+k</sub> − q<sub>t</sub>&ensp;→&ensp;q<sub>t+k</sub> = q<sub>t</sub> + <span class="var">a<sub>t+k</sub></span></div>
+          <p class="delta-item__line">整段锚定同一观测点 q<sub>t</sub>，<strong>不累积误差、天然并行</strong> —— 盯着起点地标走，每步独立参考</p>
         </div>
-        <div style="border:2px solid var(--deep-black); padding:10px 14px; margin-bottom:10px; background:var(--white);">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(13px,1.2vw,15px); color:#28a745; margin-bottom:3px;">Delta：输出增量 Δq = q<sub>target</sub> − q<sub>current</sub></p>
-          <p style="font-family:var(--font-aux); font-size:clamp(13px,1.15vw,15px); color:#333; line-height:1.45;">增量分布紧凑（均值≈0、方差小）→ 与起始状态无关 → 跨场景泛化强</p>
-        </div>
+      </div>
 
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">三、EEF 的 Delta 不是简单加减！</p>
-        <div style="border:2px solid var(--red-accent); border-left:5px solid var(--red-accent); padding:10px 14px; background:rgba(216,0,15,0.02);">
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:6px;">
-            <div>
-              <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(13px,1.2vw,15px); color:#28a745; margin-bottom:4px;">Joints（ℝ<sup>n</sup>）✓</p>
-              <div class="formula-block formula-block--sm">q<sub>target</sub> = q<sub>current</sub> + <span class="var">Δq</span></div>
-              <p style="font-family:var(--font-aux); font-size:clamp(12px,1.05vw,14px); color:#666; margin-top:2px;">欧氏空间，向量加法成立</p>
-            </div>
-            <div>
-              <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(13px,1.2vw,15px); color:var(--red-accent); margin-bottom:4px;">EEF（SE(3)）✗</p>
-              <p style="font-family:'Libre Baskerville',serif; font-size:clamp(13px,1.2vw,16px); color:#333; line-height:1.55;">
-                位置：<em>p</em> + Δ<em>p</em> ✓<br>
-                旋转：Δ<em>R</em> · <em>R</em>（矩阵乘法）<br>
-                四元数：Δ<em>q</em> ⊗ <em>q</em>（四元数乘法）
-              </p>
-            </div>
-          </div>
-          <div class="formula-block formula-block--sm" style="margin-top:8px;">完整 SE(3)：T<sub>target</sub> = <span class="var">ΔT</span> · T<sub>current</sub>&ensp;<span style="font-family:var(--font-aux); font-size:0.72em;">（齐次矩阵乘法，不是加法！）</span></div>
-          <p style="font-family:var(--font-aux); font-size:clamp(12px,1.05vw,14px); color:#666; line-height:1.5; margin-top:4px;">→ EEF delta 需要群运算，工程实现比 joint delta 复杂，这也是固定本体 Joint delta 优于 EEF delta 的原因之一</p>
+      <div class="delta-item">
+        <div class="delta-item__head"><span class="delta-item__num">03</span><span class="delta-item__title">为什么 Delta 优于 Absolute</span></div>
+        <div class="delta-item__body">
+          <p class="delta-item__line"><strong>Absolute</strong>：直接输出 q<sub>target</sub>，不同机器人绝对值分布差异巨大 → 需拟合全局关节空间，泛化差</p>
+          <p class="delta-item__line"><strong>Delta</strong>：输出 Δq = q<sub>target</sub> − q<sub>current</sub>，分布紧凑（均值≈0、方差小）→ <span class="red">与起始状态无关，泛化强</span></p>
+        </div>
+      </div>
+
+      <div class="delta-item">
+        <div class="delta-item__head"><span class="delta-item__num">04</span><span class="delta-item__title">EEF 的特殊性<span class="delta-item__sub">SE(3) 上的 delta 不是加法</span></span></div>
+        <div class="delta-item__body">
+          <div class="formula-block formula-block--sm">T<sub>target</sub> = <span class="var">ΔT</span> · T<sub>current</sub>&ensp;<span style="font-family:var(--font-aux); font-size:0.72em;">（位置可加，旋转是矩阵 / 四元数乘法）</span></div>
+          <p class="delta-item__line"><span class="red">⚠ EEF delta 需要群运算</span>，工程实现比 joint delta 复杂 —— 这也是固定本体 Joint delta 更优的原因之一</p>
         </div>
       </div>
     </div>
