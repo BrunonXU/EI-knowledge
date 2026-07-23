@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>从EEF和Joints出发探究模型训练新范式</title>
+<title>EEF 还是 Joints？VLA 动作空间的关键选择</title>
 <link href="https://fonts.googleapis.com/css2?family=Shrikhand&family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
@@ -12,8 +12,8 @@
   --font-display: 'Shrikhand', cursive; --font-body: 'Libre Baskerville', serif; --font-aux: 'Space Grotesk', sans-serif;
 }
 html, body { overflow: hidden; height: 100vh; width: 100vw; font-family: var(--font-body); background: var(--warm-white); color: var(--deep-black); }
-#slide-container { transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
-.slide { height: 100vh; width: 100vw; overflow: hidden; padding: 32px 48px; display: flex; flex-direction: column; justify-content: center; position: relative; }
+#slide-container { display:flex; flex-direction:column; transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1); will-change: transform; }
+.slide { height: 100vh; min-height:100vh; max-height:100vh; flex:0 0 100vh; width: 100vw; overflow: hidden; padding: 32px 48px; display: flex; flex-direction: column; justify-content: center; position: relative; }
 .slide--white { background: var(--white); }
 .slide--warm { background: var(--warm-white); }
 .slide--dark { background: var(--deep-black); color: var(--white); }
@@ -25,7 +25,7 @@ html, body { overflow: hidden; height: 100vh; width: 100vw; font-family: var(--f
 #page-indicator .dot.active { background: var(--red-accent); transform: scale(1.4); }
 #page-indicator .page-num { font-weight: 600; color: var(--deep-black); }
 
-.title-huge { font-family: var(--font-display); font-size: clamp(52px, 7vw, 100px); line-height: 1.1; letter-spacing: -0.02em; }
+.title-huge { font-family: var(--font-aux); font-size: clamp(52px, 6.2vw, 90px); font-weight:700; line-height: 1.08; letter-spacing: -0.045em; max-width:1400px; }
 .title-large { font-family: var(--font-display); font-size: clamp(36px, 4.5vw, 64px); line-height: 1.15; }
 .title-medium { font-family: var(--font-aux); font-size: clamp(24px, 3vw, 40px); font-weight: 700; line-height: 1.2; }
 .title-small { font-family: var(--font-aux); font-size: clamp(18px, 2vw, 24px); font-weight: 600; line-height: 1.3; }
@@ -111,6 +111,36 @@ a:hover { opacity: 0.8; }
 .formula-block--sm { font-size: clamp(16px, 1.6vw, 21px); padding: 10px 16px; margin: 8px 0; }
 .fig-img { border: 1px solid #DDD; border-radius: 6px; }
 .fig-caption { font-family: var(--font-aux); font-size: 13px; color: rgba(28,20,16,0.55); text-align: center; margin-top: 4px; }
+.cover-subtitle { font-family:var(--font-aux); font-size:clamp(18px,1.7vw,24px); line-height:1.5; color:rgba(255,255,255,.58); margin-top:24px; max-width:980px; }
+.bridge-layout { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr); gap:34px; align-items:center; max-width:1400px; }
+.bridge-flow { display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:10px; align-items:stretch; margin:18px 0; }
+.bridge-node { padding:18px 16px; background:#F8F7F5; border-top:4px solid rgba(28,20,16,.18); }
+.bridge-node--accent { border-top-color:var(--red-accent); background:rgba(216,0,15,.035); }
+.bridge-node strong { display:block; font-family:var(--font-aux); font-size:clamp(18px,1.65vw,24px); line-height:1.25; margin-bottom:7px; }
+.bridge-node span { font-family:var(--font-aux); font-size:clamp(13px,1.1vw,15px); line-height:1.45; color:#666; }
+.bridge-arrow { align-self:center; font-family:var(--font-aux); font-size:28px; color:var(--red-accent); }
+#action-space-a .model-flow, #action-space-b .model-flow { display:grid; grid-template-columns:1fr 1fr; gap:24px; max-width:1400px; }
+#action-space-a .model-divider, #action-space-b .model-divider { display:none; }
+#action-space-a .model-entry, #action-space-b .model-entry { padding:18px 20px; background:#F8F7F5; border-top:5px solid rgba(28,20,16,.16); min-width:0; }
+#action-space-a .model-entry:first-child, #action-space-b .model-entry:first-child { border-top-color:var(--red-accent); background:rgba(216,0,15,.03); }
+#action-space-a .model-entry__head, #action-space-b .model-entry__head { gap:10px 14px; }
+#action-space-a .model-entry__body, #action-space-b .model-entry__body { padding-left:0; margin-top:16px; }
+#action-space-a .model-entry__name, #action-space-b .model-entry__name { font-size:clamp(25px,2.5vw,36px); }
+#action-space-a .model-entry__output, #action-space-b .model-entry__output { font-size:clamp(17px,1.7vw,23px); }
+#action-space-a .model-entry__code, #action-space-b .model-entry__code { width:100%; white-space:pre-wrap; }
+#action-space-b .model-entry__img { max-height:125px; max-width:100%; }
+.practice-intro { display:grid; grid-template-columns:minmax(0,1.15fr) minmax(360px,.85fr); gap:24px; align-items:stretch; }
+.practice-takeaway { padding:18px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.035); display:flex; flex-direction:column; justify-content:center; }
+.practice-takeaway strong { font-family:var(--font-aux); font-size:clamp(19px,1.8vw,26px); line-height:1.35; }
+.practice-takeaway span { font-family:var(--font-aux); font-size:clamp(14px,1.25vw,17px); line-height:1.5; color:#666; margin-top:8px; }
+.paper1-top { display:grid; grid-template-columns:minmax(0,1.08fr) minmax(480px,.92fr); gap:24px; align-items:start; }
+#paper1-p1 .paper-left, #paper1-p1 .paper-right { overflow:hidden; max-height:none; }
+#paper1-p1 .paper-right img { width:100%; max-height:34vh; object-fit:contain; }
+.paper1-taxonomy { text-align:center; margin-top:8px; flex-shrink:0; }
+.paper1-taxonomy img { max-height:28vh; max-width:82%; width:auto; object-fit:contain; }
+.figure-logic { margin-top:10px; padding:10px 14px; border-left:4px solid var(--red-accent); background:rgba(216,0,15,.025); }
+.figure-logic p { font-family:var(--font-aux); font-size:clamp(13px,1.15vw,16px); line-height:1.48; color:#555; margin:2px 0; }
+.figure-logic strong { color:var(--deep-black); }
 
 .questions-vertical { display: flex; flex-direction: column; gap: 28px; }
 .questions-vertical .q-item { display: flex; align-items: baseline; gap: 16px; }
@@ -153,6 +183,23 @@ a:hover { opacity: 0.8; }
 .delta-item__line { font-family: var(--font-aux); font-size: clamp(15px, 1.5vw, 20px); line-height: 1.5; color: #333; }
 .delta-item__line strong { color: var(--deep-black); font-weight: 700; }
 .delta-item__line .red { color: var(--red-accent); font-weight: 700; }
+#delta-deep-dive .delta-main { display:grid; grid-template-columns:minmax(0,1.35fr) minmax(540px,.85fr); gap:32px; align-items:start; }
+#delta-deep-dive .delta-flow { gap:10px; }
+#delta-deep-dive .delta-item__body { margin-top:2px; }
+#delta-deep-dive .delta-figure { display:flex; flex-direction:column; align-items:center; justify-content:center; align-self:center; width:100%; }
+#delta-deep-dive .delta-figure img { width:100%; max-width:620px; max-height:58vh; object-fit:contain; }
+.figure-reading { width:100%; margin-top:14px; padding:14px 16px; border-left:4px solid var(--red-accent); background:rgba(216,0,15,.025); }
+.figure-reading p { font-family:var(--font-aux); font-size:clamp(13px,1.15vw,16px); color:#555; line-height:1.5; margin:3px 0; }
+.figure-reading strong { color:var(--deep-black); }
+.gear-flow-notes { margin-top:8px; padding-top:14px; border-top:2px solid rgba(28,20,16,.12); }
+.gear-flow-notes__title { font-family:var(--font-aux); font-weight:700; font-size:15px; letter-spacing:.08em; text-transform:uppercase; color:var(--red-accent); margin-bottom:10px; }
+.gear-flow-step { display:grid; grid-template-columns:42px 1fr; gap:10px; margin-bottom:10px; align-items:start; }
+.gear-flow-step__tag { font-family:var(--font-aux); font-size:12px; font-weight:700; color:var(--red-accent); padding:4px 0; text-align:center; border:1.5px solid var(--red-accent); border-radius:20px; }
+.gear-flow-step p { font-family:var(--font-aux); font-size:clamp(13px,1.15vw,16px); color:#555; line-height:1.45; }
+.gear-flow-step strong { color:var(--deep-black); }
+.gear-boundary { margin-top:12px; padding:13px 16px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.035); }
+.gear-boundary strong { display:block; font-family:var(--font-aux); font-size:17px; color:var(--red-accent); margin-bottom:5px; }
+.gear-boundary p { font-family:var(--font-aux); font-size:clamp(13px,1.2vw,16px); line-height:1.5; color:#555; }
 
 /* Consensus 页重做：无框大字条目 */
 .consensus-entry { display: flex; align-items: baseline; gap: 20px; margin-bottom: 28px; }
@@ -162,6 +209,28 @@ a:hover { opacity: 0.8; }
 .consensus-entry__meta { font-family: var(--font-aux); font-size: 13px; color: #999; letter-spacing: 0.04em; }
 .consensus-entry__desc { font-family: var(--font-aux); font-size: clamp(16px, 1.6vw, 21px); line-height: 1.5; color: #555; margin-top: 4px; }
 .consensus-entry__desc strong { color: var(--deep-black); font-weight: 700; }
+.method-name { display:inline-block; width:max-content; font-family:var(--font-aux); font-size:clamp(14px,1.35vw,18px); font-weight:700; color:var(--red-accent); background:rgba(216,0,15,.045); padding:5px 10px; border-left:4px solid var(--red-accent); margin:3px 0; }
+.controller-choice-grid { display:grid; grid-template-columns:.9fr 1.1fr; gap:26px; max-width:1400px; margin-top:20px; }
+.controller-question { padding:18px 20px; background:#F8F7F5; border-top:4px solid rgba(28,20,16,.14); margin-bottom:12px; }
+.controller-question:first-child { border-top-color:var(--red-accent); background:rgba(216,0,15,.03); }
+.controller-question h3 { font-family:var(--font-aux); font-size:clamp(18px,1.7vw,23px); margin-bottom:6px; }
+.controller-question p { font-family:var(--font-aux); font-size:clamp(14px,1.25vw,17px); line-height:1.5; color:#555; }
+.controller-table { display:grid; grid-template-columns:1.05fr 1.35fr; border-top:2px solid var(--deep-black); }
+.controller-table > div { padding:12px 14px; border-bottom:1px solid rgba(28,20,16,.12); font-family:var(--font-aux); font-size:clamp(13px,1.2vw,16px); line-height:1.45; }
+.controller-table > div:nth-child(odd) { font-weight:700; color:var(--deep-black); background:rgba(28,20,16,.025); }
+.controller-table > div:nth-child(even) { color:#555; }
+.iksel-pipeline { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; margin:14px 0 16px; }
+.iksel-pipeline > div { padding:11px 10px; background:#F8F7F5; border-top:4px solid rgba(28,20,16,.16); font-family:var(--font-aux); font-size:13px; line-height:1.4; color:#555; }
+.iksel-pipeline > div:first-child { border-top-color:var(--red-accent); }
+.iksel-pipeline strong { display:block; color:var(--deep-black); font-size:15px; margin-bottom:3px; }
+.iksel-step { display:grid; grid-template-columns:34px 1fr; gap:10px; margin-bottom:11px; }
+.iksel-step__num { width:30px; height:30px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--red-accent); color:#fff; font-family:var(--font-aux); font-weight:700; font-size:13px; }
+.iksel-step p { font-family:var(--font-aux); font-size:clamp(14px,1.25vw,17px); line-height:1.48; color:#555; }
+.iksel-step strong { color:var(--deep-black); }
+#paper3 .paper-layout { grid-template-columns:56% 44%; }
+#paper3 .paper-left, #paper3 .paper-right { overflow:hidden; }
+#paper3 .paper-right img:first-of-type { max-height:34vh; }
+#paper3 .paper-right img:nth-of-type(2) { max-height:39vh; }
 
 /* Ending 页无框大字条目 */
 .ending-item { margin-bottom: 20px; padding-left: 20px; border-left: 3px solid var(--red-accent); }
@@ -181,6 +250,9 @@ a:hover { opacity: 0.8; }
   .paper-layout { grid-template-columns: 1fr; }
   .grid-2, .grid-3 { grid-template-columns: 1fr; }
   .section-num { font-size: 60px; top: 12px; right: 20px; }
+  .bridge-layout, .practice-intro, #action-space-a .model-flow, #action-space-b .model-flow { grid-template-columns:1fr; }
+  #delta-deep-dive .delta-main { grid-template-columns:1fr; }
+  .paper1-top, .controller-choice-grid { grid-template-columns:1fr; }
 }
 </style>
 </head>
@@ -192,8 +264,8 @@ a:hover { opacity: 0.8; }
   <div>
     <p class="note-label note-label--light">Presentation</p>
     <div class="spacer-md"></div>
-    <h1 class="title-huge">从EEF和Joints出发探究模型训练新范式</h1>
-    <div class="spacer-md"></div>
+    <h1 class="title-huge">EEF 还是 Joints？<br>VLA 动作空间的关键选择</h1>
+    <p class="cover-subtitle">从任务语义、控制稳定性到跨本体泛化：模型究竟应该预测什么？</p>
     <p class="meta-info">2026 年 7 月</p>
   </div>
 </section>
@@ -206,8 +278,8 @@ a:hover { opacity: 0.8; }
     <div class="spacer-lg"></div>
     <div class="questions-vertical">
       <div class="q-item"><span class="q-num">01</span><span class="q-text">学习 Joint 和学习 EEF 的本质区别在哪？</span></div>
-      <div class="q-item"><span class="q-num">02</span><span class="q-text">哪种方法才能让模型学到真正的任务表征，而不是一个巨大的数据拟合模型？</span></div>
-      <div class="q-item"><span class="q-num">03</span><span class="q-text">能否兼得 —— 既保留任务语义，又保证本体可执行性？</span></div>
+      <div class="q-item"><span class="q-num">02</span><span class="q-text">动作表示如何影响模型的任务泛化与控制稳定性？</span></div>
+      <div class="q-item"><span class="q-num">03</span><span class="q-text">能否兼得 —— 既保留任务语义，又尊重本体约束？</span></div>
     </div>
   </div>
 </section>
@@ -217,13 +289,13 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="note-label">Terminology</p>
     <div class="spacer-sm"></div>
-    <h2 class="text-h2">基础定义：EEF 与 Joints</h2>
-    <p class="slide-thesis" style="max-width:1200px;">EEF 描述「手在哪」，Joints 描述「臂怎么放」—— IK 是两者之间<span class="red">存在多解歧义</span>的桥梁</p>
+    <h2 class="text-h2">先分清：状态表示、动作表示与执行接口</h2>
+    <p class="slide-thesis" style="max-width:1200px;">EEF 描述「手去哪」，Joints 描述「各关节怎么动」—— 两者不是维度之争，而是<span class="red">抽象层级之争</span></p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:20px; max-width:1200px;">
       <div class="def-block">
-        <h3>EEF (End-Effector Frame)</h3>
+        <h3>EEF / Task-space action</h3>
         <div class="formula-block">[Δ<em>x</em>, Δ<em>y</em>, Δ<em>z</em>, Δ<em>roll</em>, Δ<em>pitch</em>, Δ<em>yaw</em>, <span class="var">g</span>] ∈ ℝ<sup>7</sup></div>
-        <p>末端执行器在笛卡尔空间的 6-DoF 位姿 + 1 个夹爪开合值</p>
+        <p>这里讨论的是末端 6-DoF 位姿增量 + 夹爪值；EEF frame 本身是坐标系，二者不要混用</p>
       </div>
       <div class="def-block">
         <h3>Joints（关节空间）</h3>
@@ -251,17 +323,28 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">IK's Role</p>
     <div class="spacer-sm"></div>
-    <h2 class="text-h2">IK 的角色 —— EEF 与 Joints 的桥接器</h2>
-    <p class="slide-thesis">模型输出只是「提议」，<span class="red">IK / 控制器才是最后一道关卡</span>，它决定哪些动作真正被执行</p>
-    <div style="margin:10px 0; text-align:center;">
-      <img class="fig-img" src="https://arxiv.org/html/2406.09246v2/x2.png" alt="OpenVLA 架构：输出 7-DoF delta EEF action" onerror="imgFallback(this)" style="max-height:300px; object-fit:contain;">
-      <p class="caption fig-caption">Fig 1. OpenVLA 架构：输出 7-DoF delta EEF action，需下游 IK/控制器映射到关节</p>
+    <h2 class="text-h2">IK / 控制器的角色：把任务空间目标变成可执行命令</h2>
+    <p class="slide-thesis">模型输出只是「提议」，<span class="red">执行接口才决定动作如何落到机器人上</span></p>
+    <div class="bridge-layout">
+      <div>
+        <div class="bridge-flow">
+          <div class="bridge-node bridge-node--accent"><strong>VLA</strong><span>预测 ΔEEF、joint 或混合动作</span></div>
+          <span class="bridge-arrow">→</span>
+          <div class="bridge-node"><strong>控制接口</strong><span>显式 IK，或 operational-space controller 内部映射</span></div>
+          <span class="bridge-arrow">→</span>
+          <div class="bridge-node"><strong>Robot</strong><span>joint position / velocity / torque</span></div>
+        </div>
+        <ul class="point-list" style="margin-top:16px;">
+          <li>EEF 不能直接驱动电机，但不一定需要在策略外显式运行一个独立 IK 模块</li>
+          <li>各模型 action 定义差异大：relative vs absolute、delta 锚点、EEF vs joint</li>
+          <li>因此比较模型时，必须同时看策略输出和环境侧 controller 配置</li>
+        </ul>
+      </div>
+      <div style="text-align:center;">
+        <img class="fig-img" src="https://arxiv.org/html/2406.09246v2/x2.png" alt="OpenVLA 架构：输出 7-DoF delta EEF action" onerror="imgFallback(this)" style="max-height:340px; max-width:100%; object-fit:contain;">
+        <p class="caption fig-caption">Fig 1. OpenVLA 输出 7-DoF action；真正的执行语义由部署侧接口定义</p>
+      </div>
     </div>
-    <ul class="point-list" style="max-width:1000px; margin-top:8px;">
-      <li>模型输出 EEF → 需经 IK 求解才能执行；执行效果同时受限于 IK 算法质量</li>
-      <li>各模型 action 定义差异大：relative vs absolute、delta 锚点、EEF vs joint</li>
-      <li>下面逐个拆解四个代表性模型的动作空间规格 →</li>
-    </ul>
   </div>
 </section>
 
@@ -271,7 +354,8 @@ a:hover { opacity: 0.8; }
   <div>
     <p class="note-label">Topic One</p>
     <div class="spacer-md"></div>
-    <h2 class="title-large">Joint vs EEF 的本质探讨</h2>
+    <h2 class="title-large">动作表示先决定模型在学什么</h2>
+    <p class="body-text" style="color:#666; margin-top:16px; max-width:900px;">Joint 保留本体运动偏好；EEF 抽象任务几何。接下来先看取舍，再看证据。</p>
   </div>
 </section>
 
@@ -284,27 +368,27 @@ a:hover { opacity: 0.8; }
       <div class="vp-item">
         <span class="vp-item__num">01</span>
         <div class="vp-item__content">
-          <span class="vp-item__title">Joint 照葫芦画瓢</span>
-          <span class="vp-item__desc">数据绑定特定机器人构型，泛化受限；工程表现好，但不是终局之解</span>
+          <span class="vp-item__title">Joint 保留本体运动先验</span>
+          <span class="vp-item__desc">示范里的肘部偏好、连续 IK 分支与限位习惯都被保留下来；固定本体控制稳定，但跨本体迁移受限</span>
         </div>
       </div>
       <div class="vp-item">
         <span class="vp-item__num">02</span>
         <div class="vp-item__content">
-          <span class="vp-item__title">EEF 学任务本意但忽略 IK 局限</span>
-          <span class="vp-item__desc">能学到任务本意，但胳膊如何过去同样重要；IK 多解歧义 → 执行抖动或失败</span>
+          <span class="vp-item__title">EEF 抽象任务几何</span>
+          <span class="vp-item__desc">更接近“手应该去哪”，但没有完整表达“胳膊如何过去”；可达性、奇异点与多解仍由下游处理</span>
         </div>
       </div>
       <div class="vp-item">
         <span class="vp-item__num">03</span>
         <div class="vp-item__content">
-          <span class="vp-item__title">EE + 关节状态融合</span>
-          <span class="vp-item__desc">EE 提供共享任务几何，关节状态保证可执行性；代表：GEAR-VLA，兼顾迁移与精度</span>
+          <span class="vp-item__title">EEF + 关节状态融合</span>
+          <span class="vp-item__desc">EEF 提供共享任务几何，关节状态暴露当前本体构型；代表性方向：GEAR-VLA 的 embodiment canonicalization</span>
         </div>
       </div>
     </div>
     <div class="spacer-lg"></div>
-    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--deep-black);">下面三篇论文分别从不同角度给出方案 →</p>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,24px); font-weight:700; color:var(--deep-black);">这不是二选一：真正要选的是“策略抽象层级 + 执行接口”的组合 →</p>
   </div>
 </section>
 
@@ -313,7 +397,7 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Action Space · Part A</p>
     <div class="spacer-md"></div>
-    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">EEF 输出流派：输出的是<span class="red">相对当前位姿的 delta</span>，能否绕过 IK 完全取决于配置</p>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">同一模型家族也可能随数据配置输出 <span class="red">Joint 或 EEF</span>，先看 action schema 再谈执行链路</p>
 
     <div class="model-flow">
       <!-- OpenVLA -->
@@ -326,7 +410,7 @@ a:hover { opacity: 0.8; }
         </div>
         <div class="model-entry__body">
           <p class="model-entry__line">锚定<strong>当前 EEF 位姿</strong>的增量 [Δx, Δy, Δz, Δroll, Δpitch, Δyaw, g]，不是绝对位姿</p>
-          <p class="model-entry__line"><span class="red">必需下游 IK</span>：current_eef + delta → IK → joint；旋转用小角度近似简化为向量加法</p>
+          <p class="model-entry__line"><span class="red">需要下游控制映射</span>：current_eef + delta → controller → joint / torque；是否显式调用 IK 由部署接口决定</p>
           <div class="model-entry__code"><span class="kw">action</span> = vla.<span class="kw">predict_action</span>(**inputs, unnorm_key=<span class="str">"bridge_orig"</span>)</div>
         </div>
       </div>
@@ -356,7 +440,7 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Action Space · Part B</p>
     <div class="spacer-md"></div>
-    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">双 head / 统一向量流派：<span class="red">EEF 与 Joint 同时编码</span>，真机执行取 joint 侧绕过 IK</p>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 20px;">双 head / 统一向量流派：<span class="red">EEF 与 Joint 同时编码</span>，部署端再选择实际执行接口</p>
 
     <div class="model-flow">
       <!-- GR00T N1.7 -->
@@ -404,11 +488,11 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Practice Routes</p>
     <div class="spacer-sm"></div>
-    <h2 class="text-h2">普遍做法</h2>
-    <p class="slide-thesis">绝大多数模型执行时用 <span class="red">Joint</span> —— EEF 在输入端提供几何理解，Joint 在输出端保证执行稳定</p>
+    <h2 class="text-h2">工程上常见的两条执行路线</h2>
+    <p class="slide-thesis" style="margin:6px 0 14px; max-width:1350px;">没有唯一行业答案：<span class="red">固定本体偏 Joint 稳定</span>，跨本体学习更看重 task-space 抽象</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:10px;">
       <div style="border-left:5px solid var(--red-accent); padding:14px 18px; background:rgba(216,0,15,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">路线一：直接输出 Joint</p>
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">路线一：策略直接输出 Joint</p>
         <p class="text-h1" style="margin-bottom:6px;">输出关节角，但输入隐含 EEF 信息</p>
         <ul class="point-list" style="margin:0;">
           <li>如 GR00T N1.7 DROID：输入含 relative EEF + joint</li>
@@ -416,15 +500,15 @@ a:hover { opacity: 0.8; }
         </ul>
       </div>
       <div style="border-left:5px solid rgba(28,20,16,0.2); padding:14px 18px; background:rgba(28,20,16,0.02);">
-        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">路线二：小模型隐含先验</p>
-        <p class="text-h1" style="margin-bottom:6px;">轻量模型学感知到控制的映射</p>
+        <p class="aux-text" style="color:var(--red-accent); margin-bottom:6px;">路线二：策略输出 EEF，控制层完成映射</p>
+        <p class="text-h1" style="margin-bottom:6px;">把任务几何与本体控制解耦</p>
         <ul class="point-list" style="margin:0;">
-          <li>如 GR00T N1.7 的 SONIC / WBC 方案</li>
-          <li>隐含运动学约束与控制先验</li>
+          <li>显式 IK 或 operational-space controller 接收目标</li>
+          <li>迁移更自然，但稳定性依赖控制接口与可达性处理</li>
         </ul>
       </div>
     </div>
-    <p class="text-aux" style="margin-bottom:10px; max-width:1100px;">注：路线一并非物理上"没有 IK"，而是模型从示范数据中隐式学到关节运动规律；可用 FK consistency 约束双输出一致。</p>
+    <p class="text-aux" style="margin-bottom:10px; max-width:1100px;">注：路线一并非物理上“没有运动学”，而是策略直接复现关节运动规律；双输出方案还可用 FK consistency 约束 EEF 与 Joint 一致。</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
       <div>
         <img class="fig-img" src="https://arxiv.org/html/2503.14734v2/x2.png" alt="GR00T N1 模型整体架构概览" onerror="imgFallback(this)" style="max-height:260px; object-fit:contain; width:100%;">
@@ -440,48 +524,47 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 10: Action Space 论文 p1（论文 1） ===== -->
 <section class="slide slide--white" id="paper1-p1">
-  <div style="width:100%; display:flex; flex-direction:column; padding:32px 48px; height:100%; overflow:hidden;">
-    <div class="paper-layout" style="height:auto; flex:1; min-height:0;">
+  <div style="width:100%; display:flex; flex-direction:column; padding:24px 48px; height:100%; overflow:hidden; justify-content:center;">
+    <div class="paper1-top">
       <div class="paper-left">
-        <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 1：Does the Action Space Matter?</h2>
-        <p class="text-aux" style="color:#999; margin-bottom:16px;">A Systematic Study of Robot Action Representations · arxiv 2602.23408</p>
-
-        <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心结论：固定本体上 Joint + chunk-wise delta 表现最优</p>
-
-        <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
+        <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 1：Demystifying Action Space Design</h2>
+        <p class="text-aux" style="color:#999; margin-bottom:10px;">A Systematic Study of Robot Action Representations · arxiv 2602.23408</p>
+        <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:10px; line-height:1.35;">核心结论：固定本体上 Joint + chunk-wise delta 表现最优</p>
+        <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:10px;">
           <div style="display:flex; align-items:flex-start; gap:12px;">
             <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
             <div>
               <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Delta 表示优于 Absolute 表示</p>
-              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">回归策略与 Flow Matching 均验证了这一结论</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.4;">回归策略与 Flow Matching 均验证</p>
             </div>
           </div>
           <div style="display:flex; align-items:flex-start; gap:12px;">
             <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
             <div>
               <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">Chunk-wise delta 比 step-wise delta 高约 10%</p>
-              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">锚定同一观测帧，误差不累积</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.4;">整段锚定同一观测帧</p>
             </div>
           </div>
           <div style="display:flex; align-items:flex-start; gap:12px;">
             <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
             <div>
               <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">固定本体上 Joint 表现优于 EEF</p>
-              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">避免 IK 多解歧义，数据在关节流形上</p>
+              <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.4;">避免 IK 多解歧义，保留关节流形偏好</p>
             </div>
           </div>
         </div>
-
-        <p style="font-family:var(--font-aux); font-size:clamp(15px,1.4vw,18px); color:#555; line-height:1.6; padding:10px 16px; background:#F8F7F5; border-radius:4px;">行动空间分类：{ Joint, EEF } × { Absolute, Delta } → 4 种表示</p>
+        <div class="figure-logic">
+          <p><strong>如何读 Fig.1 最上方时间线：</strong>它混合列出 model / dataset / benchmark；名称后的括号就是该条目的动作表示。</p>
+          <p><strong>例如：</strong><em>OpenVLA (delta eef)</em>、<em>π<sub>0</sub> (delta joint)</em>、<em>GR00T (abs eef/joint)</em>。这描述输出/标注格式，不代表完整部署控制链路。</p>
+        </div>
       </div>
       <div class="paper-right">
         <img src="https://arxiv.org/html/2602.23408v1/figure/main_tight.png" alt="Action Space 论文概览" onerror="imgFallback(this)">
-        <p class="caption">Fig 1. 不同动作表示的性能对比框架</p>
+        <p class="caption">Fig 1. 时间线给出动作格式，主体展示系统实验流程与结论</p>
       </div>
     </div>
-    <!-- Fig 2 移到底部并变大 -->
-    <div style="text-align:center; margin-top:12px; flex-shrink:0;">
-      <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/preliminary.png" alt="行动空间分类法" onerror="imgFallback(this)" style="max-height:45vh; width:auto; object-fit:contain;">
+    <div class="paper1-taxonomy">
+      <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/preliminary.png" alt="行动空间分类法" onerror="imgFallback(this)">
       <p class="fig-caption">Fig 2. 行动空间分类法（Joint/EEF × Absolute/Delta）</p>
     </div>
   </div>
@@ -539,16 +622,16 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">Deep Dive · Delta</p>
     <div class="spacer-sm"></div>
-    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 16px;">Chunk-wise delta 锚定同一观测帧，<span class="red">误差不累积</span> —— 这是领先 ~10% 的原因</p>
+    <p class="slide-thesis" style="border:none; background:none; padding:0; margin:0 0 16px;">Chunk-wise delta 让整段目标锚定同一观测帧，<span class="red">避免表示层的逐步漂移</span></p>
 
-    <div style="display:grid; grid-template-columns:1fr auto; gap:24px; align-items:start;">
+    <div class="delta-main">
       <!-- 左侧：Delta 条目 -->
       <div class="delta-flow">
         <div class="delta-item">
           <div class="delta-item__head"><span class="delta-item__num">01</span><span class="delta-item__title">Step-wise<span class="delta-item__sub">逐步增量</span></span></div>
           <div class="delta-item__body">
             <div class="formula-block formula-block--sm"><span class="var">a<sub>t</sub></span> = q<sub>t</sub> − q<sub>t−1</sub>&ensp;→&ensp;q<sub>t</sub> = q<sub>t−1</sub> + <span class="var">a<sub>t</sub></span></div>
-            <p class="delta-item__line">参考上一步串行递推，<span class="red">误差逐步累积（drift）</span> —— 像闭眼走路每步靠上一步，越走越偏</p>
+            <p class="delta-item__line">每个标签参考上一个目标，预测偏差可能在目标重建时逐步传递 —— 像每一步都用上一落点重新量距离</p>
           </div>
         </div>
 
@@ -556,7 +639,7 @@ a:hover { opacity: 0.8; }
           <div class="delta-item__head"><span class="delta-item__num">02</span><span class="delta-item__title">Chunk-wise<span class="delta-item__sub">锚定增量</span></span></div>
           <div class="delta-item__body">
             <div class="formula-block formula-block--sm"><span class="var">a<sub>t+k</sub></span> = q<sub>t+k</sub> − q<sub>t</sub>&ensp;→&ensp;q<sub>t+k</sub> = q<sub>t</sub> + <span class="var">a<sub>t+k</sub></span></div>
-            <p class="delta-item__line">整段锚定同一观测点 q<sub>t</sub>，<strong>不累积误差、天然并行</strong> —— 盯着起点地标走，每步独立参考</p>
+            <p class="delta-item__line">整段锚定同一观测点 q<sub>t</sub>，<strong>标签彼此独立、天然并行</strong> —— 每个目标都从同一地标量起</p>
           </div>
         </div>
 
@@ -575,12 +658,17 @@ a:hover { opacity: 0.8; }
             <p class="delta-item__line"><span class="red">⚠ EEF delta 需要群运算</span>，工程实现比 joint delta 复杂 —— 这也是固定本体 Joint delta 更优的原因之一</p>
           </div>
         </div>
+        <p class="text-aux" style="margin-top:2px; max-width:1050px;">边界：这里讨论的是 action chunk 的标签参数化；真实执行通常仍会闭环重规划，因此不等同于“整段开环执行必然不漂移”。</p>
       </div>
 
       <!-- 右侧：Fig 3 证据图（从 paper1-p2 移入） -->
-      <div style="display:flex; flex-direction:column; align-items:center; min-width:280px; max-width:380px;">
-        <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta horizon 对比实验" onerror="imgFallback(this)" style="max-width:100%; max-height:42vh; object-fit:contain;">
+      <div class="delta-figure">
+        <img class="fig-img" src="https://arxiv.org/html/2602.23408v1/figure/delta_horizon.png" alt="Delta horizon 对比实验" onerror="imgFallback(this)">
         <p class="fig-caption" style="margin-top:6px;">Fig 3. Delta horizon 对比：chunk-wise delta 显著领先</p>
+        <div class="figure-reading">
+          <p><strong>上排看表示：</strong>同一任务下比较 EEF / Joint 与两种 delta 定义。</p>
+          <p><strong>下排看 horizon：</strong>随着执行区间变化，chunk-wise 锚点整体更稳定。</p>
+        </div>
       </div>
     </div>
   </div>
@@ -590,40 +678,48 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
     <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 2：GEAR-VLA</h2>
-      <p class="text-aux" style="color:#999; margin-bottom:16px;">Generalizable End-effector Action Representation for VLA · arxiv 2606.08530</p>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">为什么还要讲 GEAR-VLA？</h2>
+      <p class="text-aux" style="color:#999; margin-bottom:16px;">Learning Geometry-Aware Action Representations for Generalizable Robotic Manipulation · arxiv 2606.08530</p>
 
-      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">核心思想：q + EEF 输入，EEF 输出 —— 融合 Joint 精度与 EEF 通用性</p>
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:14px; line-height:1.4;">OpenPI / GR00T 说明“<span style="color:var(--red-accent);">可以输出 EEF</span>”；GEAR-VLA 进一步检验“<span style="color:var(--red-accent);">能否跨本体共享</span>”。</p>
 
-      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">输出保持本体无关</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">可跨平台迁移，同一策略直接部署不同机器人</p>
-          </div>
+      <p style="font-family:var(--font-aux); font-weight:700; font-size:15px; color:var(--red-accent); margin-bottom:8px; letter-spacing:.04em;">实验结果</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px;">
+        <div style="border-top:4px solid var(--red-accent); background:rgba(216,0,15,.035); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:var(--red-accent); line-height:1;">81.0%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">未见本体 LDT-01</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">较最强基线 +7.1 pt<br>200 demos / task 适配</p>
         </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">输入保留关节状态</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">模型感知当前本体构型，解决纯 EEF 方法的缺陷</p>
-          </div>
+        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">85.9%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">AgileX 外观泛化</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">3个双臂任务<br>测试未见颜色 / 尺寸</p>
         </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">实验验证</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">zero-shot 跨本体迁移显著优于纯 Joint，固定本体也不输专用 Joint 策略</p>
-          </div>
+        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">90.1%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">212 种未见物体</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">6,360 次真实抓取<br>对比 79.1% / 84.4%</p>
         </div>
       </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px;">
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它证明到哪里：</strong>共享表示能够用少量目标机器人数据适配到预训练未见本体；不是完全 zero-shot 控制新机器人。</p>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它没有证明什么：</strong>没有做 Relative EEF vs Joint 的单独消融，也没有提出新的 EEF→Joint 求解器。</p>
+        </div>
+      </div>
+      <div class="gear-boundary">
+        <strong>一句话讲法</strong>
+        <p>GEAR-VLA 提供的是整套系统的跨本体结果：relative EEF 是共享接口的一部分，但不能把 81.0% 单独归因于 EEF action。</p>
+      </div>
     </div>
-    <div class="paper-right" style="max-height:85vh; overflow-y:auto;">
-      <img src="https://arxiv.org/html/2606.08530v1/x1.png" alt="GEAR-VLA 方法总览" onerror="imgFallback(this)" style="max-height:38vh;">
-      <p class="caption">Fig 1. GEAR-VLA 方法总览</p>
-      <img src="https://arxiv.org/html/2606.08530v1/x2.png" alt="GEAR-VLA 框架架构详细设计" onerror="imgFallback(this)" style="max-height:38vh;">
-      <p class="caption">Fig 2. 框架架构：q+EEF输入 → EEF输出</p>
+    <div class="paper-right" style="max-height:85vh; overflow:hidden; justify-content:center;">
+      <img src="https://arxiv.org/html/2606.08530v1/x1.png" alt="GEAR-VLA 方法与跨本体验证总览" onerror="imgFallback(this)" style="width:100%; max-height:68vh; object-fit:contain;">
+      <p class="caption">Fig 1. 上半部分是共享表示；下半部分才是跨本体与外观泛化证据</p>
     </div>
   </div>
 </section>
@@ -631,38 +727,38 @@ a:hover { opacity: 0.8; }
 <!-- ===== PAGE 14: 行业共识（重做：白背景+无框大字） ===== -->
 <section class="slide slide--warm" id="consensus">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
-    <p class="note-label">Industry Consensus</p>
-    <h2 style="font-family:var(--font-aux); font-weight:700; font-size:clamp(32px, 3.8vw, 52px); line-height:1.2; color:var(--deep-black); margin-bottom:6px;">三篇论文，同一套动作语言</h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.6vw,21px); color:#888; margin-bottom:32px; max-width:800px;">它们为什么不约而同选择了这套表示？因为它同时解决了三个核心工程问题。</p>
+    <p class="note-label">Same Semantics, Different Names</p>
+    <h2 style="font-family:var(--font-aux); font-weight:700; font-size:clamp(32px, 3.8vw, 52px); line-height:1.2; color:var(--deep-black); margin-bottom:6px;">三种命名，其实是同一种 anchor 逻辑</h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.6vw,21px); color:#888; margin-bottom:22px; max-width:1100px;">共同语义：一个 action chunk 内，所有未来 EEF target 都相对于<strong style="color:var(--deep-black);">当前观测时刻的 EE pose</strong> 表达，而不是相对前一个预测点。</p>
 
-    <div class="consensus-entry">
+    <div class="consensus-entry" style="margin-bottom:18px;">
       <span class="consensus-entry__num">01</span>
       <div class="consensus-entry__content">
         <span class="consensus-entry__name">UMI</span>
-        <span class="consensus-entry__meta">2024 · Columbia / Toyota · relative EE trajectory</span>
-        <span class="consensus-entry__desc">所有未来 pose 都相对于<strong>当前同一个 EE pose</strong>，而非逐帧递推。整段 trajectory 共享一个 anchor，模型只需学一个紧凑的局部动作分布。</span>
+        <span class="method-name">Relative Trajectory as Action Representation</span>
+        <span class="consensus-entry__desc">论文原名强调 trajectory：整段未来 pose 相对于同一个 initial/current EE pose。</span>
       </div>
     </div>
 
-    <div class="consensus-entry">
+    <div class="consensus-entry" style="margin-bottom:18px;">
       <span class="consensus-entry__num">02</span>
       <div class="consensus-entry__content">
         <span class="consensus-entry__name">GEAR-VLA</span>
-        <span class="consensus-entry__meta">2026 · 跨本体迁移框架 · Relative End-effector Action</span>
-        <span class="consensus-entry__desc">明确强调<strong>不是相对前一预测帧</strong>，而是始终锚定当前观测帧的 EE pose。输出端保持本体无关，同一策略可直接迁移到不同机器人构型。</span>
+        <span class="method-name">Relative End-effector Action · Anchored-relative Control</span>
+        <span class="consensus-entry__desc">用 anchored-relative 表示做 embodiment-invariant action；差异被推给 low-level interface。</span>
       </div>
     </div>
 
-    <div class="consensus-entry">
+    <div class="consensus-entry" style="margin-bottom:18px;">
       <span class="consensus-entry__num">03</span>
       <div class="consensus-entry__content">
         <span class="consensus-entry__name">GR00T N1.7</span>
-        <span class="consensus-entry__meta">NVIDIA · 人形机器人基座模型 · Relative EEF Action Space</span>
-        <span class="consensus-entry__desc">未来动作定义为相对于 <strong>current pose 的 delta</strong>，贯穿整个预测 horizon。相对表示消除绝对坐标系下的分布偏移。</span>
+        <span class="method-name">Relative EEF Action Space</span>
+        <span class="consensus-entry__desc">官方名称最直接：actions as deltas from current pose，跨 human / robot embodiment 共用。</span>
       </div>
     </div>
 
-    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,26px); font-weight:700; color:var(--deep-black); margin-top:20px;">UMI · GEAR-VLA · GR00T N1.7 —— <span style="color:var(--red-accent);">名字不同，锚点相同。</span></p>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,2vw,26px); font-weight:700; color:var(--deep-black); margin-top:8px;">名字不同，标签公式相同；<span style="color:var(--red-accent);">但三者都没有自动解决 EEF→Joint 的控制接口。</span></p>
   </div>
 </section>
 
@@ -671,24 +767,18 @@ a:hover { opacity: 0.8; }
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">IK Still Matters</p>
     <div class="spacer-sm"></div>
-    <h2 class="text-h2" style="margin-bottom:6px;">但 IK 算法仍然是必需的</h2>
-    <p class="slide-thesis" style="margin:6px 0 14px;">即使执行端用 Joint，<span class="red">IK 在数据侧也不可或缺</span> —— 脚本采集与数据扩充都靠它</p>
+    <h2 class="text-h2" style="margin-bottom:6px;">IK / 控制器仍然是系统能力的一部分</h2>
+    <p class="slide-thesis" style="margin:6px 0 14px;">即使策略执行端输出 Joint，<span class="red">任务空间到关节空间的映射仍存在于数据或控制链路中</span></p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:14px;">
       <div style="border-left:4px solid var(--red-accent); padding:14px 18px; background:rgba(216,0,15,0.02);">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">场景一：脚本采集</p>
-        <p class="text-body">设定 EEF waypoint → IK 反算 joints，而非写死关节角。</p>
+        <p class="text-body">设定 EEF waypoint → IK / 控制器生成 joints，而非逐点写死关节角。</p>
       </div>
       <div style="border-left:4px solid rgba(28,20,16,0.15); padding:14px 18px; background:rgba(28,20,16,0.02);">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">场景二：数据扩充（如 MimicGen）</p>
-        <p class="text-body">算法基于 EEF 相对变化生成新轨迹，更需好 IK 约束 joint、避开奇异点，得到平滑可用的轨迹。</p>
+        <p class="text-body">算法基于 EEF 相对变化生成新轨迹，需要控制器处理 joint limit、奇异点与轨迹连续性。</p>
       </div>
     </div>
-    <div style="margin-top:4px; border-left:5px solid var(--red-accent); padding:14px 18px; background:rgba(216,0,15,0.02);">
-      <p class="aux-text" style="color:var(--red-accent); margin-bottom:8px;">如何选择 IK？</p>
-      <p class="text-body" style="margin-bottom:6px;">不选排行榜第一，而是沿用：<strong>采集时的控制器 / 厂商验证过的笛卡尔接口 / benchmark 标准控制器</strong></p>
-      <p class="text-body" style="font-weight:600; color:var(--red-accent);">▸ 降低训练与部署之间的控制分布差异</p>
-    </div>
-    <p class="text-aux" style="color:#999; margin-top:8px;">（经典 IK：PINK IK、Lula IK 等，此处不展开）</p>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-top:12px;">
       <div>
         <img class="fig-img" src="https://mimicgen.github.io/resources/overview.png" alt="MimicGen pipeline" onerror="imgFallback(this)" style="max-height:260px; object-fit:contain; width:100%;">
@@ -702,16 +792,56 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 16: IK 小结 ===== -->
+<!-- ===== PAGE 16: 如何选择 IK / 控制器 ===== -->
+<section class="slide slide--white" id="choose-controller">
+  <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
+    <p class="note-label">Controller Selection</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,56px); line-height:1.15; margin:8px 0 4px;">我们应该如何选择合适的 IK / 控制器？</h2>
+    <p class="slide-thesis" style="margin:8px 0 10px; max-width:1400px;">先确定<span class="red">控制层级与训练接口</span>，再比较求解器；排行榜速度不是第一判断标准</p>
+
+    <div class="controller-choice-grid">
+      <div>
+        <div class="controller-question">
+          <h3>01 · 策略到底输出什么？</h3>
+          <p>Joint target → joint controller；EEF pose → IK / OSC；全身接触与平衡 → WBC / MPC。先选层级，不能拿一个 IK 包打天下。</p>
+        </div>
+        <div class="controller-question">
+          <h3>02 · 数据由谁生成？</h3>
+          <p>优先复用采集时的控制器、厂商验证接口或 benchmark 标准控制器，避免训练与部署的关节分布发生变化。</p>
+        </div>
+        <div class="controller-question">
+          <h3>03 · 闭环真正关心什么？</h3>
+          <p>连续性、joint limit / collision / singularity、求解失败恢复，以及目标控制频率下的稳定延迟。</p>
+        </div>
+      </div>
+
+      <div>
+        <div class="controller-table">
+          <div>已有厂商 Cartesian API</div><div>优先沿用；它通常已经处理限位、标定与安全约束</div>
+          <div>复现 benchmark / 数据集</div><div>使用同一环境 controller 与同一 action frequency</div>
+          <div>自定义机械臂 + EEF pose</div><div>DLS / Pink / Lula 等数值 IK，再补 seed、null-space 与连续性策略</div>
+          <div>双臂 / 人形 / 接触任务</div><div>使用 WBC / OSC / MPC；单独 IK 不负责动力学、平衡与接触力</div>
+          <div>高频、易陷局部极值</div><div>缓存/检索 seed、warm start，失败时 re-selection；IKSel 属于这一层</div>
+        </div>
+        <div class="gear-boundary" style="margin-top:14px;">
+          <strong>验收指标</strong>
+          <p>不要只测单次 pose error：还要测闭环任务成功率、q 连续性、限位/碰撞率、P95 延迟，以及换 controller 后的数据分布漂移。</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 17: IK 小结 ===== -->
 <section class="slide slide--warm" id="ik-summary" style="padding:24px 48px;">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
     <p class="note-label">IK Summary</p>
     <h2 class="title-medium" style="margin:10px 0 6px;">三个核心认知</h2>
-    <p class="slide-thesis" style="margin:6px 0 18px; max-width:1400px;">没有好的 IK，<span class="red">再好的 EEF 预测也落不了地</span></p>
+    <p class="slide-thesis" style="margin:6px 0 18px; max-width:1400px;">EEF 方案的上限，最终由<span class="red">运动学可达性与控制接口</span>共同决定</p>
     <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px; max-width:1400px;">
       <div style="border-left:5px solid var(--red-accent); padding:22px; background:rgba(216,0,15,0.02);">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:12px; font-size:14px;">一、EEF 到执行的必经桥梁</p>
-        <p style="font-family:var(--font-aux); font-size:18px; line-height:1.6; color:#333;">模型输出 EEF 后，必须经 IK 才能得到可执行关节指令；IK 质量决定执行效果。</p>
+        <p style="font-family:var(--font-aux); font-size:18px; line-height:1.6; color:#333;">模型输出 EEF 后，仍需 IK / OSC / WBC 映射到关节或力矩；控制接口决定执行效果。</p>
       </div>
       <div style="border-left:5px solid var(--red-accent); padding:22px; background:rgba(216,0,15,0.02);">
         <p class="aux-text" style="color:var(--red-accent); margin-bottom:12px; font-size:14px;">二、数据侧不可或缺</p>
@@ -728,78 +858,79 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 17: 主题二 标题页 ===== -->
+<!-- ===== PAGE 18: 主题二 标题页 ===== -->
 <section class="slide slide--red" id="topic2">
   <div>
     <p class="note-label note-label--light">Topic Two</p>
     <div class="spacer-md"></div>
-    <h2 class="title-large" style="color: var(--white);">新训练范式提出</h2>
-    <p class="body-text" style="color:rgba(255,255,255,0.7); margin-top:16px;">VLA 输入/输出 EEF，结合 IKSel 快速求解 Joint</p>
+    <h2 class="title-large" style="color: var(--white);">开放问题：如何补上 EEF → Joint 的 gap？</h2>
+    <p class="body-text" style="color:rgba(255,255,255,0.7); margin-top:16px;">IKSel 可以改善数值 IK 的起点，但它只是控制链路中的一个组件</p>
   </div>
 </section>
 
-<!-- ===== PAGE 18: IKSel + 新范式 ===== -->
+<!-- ===== PAGE 19: IKSel 核心算法 ===== -->
 <section class="slide slide--white" id="paper3">
   <div class="paper-layout">
     <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 3：IKSel</h2>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">IKSel：Workspace 筛候选，Joint Space 选分支</h2>
       <p class="text-aux" style="color:#999; margin-bottom:16px;">Inverse Kinematics Seed Selection for Fast IK Convergence · arxiv 2503.22234</p>
 
-      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:16px; line-height:1.4;">新范式：VLA 输入/输出 EEF + IKSel 快速求解 Joint</p>
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:10px; line-height:1.4;">不是从示范数据挑轨迹，而是从<span style="color:var(--red-accent);">离线 seed library</span> 选择数值 IK 的 q<sub>0</sub></p>
 
-      <div style="display:flex; flex-direction:column; gap:14px; margin-bottom:18px;">
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">①</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">完整 Pipeline</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">VLA 预测 EEF → IKSel 选最优种子 → 数值 IK 快速收敛 → Joint 执行</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">②</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">IKSel 核心思路</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">从多个候选种子中评估选择最优起点，确保 IK 收敛快、解连续，结合 Joint 参考列表避开奇异点</p>
-          </div>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:12px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:20px; color:var(--red-accent); flex-shrink:0;">③</span>
-          <div>
-            <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); font-weight:700; color:var(--deep-black); line-height:1.4;">兼顾通用性与精度</p>
-            <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#666; line-height:1.5;">EEF 输出本体无关 → 保留跨平台迁移；IKSel 保证 Joint 解质量与速度 → 执行精度不打折</p>
-          </div>
-        </div>
+      <div class="iksel-pipeline">
+        <div><strong>离线建库</strong>采样 q<sub>i</sub></div>
+        <div><strong>FK 标注</strong>x<sub>i</sub> = FK(q<sub>i</sub>)</div>
+        <div><strong>在线选择</strong>x<sub>target</sub> + current q</div>
+        <div><strong>输出 seed</strong>q<sub>0</sub> → Numerical IK</div>
+      </div>
+
+      <div class="iksel-step">
+        <span class="iksel-step__num">1</span>
+        <p><strong>工作空间“近”——筛候选：</strong>用 KDTree 找 FK pose 最接近 target EEF pose 的一组 q<sub>i</sub>；这里的“近”是末端位姿接近目标。</p>
+      </div>
+      <div class="iksel-step">
+        <span class="iksel-step__num">2</span>
+        <p><strong>关节空间“近”——选分支：</strong>在候选中按相对 current q 的关节调整量排序，先尝试姿态变化较小的 q<sub>0</sub>。</p>
+      </div>
+      <div class="iksel-step">
+        <span class="iksel-step__num">3</span>
+        <p><strong>失败后“远”——换 basin：</strong>若数值 IK 失败，故意改选 joint-space 更远的候选，避免在同一局部极值附近重复失败。</p>
+      </div>
+
+      <div class="gear-boundary">
+        <strong>最容易讲错的一点</strong>
+        <p>“最近的”不是最终 IK 解，也不是数据集中的示范动作；它只是一个更有希望收敛的初始关节构型。IKSel 选起点，Numerical IK 才负责求解。</p>
       </div>
     </div>
     <div class="paper-right">
       <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/teaser.jpg" alt="IKSel 种子选择对比" onerror="imgFallback(this)">
-      <p class="caption">Fig 1. 种子选择对比：好的种子让IK更快收敛</p>
+      <p class="caption">Fig 1. 同一 target pose 可对应多个 joint branches；seed 决定迭代落在哪个 basin</p>
       <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/reselection.jpg" alt="IKSel 重选择策略" onerror="imgFallback(this)">
-      <p class="caption">Fig 2. 重选择策略：动态调整种子以保持解连续性</p>
+      <p class="caption">Fig 2. 先按 workspace proximity 取候选；失败后按 joint-space difference 拉开尝试范围</p>
     </div>
   </div>
 </section>
 
-<!-- ===== PAGE 19: 结尾（改善：去框大字简约） ===== -->
+<!-- ===== PAGE 20: 结尾 ===== -->
 <section class="slide slide--dark" id="ending">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%; max-width:1100px; margin:0 auto;">
     <h2 style="font-family:var(--font-aux); font-weight:700; font-size:clamp(36px, 4.5vw, 60px); color:rgba(255,255,255,0.95); margin-bottom:36px; letter-spacing:-0.02em;">核心结论</h2>
 
     <div class="ending-item">
       <div class="ending-item__num">01</div>
-      <p class="ending-item__text">Joint 在固定本体下表现更强，但本质是照葫芦画瓢，不是终局之解</p>
+      <p class="ending-item__text">固定本体上 Joint 更稳定；跨本体学习中 EEF 表示更容易共享任务几何</p>
     </div>
     <div class="ending-item">
       <div class="ending-item__num">02</div>
-      <p class="ending-item__text">EEF 能学到任务本意，但忽略本体 IK 局限性</p>
+      <p class="ending-item__text">UMI、GEAR-VLA、GR00T N1.7 名字不同，本质都是锚定当前观测的 relative EEF chunk</p>
     </div>
     <div class="ending-item">
       <div class="ending-item__num">03</div>
-      <p class="ending-item__text">融合方案：EE 提供共享任务几何 + 关节状态保证可执行性（GEAR-VLA）</p>
+      <p class="ending-item__text">GEAR-VLA 证明跨本体表示有效，但把 EEF→Joint 的问题留给 low-level interface</p>
     </div>
     <div class="ending-item">
       <div class="ending-item__num">04</div>
-      <p class="ending-item__text">新范式：VLA 输入/输出 EEF + IKSel 快速求解 Joint，兼顾通用性与精度</p>
+      <p class="ending-item__text">IKSel 只改善数值 IK 的 seed；完整落地仍需选择并验证 IK / OSC / WBC 控制链路</p>
     </div>
 
     <div style="margin-top:40px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.1);">
@@ -827,7 +958,8 @@ a:hover { opacity: 0.8; }
   const dotsContainer = indicator.querySelector('.dots');
   const pageNum = indicator.querySelector('.page-num');
   const totalPages = slides.length;
-  let currentPage = 0;
+  const hashIndex = Array.from(slides).findIndex(slide => '#' + slide.id === location.hash);
+  let currentPage = hashIndex >= 0 ? hashIndex : 0;
   let scrollAccumulator = 0;
   let isAnimating = false;
   const SCROLL_THRESHOLD = 150;
@@ -857,7 +989,6 @@ a:hover { opacity: 0.8; }
   for (let i = 0; i < totalPages; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
-    dot.addEventListener('click', () => goToPage(i));
     dotsContainer.appendChild(dot);
   }
 
@@ -880,6 +1011,7 @@ a:hover { opacity: 0.8; }
     if (n < 0 || n >= totalPages || n === currentPage || isAnimating) return;
     isAnimating = true; currentPage = n;
     container.style.transform = 'translateY(-' + (currentPage * 100) + 'vh)';
+    history.replaceState(null, '', '#' + slides[currentPage].id);
     updateIndicator();
     setTimeout(() => { isAnimating = false; }, ANIMATION_DURATION);
   }
@@ -909,13 +1041,6 @@ a:hover { opacity: 0.8; }
     else if (e.key === 'End') { e.preventDefault(); goToPage(totalPages - 1); }
   });
 
-  document.addEventListener('click', function(e) {
-    if (isLightboxOpen()) return;
-    if (e.target.closest('a') || e.target.closest('button') || e.target.closest('#page-indicator') || e.target.closest('img')) return;
-    const x = e.clientX, w = window.innerWidth;
-    if (x > w * 0.65) nextPage(); else if (x < w * 0.35) prevPage();
-  });
-
   let touchStartY = 0;
   document.addEventListener('touchstart', function(e) { touchStartY = e.touches[0].clientY; });
   document.addEventListener('touchend', function(e) {
@@ -924,6 +1049,9 @@ a:hover { opacity: 0.8; }
     if (Math.abs(diff) > 50) { diff > 0 ? nextPage() : prevPage(); }
   });
 
+  container.style.transition = 'none';
+  container.style.transform = 'translateY(-' + (currentPage * 100) + 'vh)';
+  requestAnimationFrame(() => { container.style.transition = ''; });
   updateIndicator();
 })();
 
