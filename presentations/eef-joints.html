@@ -21,7 +21,10 @@ html, body { overflow: hidden; height: 100vh; width: 100vw; font-family: var(--f
 
 #page-indicator { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 9999; display: flex; align-items: center; gap: 12px; font-family: var(--font-aux); font-size: 13px; font-weight: 500; color: rgba(28,20,16,0.7); background: rgba(255,255,255,0.92); backdrop-filter: blur(8px); padding: 8px 20px; border-radius: 24px; border: 1.5px solid rgba(28,20,16,0.12); box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
 #page-indicator .dots { display: flex; gap: 6px; }
-#page-indicator .dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(28,20,16,0.2); transition: all 0.3s ease; }
+#page-indicator .dot { width: 8px; height: 8px; border-radius: 50%; background: rgba(28,20,16,0.2); transition: all 0.3s ease; cursor: pointer; position: relative; }
+#page-indicator .dot::after { content: ''; position: absolute; inset: -5px; border-radius: 50%; }
+#page-indicator .dot:hover { transform: scale(1.35); }
+#page-indicator .dot:focus-visible { outline: 2px solid var(--red-accent); outline-offset: 4px; }
 #page-indicator .dot.active { background: var(--red-accent); transform: scale(1.4); }
 #page-indicator .page-num { font-weight: 600; color: var(--deep-black); }
 
@@ -1224,6 +1227,20 @@ a:hover { opacity: 0.8; }
   for (let i = 0; i < totalPages; i++) {
     const dot = document.createElement('div');
     dot.className = 'dot' + (i === 0 ? ' active' : '');
+    dot.setAttribute('role', 'button');
+    dot.setAttribute('tabindex', '0');
+    dot.setAttribute('aria-label', '跳转到第 ' + (i + 1) + ' 页');
+    dot.title = '第 ' + (i + 1) + ' 页';
+    dot.addEventListener('click', function(e) {
+      e.stopPropagation();
+      goToPage(i);
+    });
+    dot.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        goToPage(i);
+      }
+    });
     dotsContainer.appendChild(dot);
   }
 
