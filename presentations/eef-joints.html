@@ -678,7 +678,7 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--warm" id="paper2">
   <div class="paper-layout">
     <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">为什么还要讲 GEAR-VLA？</h2>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 2：GEAR-VLA</h2>
       <p class="text-aux" style="color:#999; margin-bottom:16px;">Learning Geometry-Aware Action Representations for Generalizable Robotic Manipulation · arxiv 2606.08530</p>
 
       <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:14px; line-height:1.4;">OpenPI / GR00T 说明“<span style="color:var(--red-accent);">可以输出 EEF</span>”；GEAR-VLA 进一步检验“<span style="color:var(--red-accent);">能否跨本体共享</span>”。</p>
@@ -872,41 +872,41 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--white" id="paper3">
   <div class="paper-layout">
     <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">IKSel：Workspace 筛候选，Joint Space 选分支</h2>
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 3：IKSel</h2>
       <p class="text-aux" style="color:#999; margin-bottom:16px;">Inverse Kinematics Seed Selection for Fast IK Convergence · arxiv 2503.22234</p>
 
-      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:10px; line-height:1.4;">不是从示范数据挑轨迹，而是从<span style="color:var(--red-accent);">离线 seed library</span> 选择数值 IK 的 q<sub>0</sub></p>
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:10px; line-height:1.4;">核心：先建机器人的<span style="color:var(--red-accent);">关节姿态 → 末端位姿</span>运动学地图，再为 Numerical IK 选起点</p>
 
       <div class="iksel-pipeline">
-        <div><strong>离线建库</strong>采样 q<sub>i</sub></div>
-        <div><strong>FK 标注</strong>x<sub>i</sub> = FK(q<sub>i</sub>)</div>
-        <div><strong>在线选择</strong>x<sub>target</sub> + current q</div>
-        <div><strong>输出 seed</strong>q<sub>0</sub> → Numerical IK</div>
+        <div><strong>① 采样关节空间</strong>在 joint limits 内均匀生成 q<sub>i</sub></div>
+        <div><strong>② 计算并标注</strong>x<sub>i</sub>=FK(q<sub>i</sub>)<br>同时保存 J(q<sub>i</sub>)<sup>+</sup></div>
+        <div><strong>③ 建 KDTree</strong>按 TCP pose x<sub>i</sub> 索引每个 q<sub>i</sub></div>
+        <div><strong>④ 在线查询</strong>输入 target x*<br>输出 seed q<sub>0</sub></div>
       </div>
 
       <div class="iksel-step">
         <span class="iksel-step__num">1</span>
-        <p><strong>工作空间“近”——筛候选：</strong>用 KDTree 找 FK pose 最接近 target EEF pose 的一组 q<sub>i</sub>；这里的“近”是末端位姿接近目标。</p>
+        <p><strong>Workspace 先筛“近”：</strong>从地图中找一组 x<sub>i</sub> 接近 target x* 的候选；它们的手都在目标附近，但关节构型可能完全不同。</p>
       </div>
       <div class="iksel-step">
         <span class="iksel-step__num">2</span>
-        <p><strong>关节空间“近”——选分支：</strong>在候选中按相对 current q 的关节调整量排序，先尝试姿态变化较小的 q<sub>0</sub>。</p>
+        <p><strong>Jacobian 再预测“小”：</strong>对每个候选估计 Δq<sub>i</sub>=J(q<sub>i</sub>)<sup>+</sup>(x*−x<sub>i</sub>)；优先选择预计一步关节修正量 ‖Δq<sub>i</sub>‖ 最小的 seed。</p>
       </div>
       <div class="iksel-step">
         <span class="iksel-step__num">3</span>
-        <p><strong>失败后“远”——换 basin：</strong>若数值 IK 失败，故意改选 joint-space 更远的候选，避免在同一局部极值附近重复失败。</p>
+        <p><strong>Numerical IK 求解；失败后换“远”分支：</strong>若迭代撞到 joint limit / 局部极值，就在优质候选中改选关节构型差异更大的 seed，避开原来的 basin。</p>
       </div>
 
       <div class="gear-boundary">
-        <strong>最容易讲错的一点</strong>
-        <p>“最近的”不是最终 IK 解，也不是数据集中的示范动作；它只是一个更有希望收敛的初始关节构型。IKSel 选起点，Numerical IK 才负责求解。</p>
+        <strong>记住三个词：Workspace“近” → 预测 Δq“小” → 失败后 Joint Space“远”</strong>
+        <p>IKSel 只选择更有希望收敛的初始关节构型 q<sub>0</sub>；Numerical IK 才计算最终解 q*。论文这里没有用 current q 做连续性排序。</p>
       </div>
     </div>
     <div class="paper-right">
       <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/teaser.jpg" alt="IKSel 种子选择对比" onerror="imgFallback(this)">
       <p class="caption">Fig 1. 同一 target pose 可对应多个 joint branches；seed 决定迭代落在哪个 basin</p>
       <img src="https://arxiv.org/html/2503.22234v1/extracted/6317420/imgs/reselection.jpg" alt="IKSel 重选择策略" onerror="imgFallback(this)">
-      <p class="caption">Fig 2. 先按 workspace proximity 取候选；失败后按 joint-space difference 拉开尝试范围</p>
+      <p class="caption">Fig 2. 先在局部线性较好的候选中选最小 Δq；失败后切换到不同 joint branch</p>
     </div>
   </div>
 </section>
