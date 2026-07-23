@@ -772,7 +772,181 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 15: IK 仍然不可或缺 ===== -->
+<!-- ===== PAGE 15: EgoWAM 为什么需要 world supervision ===== -->
+<section class="slide slide--white" id="egowam-why">
+  <div style="width:100%; max-width:1460px; margin:0 auto;">
+    <p class="note-label">Representation Gap · EgoWAM</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(32px,3.8vw,52px); line-height:1.15; margin:8px 0 6px;">共享 EEF 仍然不够：<span style="color:var(--red-accent);">相同任务，不同本体未必采用相同动作</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.55vw,21px); color:#777; margin-bottom:18px;">EgoWAM 先把 human / robot action 对齐到双臂 14D EEF，但动作速度、抓取风格与形态差异仍会进入同一个 BC head。</p>
+
+    <div style="display:grid; grid-template-columns:1fr 90px 1fr; gap:16px; align-items:stretch; margin-bottom:18px;">
+      <div style="padding:20px 22px; background:#F8F7F5; border-top:5px solid rgba(28,20,16,.2);">
+        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777; letter-spacing:.08em;">HUMAN</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(22px,2.2vw,30px); margin:7px 0 10px;">侧向握杯 → 转正 → 放入碟子</h3>
+        <p style="font-family:var(--font-aux); font-size:16px; color:#555;">手指顺应性与腕部姿态允许“像人一样动”</p>
+      </div>
+      <div style="display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-size:42px; font-weight:700; color:var(--red-accent);">≠</div>
+      <div style="padding:20px 22px; background:rgba(216,0,15,.035); border-top:5px solid var(--red-accent);">
+        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">ROBOT</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(22px,2.2vw,30px); margin:7px 0 10px;">正面夹取 → 调整腕部 → 放入碟子</h3>
+        <p style="font-family:var(--font-aux); font-size:16px; color:#555;">平行夹爪需要另一条可执行轨迹</p>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
+      <div style="padding:18px 20px; border-left:5px solid #777; background:#FFF;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">ACTION-ONLY BC</p>
+        <p style="font-family:Georgia,serif; font-size:22px; margin:8px 0;">o<sub>t</sub> → a<sub>t:t+H</sub></p>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">唯一监督通道是动作；未对齐的人类运动风格可能形成负迁移。</p>
+      </div>
+      <div style="padding:18px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.025);">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">EGOWAM · SECOND CHANNEL</p>
+        <p style="font-family:Georgia,serif; font-size:22px; margin:8px 0;">o<sub>t</sub> → { a<sub>t:t+H</sub>, z<sup>world</sup><sub>t+H</sub> }</p>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">动作轨迹不同，但“杯子最终立在碟子上”的未来世界效果可以共享。</p>
+      </div>
+    </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.75vw,24px); font-weight:700; margin-top:18px;">共享 EEF 是强 action-alignment baseline；<span style="color:var(--red-accent);">world prediction 再提供一条跨本体监督通道</span>，不是替代 action supervision。</p>
+  </div>
+</section>
+
+<!-- ===== PAGE 16: EgoWAM 结构 ===== -->
+<section class="slide slide--warm" id="egowam-architecture">
+  <div style="width:100%; max-width:1420px; margin:0 auto;">
+    <p class="note-label">Paper 4 · EgoWAM</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 5px;">训练时预测动作和未来世界，<span style="color:var(--red-accent);">部署时只预测动作</span></h2>
+    <p class="text-aux" style="color:#999; margin-bottom:20px;">World Action Models Beyond Pixels with In-the-Wild Egocentric Human Data · arxiv 2607.08436</p>
+
+    <div style="display:grid; grid-template-columns:260px 90px 310px 90px 1fr; gap:14px; align-items:center;">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="padding:18px; background:#FFF; border-top:5px solid rgba(28,20,16,.2);">
+          <strong style="font-family:var(--font-aux); font-size:17px;">Human observation</strong>
+          <p style="font-family:var(--font-aux); font-size:14px; color:#666; margin-top:5px;">ego RGB + human proprioception</p>
+        </div>
+        <div style="padding:18px; background:#FFF; border-top:5px solid var(--red-accent);">
+          <strong style="font-family:var(--font-aux); font-size:17px;">Robot observation</strong>
+          <p style="font-family:var(--font-aux); font-size:14px; color:#666; margin-top:5px;">ego / wrist RGB + robot state</p>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:13px; color:#777;">embodiment-specific input stems</p>
+      </div>
+      <div style="text-align:center; font-size:34px; color:var(--red-accent);">→</div>
+      <div style="padding:34px 24px; background:#FFF; border-top:6px solid #222; text-align:center;">
+        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777; letter-spacing:.08em;">SHARED TRUNK</p>
+        <h3 style="font-family:var(--font-aux); font-size:30px; margin:10px 0;">共享任务表征</h3>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">两种监督共同塑造同一个 backbone</p>
+      </div>
+      <div style="text-align:center; font-size:34px; color:var(--red-accent);">→</div>
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        <div style="padding:18px 20px; background:rgba(216,0,15,.04); border-left:5px solid var(--red-accent);">
+          <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent);">ACTION HEAD · TRAIN + DEPLOY</p>
+          <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0;">双臂 14D EEF action chunk</h3>
+          <p style="font-family:var(--font-aux); font-size:14px; color:#555;">每臂 6-DoF pose + 1D gripper</p>
+        </div>
+        <div style="padding:18px 20px; background:#FFF; border-left:5px solid #777;">
+          <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#555;">WORLD HEAD · TRAIN ONLY</p>
+          <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0;">未来世界效果</h3>
+          <p style="font-family:var(--font-aux); font-size:14px; color:#555;">Pixel / DINO / stabilized 3D flow</p>
+        </div>
+      </div>
+    </div>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px;">
+      <div style="padding:14px 16px; background:#FFF;"><strong>① 输入：</strong><span style="color:#666;"> Human 与 Robot 使用各自 tokenizer / stem</span></div>
+      <div style="padding:14px 16px; background:#FFF;"><strong>② 训练：</strong><span style="color:#666;"> action loss + world loss 联合监督 trunk</span></div>
+      <div style="padding:14px 16px; background:#FFF;"><strong>③ 推理：</strong><span style="color:#666;"> 丢弃 world head，保持普通 BC 级别开销</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 17: World targets ===== -->
+<section class="slide slide--white" id="egowam-targets">
+  <div style="width:100%; max-width:1460px; margin:0 auto;">
+    <p class="note-label">World Representation</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 6px;">不是所有“未来世界”表示都能跨本体</h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.55vw,21px); color:#777; margin-bottom:20px;">好的 world target 应该：抽象外观、对不同本体保持一致，并把相机自身运动与真实环境变化分开。</p>
+
+    <div style="display:grid; grid-template-columns:220px 1fr 1fr; border-top:3px solid #222; font-family:var(--font-aux);">
+      <div style="padding:13px 16px; background:#EEE; font-weight:700;">World target</div>
+      <div style="padding:13px 16px; background:#EEE; font-weight:700;">模型被要求学什么</div>
+      <div style="padding:13px 16px; background:#EEE; font-weight:700;">论文观察</div>
+
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD;"><strong>Pixel</strong><br><span style="font-size:13px;color:#888;">future frame latent</span></div>
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD; color:#555;">外观、光照、相机运动与物体运动全部混合</div>
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD; color:#555;">重建目标纠缠本体和场景细节，跨本体迁移较弱</div>
+
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02);"><strong>DINO feature</strong><br><span style="font-size:13px;color:#888;">semantic abstraction</span></div>
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02); color:#555;">更抽象的物体与场景语义；仍按图像网格索引</div>
+      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02); color:#555;"><strong>OOD 物体与场景泛化最好，最高提升 4×</strong></div>
+
+      <div style="padding:18px 16px;"><strong>Stabilized 3D flow</strong><br><span style="font-size:13px;color:#888;">spatial abstraction</span></div>
+      <div style="padding:18px 16px; color:#555;">在稳定相机坐标中表示真实 3D 位移；静态背景接近零流</div>
+      <div style="padding:18px 16px; color:#555;"><strong>空间几何最强，ID 表现提升 20–30%</strong></div>
+    </div>
+
+    <div style="margin-top:24px; padding:20px 24px; border-left:6px solid var(--red-accent); background:rgba(216,0,15,.035);">
+      <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700; line-height:1.45;">人转头时，Pixel 看起来整个世界都在动；camera-stabilized 3D flow 会告诉模型：<span style="color:var(--red-accent);">背景没动，真正移动的是杯子。</span></p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 18: EgoWAM 做到与未做到 ===== -->
+<section class="slide slide--warm" id="egowam-boundary">
+  <div style="width:100%; max-width:1420px; margin:0 auto;">
+    <p class="note-label">Evidence Boundary</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(30px,3.35vw,46px); line-height:1.15; margin:8px 0 20px;">EgoWAM 解决 representation transfer，<span style="color:var(--red-accent); white-space:nowrap;">没有解决 EEF → Joint</span></h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+      <div style="padding:24px 26px; background:#FFF; border-top:6px solid var(--red-accent);">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">论文已验证</p>
+        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">什么知识可以跨本体共享</h3>
+        <ul style="font-family:var(--font-aux); font-size:17px; color:#444; line-height:1.75; padding-left:22px;">
+          <li>Human / robot action 对齐到双臂 14D EEF</li>
+          <li>world supervision 改善 human-to-robot transfer</li>
+          <li>DINO 与 3D flow 比 Pixel 更有效</li>
+          <li>推理仍由 action head 输出 robot EEF action</li>
+        </ul>
+      </div>
+      <div style="padding:24px 26px; background:#FFF; border-top:6px solid #222;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555; letter-spacing:.08em;">论文未解决</p>
+        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">这台机器人怎样稳定执行</h3>
+        <ul style="font-family:var(--font-aux); font-size:17px; color:#444; line-height:1.75; padding-left:22px;">
+          <li>没有学习通用 EEF → Joint adapter</li>
+          <li>没有替代 IK / OSC / WBC</li>
+          <li>没有证明未知机器人 zero-shot Joint trajectory</li>
+          <li>没有联合处理 joint limits、collision 与 balance</li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:22px; padding:17px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.035);">
+      <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,25px); font-weight:700;">真正的连接：EgoWAM 回答“<span style="color:var(--red-accent);">共享表征从哪里学</span>”；我们的执行问题是“<span style="color:var(--red-accent);">共享意图怎样落到具体机器人</span>”。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 19: 两个 Gap ===== -->
+<section class="slide slide--white" id="two-gaps">
+  <div style="width:100%; max-width:1460px; margin:0 auto;">
+    <p class="note-label">Two Different Problems</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(36px,4.2vw,58px); line-height:1.15; margin:8px 0 20px;">跨本体学习有两个不同的问题</h2>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+      <div style="padding:24px 26px; background:rgba(216,0,15,.03); border-top:6px solid var(--red-accent);">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">GAP A · REPRESENTATION / TRANSFER</p>
+        <h3 style="font-family:var(--font-aux); font-size:27px; margin:9px 0 13px;">人类经验 → 可共享规律 → 机器人动作意图</h3>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>差异：</strong>morphology、速度、grasp style、camera ego-motion</p>
+        <div style="margin:14px 0; padding:14px 16px; background:#FFF; font-family:Georgia,serif; font-size:21px; text-align:center;">human experience ≠ robot execution</div>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>对应方法：</strong>relative EEF、canonical action、world supervision、EgoWAM</p>
+      </div>
+      <div style="padding:24px 26px; background:#F8F7F5; border-top:6px solid #222;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555; letter-spacing:.08em;">GAP B · EXECUTION</p>
+        <h3 style="font-family:var(--font-aux); font-size:27px; margin:9px 0 13px;">EEF / task intent → 本体约束 → feasible joints</h3>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>约束：</strong>IK 多解、joint limit、collision、singularity、continuity、contact / balance</p>
+        <div style="margin:14px 0; padding:14px 16px; background:#FFF; font-family:Georgia,serif; font-size:21px; text-align:center;">EEF intent → IK / OSC / WBC → q / q̇ / τ</div>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>对应方法：</strong>IK、OSC / WBC、IKSel、embodiment adapter</p>
+      </div>
+    </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(20px,2.1vw,29px); font-weight:700; margin-top:24px; text-align:center;"><span style="color:var(--red-accent);">EgoWAM</span> 处理“什么知识可以共享”；<span style="color:var(--red-accent);">IKSel</span> 处理“这台机器人怎样更快找到一个 IK 解”。</p>
+  </div>
+</section>
+
+<!-- ===== PAGE 20: IK 仍然不可或缺 ===== -->
 <section class="slide slide--white" id="ik-still-needed">
   <div style="width:100%; padding:24px 48px; overflow-y:auto; max-height:100vh;">
     <p class="note-label">IK Still Matters</p>
@@ -868,17 +1042,7 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 18: 主题二 标题页 ===== -->
-<section class="slide slide--red" id="topic2">
-  <div>
-    <p class="note-label note-label--light">Topic Two</p>
-    <div class="spacer-md"></div>
-    <h2 class="title-large" style="color: var(--white);">开放问题：如何补上 EEF → Joint 的 gap？</h2>
-    <p class="body-text" style="color:rgba(255,255,255,0.7); margin-top:16px;">IKSel 可以改善数值 IK 的起点，但它只是控制链路中的一个组件</p>
-  </div>
-</section>
-
-<!-- ===== PAGE 19: IKSel 核心算法 ===== -->
+<!-- ===== PAGE 23: IKSel 核心算法 ===== -->
 <section class="slide slide--white" id="paper3">
   <div class="paper-layout">
     <div class="paper-left">
@@ -935,83 +1099,12 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 20: 从局部算法到系统解耦 ===== -->
-<section class="slide slide--warm" id="decouple-problem">
-  <div style="width:100%; max-width:1450px; margin:0 auto;">
-    <p class="note-label">Beyond IKSel</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.2; margin:8px 0;">我们要走得更远：解耦“<span style="color:var(--red-accent);">学什么</span>”与“<span style="color:var(--red-accent);">怎么执行</span>”</h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.6vw,22px); color:#777; margin-bottom:24px;">IKSel 优化了执行层的一个局部环节；真正的问题是，不应让共享策略同时记住世界规律和每台机器人的关节习惯。</p>
-
-    <div style="display:grid; grid-template-columns:1fr 80px 1fr; gap:18px; align-items:stretch;">
-      <div style="padding:24px 26px; background:#FFF; border-top:6px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">A · REPRESENTATION LAYER</p>
-        <h3 style="font-family:var(--font-aux); font-size:clamp(24px,2.5vw,34px); margin:8px 0 14px;">模型理解“动作会让世界怎样变化”</h3>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">输入：</strong>当前/历史视觉、语言目标、可选的 EEF / hand context</p>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">学习：</strong>物体运动、接触结果、空间关系与任务进度</p>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">输出：</strong>本体相对中立的 task dynamics / relative EEF intent</p>
-      </div>
-      <div style="display:flex; align-items:center; justify-content:center; font-family:var(--font-aux); font-size:36px; color:var(--red-accent);">→</div>
-      <div style="padding:24px 26px; background:#FFF; border-top:6px solid #222;">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555; letter-spacing:.08em;">B · EXECUTION LAYER</p>
-        <h3 style="font-family:var(--font-aux); font-size:clamp(24px,2.5vw,34px); margin:8px 0 14px;">本体接口回答“这台机器人怎样做到”</h3>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">输入：</strong>task intent + current q + 机器人运动学与约束</p>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">处理：</strong>IK / OSC / WBC、joint limits、碰撞、接触与连续性</p>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6;"><strong style="color:#222;">输出：</strong>可执行 joint trajectory / velocity / torque</p>
-      </div>
-    </div>
-    <div style="margin-top:22px; padding:16px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.035);">
-      <p style="font-family:var(--font-aux); font-size:clamp(17px,1.7vw,23px); font-weight:700;">解耦不等于切断：两层之间需要明确的接口契约——坐标系、delta 锚点、horizon、频率与可行性反馈。</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PAGE 21: EgoWAM 输入 / 监督 / 输出 ===== -->
-<section class="slide slide--white" id="egowam">
-  <div class="paper-layout" style="grid-template-columns:52% 48%;">
-    <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(30px,3.7vw,48px); font-weight:700; color:#1C1410; margin-bottom:4px;">参考方向：EgoWAM</h2>
-      <p class="text-aux" style="color:#999; margin-bottom:14px;">World Action Models Beyond Pixels with In-the-Wild Egocentric Human Data · arxiv 2607.08436</p>
-      <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700; line-height:1.4; margin-bottom:16px;">Human EEF 只是共享 action channel；更关键的监督是<span style="color:var(--red-accent);">动作造成的未来世界变化</span></p>
-
-      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:12px;">
-        <div style="padding:14px 16px; background:#F8F7F5; border-top:4px solid var(--red-accent);">
-          <h3 style="font-family:var(--font-aux); font-size:17px; margin-bottom:7px;">Human stream 输入</h3>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.5;">Egocentric RGB<br>6-DoF head pose / SLAM<br>双手 3D keypoints + palm pose</p>
-        </div>
-        <div style="padding:14px 16px; background:#F8F7F5; border-top:4px solid rgba(28,20,16,.18);">
-          <h3 style="font-family:var(--font-aux); font-size:17px; margin-bottom:7px;">Robot stream 输入</h3>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.5;">Ego / wrist RGB<br>robot proprioception<br>teleoperation action</p>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:9px;">
-        <div style="display:grid; grid-template-columns:130px 1fr; gap:12px; padding:11px 14px; background:rgba(216,0,15,.025);">
-          <strong style="font-family:var(--font-aux); font-size:14px; color:var(--red-accent);">Action supervision</strong>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.45;">统一为双臂 14D EEF：每只手/夹爪 6-DoF pose + 1D gripper；human hand pose 是机器人 EEF 的近似共享接口。</p>
-        </div>
-        <div style="display:grid; grid-template-columns:130px 1fr; gap:12px; padding:11px 14px; background:rgba(28,20,16,.025);">
-          <strong style="font-family:var(--font-aux); font-size:14px; color:#222;">World supervision</strong>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.45;">预测未来 Pixel / DINO feature / camera-stabilized 3D motion flow；DINO抽象语义，3D flow刻画与本体无关的物理效果。</p>
-        </div>
-        <div style="display:grid; grid-template-columns:130px 1fr; gap:12px; padding:11px 14px; background:rgba(28,20,16,.025);">
-          <strong style="font-family:var(--font-aux); font-size:14px; color:#222;">模型输出</strong>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.45;">训练时：EEF action chunk + future world target；部署时丢弃 world head，只保留 action head，仍输出机器人 EEF。</p>
-        </div>
-      </div>
-    </div>
-    <div class="paper-right" style="justify-content:center;">
-      <img src="https://arxiv.org/html/2607.08436v1/x2.png" alt="EgoWAM 双头训练架构" onerror="imgFallback(this)" style="width:100%; max-height:68vh; object-fit:contain;">
-      <p class="caption">EgoWAM：共享 trunk 同时接受 action 与 future-world 监督；world head 只在训练时塑造表征</p>
-    </div>
-  </div>
-</section>
-
-<!-- ===== PAGE 22: 我们要做的事情 ===== -->
+<!-- ===== PAGE 25: Research hypothesis ===== -->
 <section class="slide slide--warm" id="our-direction">
   <div style="width:100%; max-width:1450px; margin:0 auto;">
-    <p class="note-label">Our Direction</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.2; margin:8px 0 6px;">我们要做的：<span style="color:var(--red-accent);">共享物理表征</span> + <span style="color:var(--red-accent);">本体执行适配器</span></h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.55vw,21px); color:#777; margin-bottom:22px;">EgoWAM 已经把“世界监督”和“动作监督”分开；下一步要把 action head 到真实 joints 的执行映射也显式建模。</p>
+    <p class="note-label">Our Hypothesis · Not a Paper Conclusion</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.2; margin:8px 0 6px;">研究假设：<span style="color:var(--red-accent);">共享任务表征</span> + <span style="color:var(--red-accent);">本体执行适配器</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.55vw,21px); color:#777; margin-bottom:22px;">EgoWAM 验证 world supervision 能改善共享表征；下面的 EEF→Joint adapter 是我们的新增假设，尚需实验验证。</p>
 
     <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:12px; align-items:stretch;">
       <div style="padding:20px; background:#FFF; border-top:5px solid rgba(28,20,16,.18);">
@@ -1029,14 +1122,14 @@ a:hover { opacity: 0.8; }
       <div style="padding:20px; background:#FFF; border-top:5px solid #222;">
         <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#555;">03 · EMBODIMENT ADAPTER</p>
         <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">Feasible Joint Realization</h3>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.55;">结合 current q、kinematics、limits、collision与controller，输出连续可执行 joints。</p>
+        <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.55;">输入 EEF intent + current q + URDF / limits / collision，输出 seed、posture、trajectory 或 feasibility score。</p>
       </div>
     </div>
 
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px;">
       <div style="padding:16px 18px; border-left:5px solid var(--red-accent); background:#FFF;">
-        <h3 style="font-family:var(--font-aux); font-size:18px; margin-bottom:6px;">训练也要解耦</h3>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">大量human video训练共享物理表征；少量robot execution data训练本体adapter与可行性反馈。</p>
+        <h3 style="font-family:var(--font-aux); font-size:18px; margin-bottom:6px;">优先与控制器结合，而非宣称替代</h3>
+        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">adapter 可为 IK / WBC 预测 seed、null-space posture 或可行性分数；硬约束仍由控制器保证。</p>
       </div>
       <div style="padding:16px 18px; border-left:5px solid #222; background:#FFF;">
         <h3 style="font-family:var(--font-aux); font-size:18px; margin-bottom:6px;">评估也要解耦</h3>
@@ -1044,11 +1137,11 @@ a:hover { opacity: 0.8; }
       </div>
     </div>
 
-    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,25px); font-weight:700; margin-top:22px;">最终目标不是“EEF 或 Joint 二选一”，而是让<span style="color:var(--red-accent);">EEF承载可迁移意图，Joint保证真实可执行性</span>。</p>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,25px); font-weight:700; margin-top:22px;">待验证：这种分层能否在<span style="color:var(--red-accent);">不牺牲安全与约束保证</span>的前提下，减少每台机器人重新学习执行映射的数据成本。</p>
   </div>
 </section>
 
-<!-- ===== PAGE 23: 结尾 ===== -->
+<!-- ===== PAGE 26: 结尾 ===== -->
 <section class="slide slide--dark" id="ending">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%; max-width:1100px; margin:0 auto;">
     <h2 style="font-family:var(--font-aux); font-weight:700; font-size:clamp(36px, 4.5vw, 60px); color:rgba(255,255,255,0.95); margin-bottom:36px; letter-spacing:-0.02em;">核心结论</h2>
@@ -1067,11 +1160,11 @@ a:hover { opacity: 0.8; }
     </div>
     <div class="ending-item">
       <div class="ending-item__num">04</div>
-      <p class="ending-item__text">IKSel 只改善数值 IK 的 seed；它提示我们执行层必须显式处理本体可行性</p>
+      <p class="ending-item__text">EgoWAM 改善 representation transfer，但没有解决 EEF→Joint 的 execution gap</p>
     </div>
     <div class="ending-item">
       <div class="ending-item__num">05</div>
-      <p class="ending-item__text">下一步：用 egocentric world supervision 学共享物理表征，再由 embodiment adapter 映射为连续 joints</p>
+      <p class="ending-item__text">研究假设：共享表征输出 EEF intent，本体 adapter 与 IK/WBC 协同实现可执行 joints</p>
     </div>
 
     <div style="margin-top:40px; padding-top:24px; border-top:1px solid rgba(255,255,255,0.1);">
