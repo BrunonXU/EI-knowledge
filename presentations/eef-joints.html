@@ -273,17 +273,45 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 2: 三个问题（纵向、无边框、大字） ===== -->
+<!-- ===== PAGE 2: 抓放任务的两层结构 ===== -->
 <section class="slide slide--warm" id="questions">
-  <span class="section-num">?</span>
-  <div>
-    <p class="note-label">Core Questions</p>
-    <div class="spacer-lg"></div>
-    <div class="questions-vertical">
-      <div class="q-item"><span class="q-num">01</span><span class="q-text">学习 Joint 和学习 EEF 的本质区别在哪？</span></div>
-      <div class="q-item"><span class="q-num">02</span><span class="q-text">动作表示如何影响模型的任务泛化与控制稳定性？</span></div>
-      <div class="q-item"><span class="q-num">03</span><span class="q-text">能否兼得 —— 既保留任务语义，又尊重本体约束？</span></div>
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">A Simple Pick-and-Place</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(36px,4.5vw,62px); line-height:1.14; margin:8px 0 5px;">机器人把方块放进托盘，<span style="color:var(--red-accent);">看起来只是一个动作</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,24px); color:#777; margin-bottom:22px;">但在系统里面，其实要先后回答两个不同的问题。</p>
+
+    <div style="display:grid; grid-template-columns:1fr 72px 1fr; gap:18px; align-items:stretch;">
+      <div style="padding:24px 26px; background:#FFF;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">第一件事 · 它想怎么做？</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(25px,2.6vw,36px); margin:9px 0 14px;">模型先看懂任务</h3>
+        <div style="display:flex; align-items:center; gap:10px; font-family:var(--font-aux); font-size:17px; font-weight:700; margin:14px 0;">
+          <span style="padding:10px 13px; background:#F8F7F5;">画面 + 指令</span>
+          <span style="color:var(--red-accent);">→</span>
+          <span style="padding:10px 13px; background:rgba(216,0,15,.04);">VLA / WAM</span>
+          <span style="color:var(--red-accent);">→</span>
+          <span style="padding:10px 13px; background:#F8F7F5;">手该往哪里走</span>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;">它要认出方块和托盘，理解“抓起、移动、放下”，最后给出 EEF 或 Joint 动作。</p>
+        <p style="font-family:var(--font-aux); font-size:18px; font-weight:700; margin-top:14px;">我们在意：<span style="color:var(--red-accent);">模型到底有没有学会这个任务？</span></p>
+      </div>
+
+      <div style="display:flex; align-items:center; justify-content:center; font-size:38px; color:var(--red-accent);">→</div>
+
+      <div style="padding:24px 26px; background:#EEEAE6;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">第二件事 · 这台机器人怎么做到？</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(25px,2.6vw,36px); margin:9px 0 14px;">机器人再用自己的身体执行</h3>
+        <div style="display:flex; align-items:center; gap:10px; font-family:var(--font-aux); font-size:17px; font-weight:700; margin:14px 0;">
+          <span style="padding:10px 13px; background:#F8F7F5;">模型动作</span>
+          <span style="color:var(--red-accent);">→</span>
+          <span style="padding:10px 13px; background:#F8F7F5;">执行接口</span>
+          <span style="color:var(--red-accent);">→</span>
+          <span style="padding:10px 13px; background:#F8F7F5;">真实关节运动</span>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;">不同机器人手臂长度、关节数量和活动范围都不同，但都要把方块安全放进同一个托盘。</p>
+        <p style="font-family:var(--font-aux); font-size:18px; font-weight:700; margin-top:14px;">我们在意：<span style="color:var(--red-accent);">它能不能按自己的身体条件把任务做成？</span></p>
+      </div>
     </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(21px,2.2vw,30px); font-weight:700; text-align:center; margin-top:25px;">这套 PPT 只围绕这条主线：<span style="color:var(--red-accent);">上层学任务，下层负责把任务做出来。</span></p>
   </div>
 </section>
 
@@ -395,147 +423,240 @@ a:hover { opacity: 0.8; }
   </div>
 </section>
 
-<!-- ===== PAGE 7: 三层统一 ===== -->
+<!-- ===== PAGE 7: 两层职责 ===== -->
 <section class="slide slide--white" id="action-space-a">
-  <div style="width:100%; max-width:1480px; margin:0 auto;">
-    <p class="note-label">Canonicalization Framework</p>
-    <h2 class="text-h2" style="margin:8px 0 4px;">统一动作空间不是一种方案，而是三层统一</h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.5vw,20px); color:#777; margin-bottom:16px;">先问 adapter 统一了什么，再问模型输出怎样被 decoder 解释。</p>
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">One Task, Two Responsibilities</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(35px,4.2vw,58px); line-height:1.15; margin:8px 0 6px;">先别急着比较模型：<span style="color:var(--red-accent);">先看它负责哪一段</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.7vw,23px); color:#777; margin-bottom:22px;">同一个抓放任务，可以清楚地拆成“想清楚怎么做”和“真的让机器人做到”。</p>
 
-    <div style="display:grid; grid-template-columns:1fr auto 1.15fr auto 1.2fr auto 1.2fr; gap:10px; align-items:stretch; margin-bottom:18px;">
-      <div class="bridge-node"><strong>Robot-specific raw data</strong><span>不同 DoF、字段名、单位、坐标系与控制频率</span></div>
-      <span class="bridge-arrow">→</span>
-      <div class="bridge-node bridge-node--accent"><strong>Embodiment / Dataset Adapter</strong><span>字段映射、坐标变换、delta、归一化、padding</span></div>
-      <span class="bridge-arrow">→</span>
-      <div class="bridge-node"><strong>Canonical Policy Action</strong><span>模型真正看到并预测的统一张量</span></div>
-      <span class="bridge-arrow">→</span>
-      <div class="bridge-node"><strong>Mask + De-normalize + Decoder</strong><span>恢复有效字段 → Joint Controller / IK / OSC / WBC</span></div>
+    <div style="display:grid; grid-template-columns:1fr 92px 1fr; gap:18px; align-items:stretch;">
+      <div style="padding:26px 28px; background:#F3F0ED;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">上层 · VLA / WAM</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(27px,2.8vw,39px); margin:10px 0 14px;">理解任务，给出动作意图</h3>
+        <div style="padding:15px 18px; background:#FFF; font-family:var(--font-aux); font-size:18px; font-weight:700; line-height:1.5;">看到画面和指令<br>→ 找到方块与托盘<br>→ 预测手该怎么移动</div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65; margin-top:16px;">这里关心的不是电机怎么转，而是模型有没有理解抓取、搬运和放置，以及动作会让世界发生什么变化。</p>
+        <p style="font-family:var(--font-aux); font-size:18px; font-weight:700; margin-top:14px;">输出可以是：<span style="color:var(--red-accent);">EEF，也可以是 Joint</span></p>
+      </div>
+
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center;">
+        <span style="font-size:36px; color:var(--red-accent);">→</span>
+        <span style="font-family:var(--font-aux); font-size:13px; color:#777; text-align:center; margin-top:8px;">明确的<br>动作接口</span>
+      </div>
+
+      <div style="padding:26px 28px; background:#EEEAE6;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">下层 · Robot Execution</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(27px,2.8vw,39px); margin:10px 0 14px;">结合自己的身体，把动作做出来</h3>
+        <div style="padding:15px 18px; background:#FFF; font-family:var(--font-aux); font-size:18px; font-weight:700; line-height:1.5;">接收模型动作<br>→ 检查够不够得到、会不会撞<br>→ 变成真实关节命令</div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65; margin-top:16px;">机器人 A 和机器人 B 可以采用不同关节姿态；只要都安全、稳定地把方块放进托盘，任务就是同一个。</p>
+        <p style="font-family:var(--font-aux); font-size:18px; font-weight:700; margin-top:14px;">最终输出：<span style="color:var(--red-accent);">机器人真正能执行的关节运动</span></p>
+      </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px;">
-      <div style="padding:18px 20px; background:#F8F7F5; border-top:5px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent);">01 · SHAPE UNIFICATION</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0 10px;">只统一张量形状</h3>
-        <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;">7D joint / 14D joint / 8D action<br>→ padding + mask → <strong>固定 D<sub>max</sub></strong></p>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#666; line-height:1.45; margin-top:10px;">OpenPI 更接近这一层：有效维度和物理语义仍由 dataset transform / config 决定。</p>
-        <p style="font-family:var(--font-aux); font-size:15px; font-weight:700; color:var(--red-accent); margin-top:13px;">固定长度 ≠ 统一语义</p>
-      </div>
-      <div style="padding:18px 20px; background:#F8F7F5; border-top:5px solid rgba(28,20,16,.22);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777;">02 · SEMANTIC UNIFICATION</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0 10px;">统一物理语义</h3>
-        <p style="font-family:var(--font-aux); font-size:19px; line-height:1.55;">不同机器人都表示成<br><strong>ΔT<sup>EEF</sup><sub>t:t+H</sub></strong></p>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#666; line-height:1.45; margin-top:10px;">GR00T N1.7强调relative EEF：关节数量不同，仍用“手相对当前位姿如何移动”共享动作语义。</p>
-        <p style="font-family:var(--font-aux); font-size:15px; font-weight:700; color:var(--red-accent); margin-top:13px;">同一语义 ≠ 同一执行器</p>
-      </div>
-      <div style="padding:18px 20px; background:#F8F7F5; border-top:5px solid rgba(28,20,16,.22);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777;">03 · SLOT UNIFICATION</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0 10px;">统一语义字段槽位</h3>
-        <p style="font-family:var(--font-aux); font-size:14px; line-height:1.55;">[ arm joint | EEF | gripper | hand<br>| waist | head | base | reserved ]</p>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#666; line-height:1.45; margin-top:10px;">LingBot-VLA 2.0用robot config把原始字段映射到55D canonical slots；不存在的部件保持inactive。</p>
-        <p style="font-family:var(--font-aux); font-size:15px; font-weight:700; color:var(--red-accent); margin-top:13px;">同时预留 ≠ 同时执行</p>
-      </div>
-    </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(20px,2vw,28px); font-weight:700; text-align:center; margin-top:24px;">解耦的目的：<span style="color:var(--red-accent);">让模型少记机器人身体细节，让执行层专门处理身体差异。</span></p>
   </div>
 </section>
 
-<!-- ===== PAGE 8: 四模型统一机制对照 ===== -->
+<!-- ===== PAGE 8: 模型输出 Joint 还是 EEF ===== -->
 <section class="slide slide--white" id="action-space-b">
-  <div style="width:100%; max-width:1500px; margin:0 auto;">
-    <p class="note-label">Mechanism Comparison</p>
-    <h2 class="text-h2" style="margin:8px 0 5px;">四个模型看似都支持异构动作，实际采用不同的统一机制</h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(15px,1.4vw,19px); color:#777; margin-bottom:16px;">比较对象不是“输出几维”，而是 raw data 如何进入 canonical space、哪些字段在部署时有效。</p>
+  <div style="width:100%; max-width:1420px; margin:0 auto;">
+    <p class="note-label">What Should the Model Predict?</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(32px,3.5vw,48px); line-height:1.15; margin:8px 0 6px;">模型输出什么：<span style="color:var(--red-accent);">直接给关节，还是先说“手怎么走”</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.7vw,23px); color:#777; margin-bottom:22px;">两条路线都能完成抓放；区别在于，模型需要记住多少机器人身体细节。</p>
 
-    <div style="display:grid; grid-template-columns:1.05fr 1.2fr 1.45fr 1.45fr 1.35fr; border-top:3px solid #222;">
-      <div style="padding:11px 12px; background:#EEE; font-family:var(--font-aux); font-weight:700;">模型 / 配置</div>
-      <div style="padding:11px 12px; background:#EEE; font-family:var(--font-aux); font-weight:700;">策略输入</div>
-      <div style="padding:11px 12px; background:#EEE; font-family:var(--font-aux); font-weight:700;">策略输出</div>
-      <div style="padding:11px 12px; background:#EEE; font-family:var(--font-aux); font-weight:700;">统一机制</div>
-      <div style="padding:11px 12px; background:#EEE; font-family:var(--font-aux); font-weight:700;">执行接口</div>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
+      <div style="padding:26px 28px; background:#F8F7F5;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">路线 A · 模型直接输出 Joint</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(27px,2.8vw,39px); margin:9px 0 14px;">直接告诉每个关节转多少</h3>
+        <div style="display:flex; align-items:center; justify-content:center; gap:14px; padding:18px; background:#FFF; font-family:var(--font-aux); font-size:19px; font-weight:700;">
+          <span>模型</span><span style="color:var(--red-accent);">→</span><span>关节角</span><span style="color:var(--red-accent);">→</span><span>机器人</span>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65; margin-top:17px;"><strong style="color:#222;">好处：</strong>示范里的肘部姿态、关节习惯都保留下来，固定机器人上往往更直接。</p>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;"><strong style="color:#222;">代价：</strong>换一台关节数量或结构不同的机器人，原来的输出很难直接复用。</p>
+      </div>
 
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-weight:700;">OpenVLA-7B<br><span style="font-size:12px; color:#888; font-weight:400;">BridgeData示例</span></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">RGB + language</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;"><strong>7D task-space action</strong><br>按Bridge统计反归一化</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">固定、较窄的<br><strong>dataset-specific schema</strong></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">Cartesian controller / IK</div>
-
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.025); font-family:var(--font-aux); font-weight:700;">OpenPI<br><span style="font-size:12px; color:#888; font-weight:400;">π₀ / π₀.₅</span></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">RGB + language + state</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;"><strong>可配置 action chunk</strong><br>有效维度由数据定义</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">dataset adapter + 固定容量<br>+ padding / mask</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">取决于数据的action schema</div>
-
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-weight:700;">GR00T N1.7<br><span style="font-size:12px; color:#888; font-weight:400;">DROID config</span></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">RGB + language<br>+ EEF / Joint state</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;"><strong>relative EEF + gripper<br>+ relative Joint</strong></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">embodiment tag<br>+ modality multi-field schema</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; font-family:var(--font-aux); font-size:14px; line-height:1.45;">部署端按config解释active fields</div>
-
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(28,20,16,.025); font-family:var(--font-aux); font-weight:700;">LingBot-VLA 2.0</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(28,20,16,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">RGB + language<br>+ canonical state</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(28,20,16,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;"><strong>55D canonical action slots</strong></div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(28,20,16,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">明确语义槽位 + robot config映射</div>
-      <div style="padding:14px 12px; border-bottom:1px solid #DDD; background:rgba(28,20,16,.025); font-family:var(--font-aux); font-size:14px; line-height:1.45;">依据active fields选择控制链</div>
+      <div style="padding:26px 28px; background:#EEEAE6;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">路线 B · 模型输出 EEF</p>
+        <h3 style="font-family:var(--font-aux); font-size:clamp(27px,2.8vw,39px); margin:9px 0 14px;">先告诉“手应该往哪里走”</h3>
+        <div style="display:flex; align-items:center; justify-content:center; gap:14px; padding:18px; background:#FFF; font-family:var(--font-aux); font-size:19px; font-weight:700;">
+          <span>模型</span><span style="color:var(--red-accent);">→</span><span>手的目标</span><span style="color:var(--red-accent);">→</span><span>执行层</span>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65; margin-top:17px;"><strong style="color:#222;">好处：</strong>“抓住方块并放进托盘”的手部运动，更容易让不同机器人共享。</p>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;"><strong style="color:#222;">代价：</strong>模型只说了手去哪，没有说清每个关节怎样配合，执行层必须补上。</p>
+      </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-top:14px;">
-      <p style="padding:10px 12px; border-left:4px solid var(--red-accent); background:#F8F7F5; font-family:var(--font-aux); font-size:13px; line-height:1.4;"><strong>OpenPI：</strong>action_dim是模型容量，不是机器人真实自由度。</p>
-      <p style="padding:10px 12px; border-left:4px solid var(--red-accent); background:#F8F7F5; font-family:var(--font-aux); font-size:13px; line-height:1.4;"><strong>GR00T：</strong>多字段schema不等于两个独立head，更不能默认EEF只作辅助监督。</p>
-      <p style="padding:10px 12px; border-left:4px solid var(--red-accent); background:#F8F7F5; font-family:var(--font-aux); font-size:13px; line-height:1.4;"><strong>OpenVLA：</strong>7D是BridgeData推理示例，不代表整个家族永久固定一种物理语义。</p>
+    <div style="margin-top:23px; padding:17px 22px; background:#F3F0ED;">
+      <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700;">如果目标是跨机器人共享，EEF 更像一份共同的“任务说明”；Joint 更像某一台机器人的“具体做法”。</p>
     </div>
   </div>
 </section>
 
-<!-- ===== PAGE 9: 多字段统一后的执行权 ===== -->
+<!-- ===== PAGE 9: 同一意图，不同机器人各自执行 ===== -->
 <section class="slide slide--white" id="how-models-do">
-  <div style="width:100%; max-width:1480px; margin:0 auto;">
-    <p class="note-label">Execution Authority</p>
-    <h2 class="text-h2" style="margin:8px 0 6px;">统一动作向量之后，机器人仍必须确定唯一执行接口</h2>
-    <div style="padding:12px 18px; background:#F8F7F5; border-left:5px solid var(--red-accent); margin-bottom:16px;">
-      <p style="font-family:var(--font-body); font-size:clamp(18px,1.9vw,26px);">â<sub>t</sub> = [ â<sup>joint</sup><sub>t</sub>, â<sup>EEF</sup><sub>t</sub>, â<sup>gripper</sup><sub>t</sub>, … ],　<strong>m<sub>t</sub> = active mask</strong></p>
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">Same Intent, Different Bodies</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(35px,4.2vw,58px); line-height:1.15; margin:8px 0 6px;">同一个“把方块放进托盘”，<span style="color:var(--red-accent);">不同机器人可以有不同做法</span></h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.7vw,23px); color:#777; margin-bottom:20px;">上层共享的是手的目标；下层根据各自的身体，算出不同的关节动作。</p>
+
+    <div style="padding:18px 22px; background:#F3F0ED; text-align:center; margin-bottom:18px;">
+      <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">模型给出的共同意图</p>
+      <p style="font-family:var(--font-aux); font-size:clamp(23px,2.5vw,35px); font-weight:700; margin-top:5px;">“手向前移动，抓住方块，再移动到托盘上方并松开”</p>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr 1.2fr; gap:14px; align-items:stretch;">
-      <div style="padding:18px 20px; background:rgba(216,0,15,.025); border-top:5px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent);">PATH A · JOINT AUTHORITATIVE</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">Joint字段拥有控制权</h3>
-        <p style="font-family:var(--font-body); font-size:18px; margin-bottom:12px;">Δq̂<sub>t:t+H</sub> → q<sub>t</sub> + Δq̂ → Joint Controller</p>
-        <ul class="point-list" style="margin:0;">
-          <li>不需要在线IK</li>
-          <li>保留示范构型与joint branch</li>
-          <li>更适合固定本体</li>
-        </ul>
+    <div style="display:grid; grid-template-columns:1fr 90px 1fr; gap:18px; align-items:stretch;">
+      <div style="padding:23px 26px; background:#F8F7F5;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">机器人 A · 单臂机械臂</p>
+        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">自己的执行方法</h3>
+        <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:8px; align-items:center; font-family:var(--font-aux); font-size:16px; font-weight:700;">
+          <span style="padding:12px; background:#FFF; text-align:center;">手的目标</span><span>→</span>
+          <span style="padding:12px; background:#FFF; text-align:center;">检查可达</span><span>→</span>
+          <span style="padding:12px; background:#FFF; text-align:center;">6/7 个关节</span>
+        </div>
+        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6; margin-top:15px;">它可能侧着肘部过去，只要不超限、不碰撞，并且夹爪到达目标即可。</p>
       </div>
 
-      <div style="padding:18px 20px; background:rgba(28,20,16,.025); border-top:5px solid #777;">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#666;">PATH B · EEF AUTHORITATIVE</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">EEF字段拥有控制权</h3>
-        <p style="font-family:var(--font-body); font-size:18px; margin-bottom:12px;">ΔT̂<sup>EEF</sup> → T<sub>t</sub> ⊕ ΔT̂ → IK / OSC / WBC → q / q̇ / τ</p>
-        <ul class="point-list" style="margin:0;">
-          <li>任务几何更容易跨本体共享</li>
-          <li>执行依赖IK、限位与奇异点处理</li>
-          <li>还需碰撞与null-space策略</li>
-        </ul>
-      </div>
+      <div style="display:flex; align-items:center; justify-content:center; font-family:var(--font-aux); font-size:17px; font-weight:700; color:var(--red-accent); text-align:center;">同一<br>任务</div>
 
-      <div style="padding:18px 20px; background:#F8F7F5; border-top:5px solid #222;">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#444;">PATH C · JOINT + EEF CO-EXIST</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">两个字段存在，但只能有一个主执行</h3>
-        <div style="padding:11px 12px; background:#FFF; margin-bottom:9px;">
-          <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">C1 · Joint主执行，EEF辅助约束</p>
-          <p style="font-family:var(--font-aux); font-size:13px; line-height:1.45; color:#555; margin-top:4px;">q̂ → Joint Controller；EEF用于FK(q̂)≈T̂<sup>EEF</sup> consistency loss、task-space monitoring。</p>
+      <div style="padding:23px 26px; background:#EEEAE6;">
+        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">机器人 B · 双臂 / 人形机器人</p>
+        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">另一种执行方法</h3>
+        <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:8px; align-items:center; font-family:var(--font-aux); font-size:16px; font-weight:700;">
+          <span style="padding:12px; background:#FFF; text-align:center;">手的目标</span><span>→</span>
+          <span style="padding:12px; background:#FFF; text-align:center;">协调身体</span><span>→</span>
+          <span style="padding:12px; background:#FFF; text-align:center;">更多关节</span>
         </div>
-        <div style="padding:11px 12px; background:#FFF;">
-          <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">C2 · EEF主执行，Joint提供构型偏好</p>
-          <p style="font-family:var(--font-aux); font-size:13px; line-height:1.45; color:#555; margin-top:4px;">T̂<sup>EEF</sup> → IK；q̂或current q作为IK seed、null-space posture target、joint-limit prior。</p>
-        </div>
+        <p style="font-family:var(--font-aux); font-size:16px; color:#555; line-height:1.6; margin-top:15px;">它可能要同时调整肩、肘、腰或另一只手，但最终完成的是同一个物块放置任务。</p>
       </div>
     </div>
 
-    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.65vw,22px); font-weight:700; color:var(--red-accent); margin-top:18px;">统一向量允许同时表达多个空间，但控制权必须明确；不能让两个独立控制器争夺同一组关节。</p>
+    <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700; text-align:center; margin-top:22px;">理想的分工：<span style="color:var(--red-accent);">模型负责“做什么”，机器人执行层负责“我具体怎么做”。</span></p>
   </div>
 </section>
 
-<!-- ===== PAGE 10: Action Space 论文 p1（论文 1） ===== -->
+<!-- ===== PAGE 10: 四模型输入输出对照 1/2 ===== -->
+<section class="slide slide--warm" id="model-compare-a">
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">Model Comparison · 1 / 2</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(32px,3.6vw,49px); line-height:1.12; margin:6px 0 15px;">OpenVLA 与 OpenPI：输入相似，动作生成方式不同</h2>
+
+    <div style="display:flex; flex-direction:column; gap:18px;">
+      <div style="display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:center; padding:18px 20px; background:#FFF;">
+        <div>
+          <h3 style="font-family:var(--font-aux); font-size:28px; margin-bottom:12px;">01 · OpenVLA-7B</h3>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输入：</strong>RGB + 语言</p>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输出：</strong>离散 action token → 7D task-space action</p>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#666; line-height:1.5; margin-top:10px;">图里最关键的是：Prismatic VLM 把动作当作 token 预测；7D 是 BridgeData 示例。</p>
+        </div>
+        <figure style="margin:0; text-align:center;">
+          <img src="https://arxiv.org/html/2406.09246v2/x1.png" alt="OpenVLA 官方模型结构图" onerror="imgFallback(this)" style="width:100%; max-height:255px; object-fit:contain;">
+          <figcaption style="font-family:var(--font-aux); font-size:13px; color:#999; margin-top:3px;">OpenVLA 官方模型结构：图像与语言进入 VLM，解码为 action tokens</figcaption>
+        </figure>
+      </div>
+
+      <div style="display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:center; padding:18px 20px; background:#EEEAE6;">
+        <div>
+          <h3 style="font-family:var(--font-aux); font-size:28px; margin-bottom:12px;">02 · OpenPI · π<sub>0</sub></h3>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输入：</strong>多视角 RGB + 语言 + robot state</p>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输出：</strong>Action Expert 生成连续 action chunk</p>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#666; line-height:1.5; margin-top:10px;">不同机器人先由 dataset adapter 整理字段；模型容量固定，但有效动作维度由配置决定。</p>
+        </div>
+        <figure style="margin:0; text-align:center;">
+          <img src="https://arxiv.org/html/2410.24164/x1.png" alt="pi0 官方模型结构图" onerror="imgFallback(this)" style="width:100%; max-height:255px; object-fit:contain;">
+          <figcaption style="font-family:var(--font-aux); font-size:13px; color:#888; margin-top:3px;">π₀ 官方框架：预训练 VLM 负责理解，Action Expert 用 flow matching 生成动作</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 11: 四模型输入输出对照 2/2 ===== -->
+<section class="slide slide--white" id="model-compare-b">
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">Model Comparison · 2 / 2</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(32px,3.6vw,49px); line-height:1.12; margin:6px 0 15px;">GR00T 与 LingBot：都支持异构机器人，但统一方法不同</h2>
+
+    <div style="display:flex; flex-direction:column; gap:18px;">
+      <div style="display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:center; padding:18px 20px; background:#F8F7F5;">
+        <div>
+          <h3 style="font-family:var(--font-aux); font-size:28px; margin-bottom:12px;">03 · GR00T N1.7</h3>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输入：</strong>RGB + 语言 + robot state</p>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输出：</strong>Diffusion Transformer 生成 motor action</p>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#666; line-height:1.5; margin-top:10px;">具体 state / action 字段由 embodiment tag 与 modality config 解释，不是固定“两只 head”。</p>
+        </div>
+        <figure style="margin:0; text-align:center;">
+          <img src="https://raw.githubusercontent.com/NVIDIA/Isaac-GR00T/main/media/model-architecture.png" alt="GR00T N1.7 官方模型结构图" onerror="imgFallback(this)" style="width:100%; max-height:255px; object-fit:contain;">
+          <figcaption style="font-family:var(--font-aux); font-size:13px; color:#999; margin-top:3px;">GR00T 官方结构：VLM 处理视觉与语言，Diffusion Transformer 解码连续动作</figcaption>
+        </figure>
+      </div>
+
+      <div style="display:grid; grid-template-columns:330px 1fr; gap:22px; align-items:center; padding:18px 20px; background:#EEEAE6;">
+        <div>
+          <h3 style="font-family:var(--font-aux); font-size:28px; margin-bottom:12px;">04 · LingBot-VLA 2.0</h3>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输入：</strong>视觉 + 语言 + canonical state</p>
+          <p style="font-family:var(--font-aux); font-size:16px; line-height:1.55;"><strong>输出：</strong>55D canonical action slots</p>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#666; line-height:1.5; margin-top:10px;">Joint、EEF、gripper、hand、waist、head、base 都有固定槽位；robot config 决定哪些槽位有效。</p>
+        </div>
+        <figure style="margin:0; text-align:center;">
+          <img src="https://raw.githubusercontent.com/Robbyant/lingbot-vla-v2/main/assets/lingbot_vla2_framework.png" alt="LingBot-VLA 2.0 官方模型结构图" onerror="imgFallback(this)" style="width:100%; max-height:255px; object-fit:contain;">
+          <figcaption style="font-family:var(--font-aux); font-size:13px; color:#888; margin-top:3px;">LingBot-VLA 2.0 官方框架：统一动作槽位 + MoE Action Expert + 双查询蒸馏</figcaption>
+        </figure>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 12: GEAR-VLA（由原第 15 页前移） ===== -->
+<section class="slide slide--warm" id="paper2">
+  <div class="paper-layout">
+    <div class="paper-left">
+      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 2：GEAR-VLA</h2>
+      <p class="text-aux" style="color:#999; margin-bottom:16px;">Learning Geometry-Aware Action Representations for Generalizable Robotic Manipulation · arxiv 2606.08530</p>
+
+      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:14px; line-height:1.4;">OpenPI / GR00T 说明“<span style="color:var(--red-accent);">可以输出 EEF</span>”；GEAR-VLA 进一步检验“<span style="color:var(--red-accent);">能否跨本体共享</span>”。</p>
+
+      <p style="font-family:var(--font-aux); font-weight:700; font-size:15px; color:var(--red-accent); margin-bottom:8px; letter-spacing:.04em;">实验结果</p>
+      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px;">
+        <div style="border-top:4px solid var(--red-accent); background:rgba(216,0,15,.035); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:var(--red-accent); line-height:1;">81.0%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">未见本体 LDT-01</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">较最强基线 +7.1 pt<br>200 demos / task 适配</p>
+        </div>
+        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">85.9%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">AgileX 外观泛化</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">3个双臂任务<br>测试未见颜色 / 尺寸</p>
+        </div>
+        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">90.1%</p>
+          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">212 种未见物体</p>
+          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">6,360 次真实抓取<br>对比 79.1% / 84.4%</p>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px;">
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">①</span>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它证明到哪里：</strong>共享表示能够用少量目标机器人数据适配到预训练未见本体；不是完全 zero-shot 控制新机器人。</p>
+        </div>
+        <div style="display:flex; align-items:flex-start; gap:10px;">
+          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">②</span>
+          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它没有证明什么：</strong>没有做 Relative EEF vs Joint 的单独消融，也没有提出新的 EEF→Joint 求解器。</p>
+        </div>
+      </div>
+      <div class="gear-boundary">
+        <strong>一句话讲法</strong>
+        <p>GEAR-VLA 提供的是整套系统的跨本体结果：relative EEF 是共享接口的一部分，但不能把 81.0% 单独归因于 EEF action。</p>
+      </div>
+    </div>
+    <div class="paper-right" style="max-height:85vh; overflow:hidden; justify-content:center;">
+      <img src="https://arxiv.org/html/2606.08530v1/x1.png" alt="GEAR-VLA 方法与跨本体验证总览" onerror="imgFallback(this)" style="width:100%; max-height:68vh; object-fit:contain;">
+      <p class="caption">Fig 1. 上半部分是共享表示；下半部分才是跨本体与外观泛化证据</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== PAGE 13: Action Space 论文 p1（论文 1） ===== -->
 <section class="slide slide--white" id="paper1-p1">
   <div style="width:100%; display:flex; flex-direction:column; padding:24px 48px; height:100%; overflow:hidden; justify-content:center;">
     <div class="paper1-top">
@@ -688,55 +809,6 @@ a:hover { opacity: 0.8; }
 </section>
 
 <!-- ===== PAGE 13: GEAR-VLA（论文 2） ===== -->
-<section class="slide slide--warm" id="paper2">
-  <div class="paper-layout">
-    <div class="paper-left">
-      <h2 style="font-family:var(--font-aux); font-size:clamp(28px,3.5vw,44px); font-weight:700; color:#1C1410; margin-bottom:4px;">论文 2：GEAR-VLA</h2>
-      <p class="text-aux" style="color:#999; margin-bottom:16px;">Learning Geometry-Aware Action Representations for Generalizable Robotic Manipulation · arxiv 2606.08530</p>
-
-      <p style="font-family:var(--font-aux); font-size:clamp(20px,2.2vw,28px); font-weight:700; color:var(--deep-black); margin-bottom:14px; line-height:1.4;">OpenPI / GR00T 说明“<span style="color:var(--red-accent);">可以输出 EEF</span>”；GEAR-VLA 进一步检验“<span style="color:var(--red-accent);">能否跨本体共享</span>”。</p>
-
-      <p style="font-family:var(--font-aux); font-weight:700; font-size:15px; color:var(--red-accent); margin-bottom:8px; letter-spacing:.04em;">实验结果</p>
-      <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:8px; margin-bottom:16px;">
-        <div style="border-top:4px solid var(--red-accent); background:rgba(216,0,15,.035); padding:12px 10px;">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:var(--red-accent); line-height:1;">81.0%</p>
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">未见本体 LDT-01</p>
-          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">较最强基线 +7.1 pt<br>200 demos / task 适配</p>
-        </div>
-        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">85.9%</p>
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">AgileX 外观泛化</p>
-          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">3个双臂任务<br>测试未见颜色 / 尺寸</p>
-        </div>
-        <div style="border-top:4px solid rgba(28,20,16,.18); background:rgba(28,20,16,.025); padding:12px 10px;">
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:clamp(24px,2.7vw,36px); color:#222; line-height:1;">90.1%</p>
-          <p style="font-family:var(--font-aux); font-weight:700; font-size:14px; color:#222; margin-top:7px;">212 种未见物体</p>
-          <p style="font-family:var(--font-aux); font-size:12px; color:#777; line-height:1.35; margin-top:3px;">6,360 次真实抓取<br>对比 79.1% / 84.4%</p>
-        </div>
-      </div>
-
-      <div style="display:flex; flex-direction:column; gap:10px; margin-bottom:12px;">
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">①</span>
-          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它证明到哪里：</strong>共享表示能够用少量目标机器人数据适配到预训练未见本体；不是完全 zero-shot 控制新机器人。</p>
-        </div>
-        <div style="display:flex; align-items:flex-start; gap:10px;">
-          <span style="font-family:var(--font-aux); font-weight:700; font-size:18px; color:var(--red-accent); flex-shrink:0;">②</span>
-          <p style="font-family:var(--font-aux); font-size:clamp(14px,1.3vw,17px); color:#555; line-height:1.45;"><strong style="color:#222;">它没有证明什么：</strong>没有做 Relative EEF vs Joint 的单独消融，也没有提出新的 EEF→Joint 求解器。</p>
-        </div>
-      </div>
-      <div class="gear-boundary">
-        <strong>一句话讲法</strong>
-        <p>GEAR-VLA 提供的是整套系统的跨本体结果：relative EEF 是共享接口的一部分，但不能把 81.0% 单独归因于 EEF action。</p>
-      </div>
-    </div>
-    <div class="paper-right" style="max-height:85vh; overflow:hidden; justify-content:center;">
-      <img src="https://arxiv.org/html/2606.08530v1/x1.png" alt="GEAR-VLA 方法与跨本体验证总览" onerror="imgFallback(this)" style="width:100%; max-height:68vh; object-fit:contain;">
-      <p class="caption">Fig 1. 上半部分是共享表示；下半部分才是跨本体与外观泛化证据</p>
-    </div>
-  </div>
-</section>
-
 <!-- ===== PAGE 14: 行业共识（重做：白背景+无框大字） ===== -->
 <section class="slide slide--warm" id="consensus">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%;">
@@ -777,38 +849,31 @@ a:hover { opacity: 0.8; }
 
 <!-- ===== PAGE 15: EgoWAM 为什么需要 world supervision ===== -->
 <section class="slide slide--white" id="egowam-why">
-  <div style="width:100%; max-width:1460px; margin:0 auto;">
-    <p class="note-label">Representation Gap · EgoWAM</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(32px,3.8vw,52px); line-height:1.15; margin:8px 0 6px;">共享 EEF 仍然不够：<span style="color:var(--red-accent);">相同任务，不同本体未必采用相同动作</span></h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.55vw,21px); color:#777; margin-bottom:18px;">EgoWAM 先把 human / robot action 对齐到双臂 14D EEF，但动作速度、抓取风格与形态差异仍会进入同一个 BC head。</p>
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">EgoWAM · Key Insight Two</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(36px,4.4vw,60px); line-height:1.14; margin:8px 0 6px;">跨本体迁移应该共享 <span style="color:var(--red-accent);">effect</span>，不一定共享 action</h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,24px); color:#777; margin-bottom:24px;">人和机器人不一定用同一种动作，但可以让世界产生同样的变化。</p>
 
-    <div style="display:grid; grid-template-columns:1fr 90px 1fr; gap:16px; align-items:stretch; margin-bottom:18px;">
-      <div style="padding:20px 22px; background:#F8F7F5; border-top:5px solid rgba(28,20,16,.2);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777; letter-spacing:.08em;">HUMAN</p>
-        <h3 style="font-family:var(--font-aux); font-size:clamp(22px,2.2vw,30px); margin:7px 0 10px;">侧向握杯 → 转正 → 放入碟子</h3>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555;">手指顺应性与腕部姿态允许“像人一样动”</p>
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:32px;">
+      <div style="padding:24px 26px; background:#F8F7F5;">
+        <p style="font-family:var(--font-aux); font-size:52px; font-weight:700; color:#D8D3CF; line-height:1;">01</p>
+        <h3 style="font-family:var(--font-aux); font-size:25px; margin:8px 0 18px;">传统路线：先把人的动作改成机器人动作</h3>
+        <div style="font-family:var(--font-aux); font-size:21px; font-weight:700; line-height:2; text-align:center; padding:12px 0;">
+          Human action<br>↓<br>Retarget<br>↓<br>Robot action
+        </div>
+        <p style="font-family:var(--font-aux); font-size:16px; color:#666; line-height:1.6;">问题是：人的抓法、速度和手腕姿态，机器人未必能照着做。</p>
       </div>
-      <div style="display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-size:42px; font-weight:700; color:var(--red-accent);">≠</div>
-      <div style="padding:20px 22px; background:rgba(216,0,15,.035); border-top:5px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">ROBOT</p>
-        <h3 style="font-family:var(--font-aux); font-size:clamp(22px,2.2vw,30px); margin:7px 0 10px;">正面夹取 → 调整腕部 → 放入碟子</h3>
-        <p style="font-family:var(--font-aux); font-size:16px; color:#555;">平行夹爪需要另一条可执行轨迹</p>
+
+      <div style="padding:24px 26px; background:#F3F0ED;">
+        <p style="font-family:var(--font-aux); font-size:52px; font-weight:700; color:var(--red-accent); line-height:1;">02</p>
+        <h3 style="font-family:var(--font-aux); font-size:25px; margin:8px 0 18px;">EgoWAM：让人类数据先教模型“世界怎样变化”</h3>
+        <div style="font-family:var(--font-aux); font-size:21px; font-weight:700; line-height:1.72; text-align:center; padding:4px 0;">
+          Human observation<br>↓<br><span style="color:var(--red-accent);">World effect / object motion</span><br>↓<br>Shared representation<br>↓<br>Robot action
+        </div>
       </div>
     </div>
 
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:16px;">
-      <div style="padding:18px 20px; border-left:5px solid #777; background:#FFF;">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555;">ACTION-ONLY BC</p>
-        <p style="font-family:Georgia,serif; font-size:22px; margin:8px 0;">o<sub>t</sub> → a<sub>t:t+H</sub></p>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">唯一监督通道是动作；未对齐的人类运动风格可能形成负迁移。</p>
-      </div>
-      <div style="padding:18px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.025);">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent);">EGOWAM · SECOND CHANNEL</p>
-        <p style="font-family:Georgia,serif; font-size:22px; margin:8px 0;">o<sub>t</sub> → { a<sub>t:t+H</sub>, z<sup>world</sup><sub>t+H</sub> }</p>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">动作轨迹不同，但“杯子最终立在碟子上”的未来世界效果可以共享。</p>
-      </div>
-    </div>
-    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.75vw,24px); font-weight:700; margin-top:18px;">共享 EEF 是强 action-alignment baseline；<span style="color:var(--red-accent);">world prediction 再提供一条跨本体监督通道</span>，不是替代 action supervision。</p>
+    <p style="font-family:var(--font-aux); font-size:clamp(20px,2.1vw,29px); font-weight:700; text-align:center; margin-top:23px;">人的手和机器人的夹爪可以走不同路线；<span style="color:var(--red-accent);">只要最后都让杯子稳稳落在碟子上。</span></p>
   </div>
 </section>
 
@@ -816,111 +881,89 @@ a:hover { opacity: 0.8; }
 <section class="slide slide--warm" id="egowam-architecture">
   <div style="width:100%; max-width:1420px; margin:0 auto;">
     <p class="note-label">Paper 4 · EgoWAM</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 5px;">训练时预测动作和未来世界，<span style="color:var(--red-accent);">部署时只预测动作</span></h2>
-    <p class="text-aux" style="color:#999; margin-bottom:20px;">World Action Models Beyond Pixels with In-the-Wild Egocentric Human Data · arxiv 2607.08436</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 6px;">EgoWAM 的完整模型流程</h2>
+    <p class="text-aux" style="color:#999; margin-bottom:14px;">World Action Models Beyond Pixels with In-the-Wild Egocentric Human Data · Figure 2</p>
 
-    <div style="display:grid; grid-template-columns:260px 90px 310px 90px 1fr; gap:14px; align-items:center;">
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <div style="padding:18px; background:#FFF; border-top:5px solid rgba(28,20,16,.2);">
-          <strong style="font-family:var(--font-aux); font-size:17px;">Human observation</strong>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#666; margin-top:5px;">ego RGB + human proprioception</p>
-        </div>
-        <div style="padding:18px; background:#FFF; border-top:5px solid var(--red-accent);">
-          <strong style="font-family:var(--font-aux); font-size:17px;">Robot observation</strong>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#666; margin-top:5px;">ego / wrist RGB + robot state</p>
-        </div>
-        <p style="font-family:var(--font-aux); font-size:13px; color:#777;">embodiment-specific input stems</p>
-      </div>
-      <div style="text-align:center; font-size:34px; color:var(--red-accent);">→</div>
-      <div style="padding:34px 24px; background:#FFF; border-top:6px solid #222; text-align:center;">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#777; letter-spacing:.08em;">SHARED TRUNK</p>
-        <h3 style="font-family:var(--font-aux); font-size:30px; margin:10px 0;">共享任务表征</h3>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">两种监督共同塑造同一个 backbone</p>
-      </div>
-      <div style="text-align:center; font-size:34px; color:var(--red-accent);">→</div>
-      <div style="display:flex; flex-direction:column; gap:12px;">
-        <div style="padding:18px 20px; background:rgba(216,0,15,.04); border-left:5px solid var(--red-accent);">
-          <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent);">ACTION HEAD · TRAIN + DEPLOY</p>
-          <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0;">双臂 14D EEF action chunk</h3>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555;">每臂 6-DoF pose + 1D gripper</p>
-        </div>
-        <div style="padding:18px 20px; background:#FFF; border-left:5px solid #777;">
-          <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#555;">WORLD HEAD · TRAIN ONLY</p>
-          <h3 style="font-family:var(--font-aux); font-size:22px; margin:6px 0;">未来世界效果</h3>
-          <p style="font-family:var(--font-aux); font-size:14px; color:#555;">Pixel / DINO / stabilized 3D flow</p>
-        </div>
-      </div>
-    </div>
+    <figure style="margin:0; text-align:center;">
+      <img src="https://arxiv.org/html/2607.08436v1/x2.png" alt="EgoWAM 官方模型流程图" onerror="imgFallback(this)" style="width:100%; max-height:570px; object-fit:contain;">
+      <figcaption style="font-family:var(--font-aux); font-size:14px; color:#888; margin-top:5px;">左侧是共享 Transformer 与 Action / World 两个训练目标；右侧是三种可替换的 world-model head。</figcaption>
+    </figure>
 
-    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:14px; margin-top:24px;">
-      <div style="padding:14px 16px; background:#FFF;"><strong>① 输入：</strong><span style="color:#666;"> Human 与 Robot 使用各自 tokenizer / stem</span></div>
-      <div style="padding:14px 16px; background:#FFF;"><strong>② 训练：</strong><span style="color:#666;"> action loss + world loss 联合监督 trunk</span></div>
-      <div style="padding:14px 16px; background:#FFF;"><strong>③ 推理：</strong><span style="color:#666;"> 丢弃 world head，保持普通 BC 级别开销</span></div>
-    </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700; text-align:center; margin-top:16px;">一句话串起来：<span style="color:var(--red-accent);">人类和机器人共同教 backbone 理解“世界会怎样变化”，部署时再由 Action Head 输出机器人动作。</span></p>
   </div>
 </section>
 
 <!-- ===== PAGE 17: World targets ===== -->
 <section class="slide slide--white" id="egowam-targets">
-  <div style="width:100%; max-width:1460px; margin:0 auto;">
-    <p class="note-label">World Representation</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 6px;">不是所有“未来世界”表示都能跨本体</h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.55vw,21px); color:#777; margin-bottom:20px;">好的 world target 应该：抽象外观、对不同本体保持一致，并把相机自身运动与真实环境变化分开。</p>
+  <div style="width:100%; max-width:1450px; margin:0 auto;">
+    <p class="note-label">EgoWAM · Key Insight Three</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(31px,3.5vw,47px); line-height:1.1; margin:5px 0 4px;">同一个 backbone，比较三种不同的“未来世界”</h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(16px,1.55vw,20px); color:#777; margin-bottom:12px;">三个 head 分别要求模型预测画面、语义特征和稳定后的三维运动。</p>
 
-    <div style="display:grid; grid-template-columns:220px 1fr 1fr; border-top:3px solid #222; font-family:var(--font-aux);">
-      <div style="padding:13px 16px; background:#EEE; font-weight:700;">World target</div>
-      <div style="padding:13px 16px; background:#EEE; font-weight:700;">模型被要求学什么</div>
-      <div style="padding:13px 16px; background:#EEE; font-weight:700;">论文观察</div>
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:20px;">
+      <figure style="margin:0; padding:12px 16px 15px; background:#F8F7F5;">
+        <svg viewBox="630 0 366 133" style="width:100%; height:145px;" role="img" aria-label="Pixel VAE prediction head">
+          <image href="https://arxiv.org/html/2607.08436v1/x2.png" x="0" y="0" width="996" height="400"/>
+        </svg>
+        <figcaption>
+          <h3 style="font-family:var(--font-aux); font-size:23px; margin:5px 0;">01 · Pixel / VAE</h3>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.45;">预测未来画面，容易把光照、纹理和本体外观也学进去；跨本体迁移最弱。</p>
+        </figcaption>
+      </figure>
 
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD;"><strong>Pixel</strong><br><span style="font-size:13px;color:#888;">future frame latent</span></div>
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD; color:#555;">外观、光照、相机运动与物体运动全部混合</div>
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD; color:#555;">重建目标纠缠本体和场景细节，跨本体迁移较弱</div>
+      <figure style="margin:0; padding:12px 16px 15px; background:#F3F0ED;">
+        <svg viewBox="630 133 366 133" style="width:100%; height:145px;" role="img" aria-label="DINO feature prediction head">
+          <image href="https://arxiv.org/html/2607.08436v1/x2.png" x="0" y="0" width="996" height="400"/>
+        </svg>
+        <figcaption>
+          <h3 style="font-family:var(--font-aux); font-size:23px; margin:5px 0;">02 · DINO feature</h3>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.45;">预测更抽象的语义特征；论文中对新物体和新场景的 OOD 泛化最好。</p>
+        </figcaption>
+      </figure>
 
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02);"><strong>DINO feature</strong><br><span style="font-size:13px;color:#888;">semantic abstraction</span></div>
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02); color:#555;">更抽象的物体与场景语义；仍按图像网格索引</div>
-      <div style="padding:18px 16px; border-bottom:1px solid #DDD; background:rgba(216,0,15,.02); color:#555;"><strong>OOD 物体与场景泛化最好，最高提升 4×</strong></div>
-
-      <div style="padding:18px 16px;"><strong>Stabilized 3D flow</strong><br><span style="font-size:13px;color:#888;">spatial abstraction</span></div>
-      <div style="padding:18px 16px; color:#555;">在稳定相机坐标中表示真实 3D 位移；静态背景接近零流</div>
-      <div style="padding:18px 16px; color:#555;"><strong>空间几何最强，ID 表现提升 20–30%</strong></div>
+      <figure style="margin:0; padding:12px 16px 15px; background:#EEEAE6;">
+        <svg viewBox="630 266 366 134" style="width:100%; height:145px;" role="img" aria-label="3D flow prediction head">
+          <image href="https://arxiv.org/html/2607.08436v1/x2.png" x="0" y="0" width="996" height="400"/>
+        </svg>
+        <figcaption>
+          <h3 style="font-family:var(--font-aux); font-size:23px; margin:5px 0;">03 · 3D Flow</h3>
+          <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.45;">预测去掉相机自运动后的物体位移；空间泛化和 ID 表现最强。</p>
+        </figcaption>
+      </figure>
     </div>
 
-    <div style="margin-top:24px; padding:20px 24px; border-left:6px solid var(--red-accent); background:rgba(216,0,15,.035);">
-      <p style="font-family:var(--font-aux); font-size:clamp(19px,2vw,27px); font-weight:700; line-height:1.45;">人转头时，Pixel 看起来整个世界都在动；camera-stabilized 3D flow 会告诉模型：<span style="color:var(--red-accent);">背景没动，真正移动的是杯子。</span></p>
-    </div>
+    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,24px); font-weight:700; text-align:center; margin-top:14px;">结论：<span style="color:var(--red-accent);">未来画面生成得像，不代表学到的表征最适合机器人行动。</span></p>
   </div>
 </section>
 
 <!-- ===== PAGE 18: EgoWAM 做到与未做到 ===== -->
 <section class="slide slide--warm" id="egowam-boundary">
   <div style="width:100%; max-width:1420px; margin:0 auto;">
-    <p class="note-label">Evidence Boundary</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(30px,3.35vw,46px); line-height:1.15; margin:8px 0 20px;">EgoWAM 解决 representation transfer，<span style="color:var(--red-accent); white-space:nowrap;">没有解决 EEF → Joint</span></h2>
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
-      <div style="padding:24px 26px; background:#FFF; border-top:6px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">论文已验证</p>
-        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">什么知识可以跨本体共享</h3>
-        <ul style="font-family:var(--font-aux); font-size:17px; color:#444; line-height:1.75; padding-left:22px;">
-          <li>Human / robot action 对齐到双臂 14D EEF</li>
-          <li>world supervision 改善 human-to-robot transfer</li>
-          <li>DINO 与 3D flow 比 Pixel 更有效</li>
-          <li>推理仍由 action head 输出 robot EEF action</li>
-        </ul>
+    <p class="note-label">EgoWAM · Takeaways</p>
+    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.15; margin:8px 0 8px;">这一篇论文，最值得记住的三个结论</h2>
+    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.7vw,22px); color:#777; margin-bottom:26px;">不是记住一个新模型名字，而是记住它怎样重新理解“人类数据如何帮助机器人”。</p>
+
+    <div style="display:grid; grid-template-columns:repeat(3,1fr); gap:22px;">
+      <div style="padding:28px 28px 30px; background:#FFF;">
+        <p style="font-family:var(--font-aux); font-size:54px; font-weight:700; color:#D8D3CF; line-height:1;">01</p>
+        <h3 style="font-family:var(--font-aux); font-size:27px; line-height:1.3; margin:12px 0 14px;">共享 <span style="color:var(--red-accent);">effect</span><br>比强行共享 action 更可靠</h3>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;">人手和机器人夹爪动作不同，但都可以让物体产生相同变化。跨本体共享的核心应放在“世界结果”。</p>
       </div>
-      <div style="padding:24px 26px; background:#FFF; border-top:6px solid #222;">
-        <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555; letter-spacing:.08em;">论文未解决</p>
-        <h3 style="font-family:var(--font-aux); font-size:26px; margin:8px 0 14px;">这台机器人怎样稳定执行</h3>
-        <ul style="font-family:var(--font-aux); font-size:17px; color:#444; line-height:1.75; padding-left:22px;">
-          <li>没有学习通用 EEF → Joint adapter</li>
-          <li>没有替代 IK / OSC / WBC</li>
-          <li>没有证明未知机器人 zero-shot Joint trajectory</li>
-          <li>没有联合处理 joint limits、collision 与 balance</li>
-        </ul>
+
+      <div style="padding:28px 28px 30px; background:#F3F0ED;">
+        <p style="font-family:var(--font-aux); font-size:54px; font-weight:700; color:#AAA29C; line-height:1;">02</p>
+        <h3 style="font-family:var(--font-aux); font-size:27px; line-height:1.3; margin:12px 0 14px;">Pixel 不是默认最佳<br><span style="color:var(--red-accent);">representation 才是关键变量</span></h3>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;">DINO 更擅长新物体、新场景；3D Flow 更擅长空间与几何。重点不是画得像，而是是否有利于 action learning。</p>
+      </div>
+
+      <div style="padding:28px 28px 30px; background:#EEEAE6;">
+        <p style="font-family:var(--font-aux); font-size:54px; font-weight:700; color:var(--red-accent); line-height:1;">03</p>
+        <h3 style="font-family:var(--font-aux); font-size:27px; line-height:1.3; margin:12px 0 14px;">World Head 用来训练理解<br><span style="color:var(--red-accent);">部署时只保留 Action Head</span></h3>
+        <p style="font-family:var(--font-aux); font-size:17px; color:#555; line-height:1.65;">未来预测在训练阶段塑造共享表征；推理时无需生成未来视频，仍以普通策略速度输出动作。</p>
       </div>
     </div>
-    <div style="margin-top:22px; padding:17px 20px; border-left:5px solid var(--red-accent); background:rgba(216,0,15,.035);">
-      <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,25px); font-weight:700;">真正的连接：EgoWAM 回答“<span style="color:var(--red-accent);">共享表征从哪里学</span>”；我们的执行问题是“<span style="color:var(--red-accent);">共享意图怎样落到具体机器人</span>”。</p>
-    </div>
+
+    <p style="font-family:var(--font-aux); font-size:clamp(21px,2.25vw,31px); font-weight:700; text-align:center; margin-top:28px;"><span style="color:var(--red-accent);">人类数据教“世界怎样变化”</span>，机器人数据教“机器人怎样行动”。</p>
   </div>
 </section>
 
@@ -930,14 +973,14 @@ a:hover { opacity: 0.8; }
     <p class="note-label">Two Different Problems</p>
     <h2 style="font-family:var(--font-aux); font-size:clamp(36px,4.2vw,58px); line-height:1.15; margin:8px 0 20px;">跨本体学习有两个不同的问题</h2>
     <div style="display:grid; grid-template-columns:1fr 1fr; gap:22px;">
-      <div style="padding:24px 26px; background:rgba(216,0,15,.03); border-top:6px solid var(--red-accent);">
+      <div style="padding:24px 26px; background:#F3F0ED;">
         <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:var(--red-accent); letter-spacing:.08em;">GAP A · REPRESENTATION / TRANSFER</p>
         <h3 style="font-family:var(--font-aux); font-size:27px; margin:9px 0 13px;">人类经验 → 可共享规律 → 机器人动作意图</h3>
         <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>差异：</strong>morphology、速度、grasp style、camera ego-motion</p>
         <div style="margin:14px 0; padding:14px 16px; background:#FFF; font-family:Georgia,serif; font-size:21px; text-align:center;">human experience ≠ robot execution</div>
         <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>对应方法：</strong>relative EEF、canonical action、world supervision、EgoWAM</p>
       </div>
-      <div style="padding:24px 26px; background:#F8F7F5; border-top:6px solid #222;">
+      <div style="padding:24px 26px; background:#EEEAE6;">
         <p style="font-family:var(--font-aux); font-size:14px; font-weight:700; color:#555; letter-spacing:.08em;">GAP B · EXECUTION</p>
         <h3 style="font-family:var(--font-aux); font-size:27px; margin:9px 0 13px;">EEF / task intent → 本体约束 → feasible joints</h3>
         <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.55;"><strong>约束：</strong>IK 多解、joint limit、collision、singularity、continuity、contact / balance</p>
@@ -1103,47 +1146,6 @@ a:hover { opacity: 0.8; }
 </section>
 
 <!-- ===== PAGE 25: Research hypothesis ===== -->
-<section class="slide slide--warm" id="our-direction">
-  <div style="width:100%; max-width:1450px; margin:0 auto;">
-    <p class="note-label">Our Hypothesis · Not a Paper Conclusion</p>
-    <h2 style="font-family:var(--font-aux); font-size:clamp(34px,4vw,54px); line-height:1.2; margin:8px 0 6px;">研究假设：<span style="color:var(--red-accent);">共享任务表征</span> + <span style="color:var(--red-accent);">本体执行适配器</span></h2>
-    <p style="font-family:var(--font-aux); font-size:clamp(17px,1.55vw,21px); color:#777; margin-bottom:22px;">EgoWAM 验证 world supervision 能改善共享表征；下面的 EEF→Joint adapter 是我们的新增假设，尚需实验验证。</p>
-
-    <div style="display:grid; grid-template-columns:1fr auto 1fr auto 1fr; gap:12px; align-items:stretch;">
-      <div style="padding:20px; background:#FFF; border-top:5px solid rgba(28,20,16,.18);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#888;">01 · DATA</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">Human + Robot Experience</h3>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.55;">Ego video、语言、手/EEF轨迹、robot state，以及对象/场景的未来变化。</p>
-      </div>
-      <div style="align-self:center; font-size:28px; color:var(--red-accent);">→</div>
-      <div style="padding:20px; background:rgba(216,0,15,.035); border-top:5px solid var(--red-accent);">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:var(--red-accent);">02 · SHARED MODEL</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">Physics-aware Representation</h3>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.55;">学习“动作意图 → 对象/场景变化”，输出 anchored relative EEF intent 或 task-dynamics latent。</p>
-      </div>
-      <div style="align-self:center; font-size:28px; color:var(--red-accent);">→</div>
-      <div style="padding:20px; background:#FFF; border-top:5px solid #222;">
-        <p style="font-family:var(--font-aux); font-size:13px; font-weight:700; color:#555;">03 · EMBODIMENT ADAPTER</p>
-        <h3 style="font-family:var(--font-aux); font-size:22px; margin:7px 0 10px;">Feasible Joint Realization</h3>
-        <p style="font-family:var(--font-aux); font-size:14px; color:#555; line-height:1.55;">输入 EEF intent + current q + URDF / limits / collision，输出 seed、posture、trajectory 或 feasibility score。</p>
-      </div>
-    </div>
-
-    <div style="display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:20px;">
-      <div style="padding:16px 18px; border-left:5px solid var(--red-accent); background:#FFF;">
-        <h3 style="font-family:var(--font-aux); font-size:18px; margin-bottom:6px;">优先与控制器结合，而非宣称替代</h3>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">adapter 可为 IK / WBC 预测 seed、null-space posture 或可行性分数；硬约束仍由控制器保证。</p>
-      </div>
-      <div style="padding:16px 18px; border-left:5px solid #222; background:#FFF;">
-        <h3 style="font-family:var(--font-aux); font-size:18px; margin-bottom:6px;">评估也要解耦</h3>
-        <p style="font-family:var(--font-aux); font-size:15px; color:#555; line-height:1.5;">上层看OOD对象/场景与物理预测；下层看IK成功率、连续性、限位、碰撞与执行误差。</p>
-      </div>
-    </div>
-
-    <p style="font-family:var(--font-aux); font-size:clamp(18px,1.8vw,25px); font-weight:700; margin-top:22px;">待验证：这种分层能否在<span style="color:var(--red-accent);">不牺牲安全与约束保证</span>的前提下，减少每台机器人重新学习执行映射的数据成本。</p>
-  </div>
-</section>
-
 <!-- ===== PAGE 26: 结尾 ===== -->
 <section class="slide slide--dark" id="ending">
   <div style="width:100%; display:flex; flex-direction:column; justify-content:center; height:100%; max-width:1100px; margin:0 auto;">
